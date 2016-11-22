@@ -1,0 +1,2 @@
+class Form_vagas_Remanescentes < ApplicationRecord
+end

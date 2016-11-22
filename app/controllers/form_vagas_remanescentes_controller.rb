@@ -1,0 +1,2 @@
+class FormVagasRemanescentesController < ApplicationController
+end
