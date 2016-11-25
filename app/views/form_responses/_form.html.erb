@@ -1,0 +1,47 @@
+<%= form_for(form_response) do |f| %>
+  <% if form_response.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(form_response.errors.count, "error") %> prohibited this form_response from being saved:</h2>
+
+      <ul>
+      <% form_response.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :form_id %>
+    <%= f.text_field :form_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :user %>
+    <%= f.text_field :user %>
+  </div>
+
+  <div class="field">
+    <%= f.label :status %>
+    <%= f.text_field :status %>
+  </div>
+
+  <div class="field">
+    <%= f.label :json_response %>
+    <%= f.text_field :json_response %>
+  </div>
+
+  <div class="field">
+    <%= f.label :json_updated_at %>
+    <%= f.date_select :json_updated_at %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sent_at %>
+    <%= f.date_select :sent_at %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

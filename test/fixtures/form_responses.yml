@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  form: one
+  user: MyString
+  status: MyString
+  json_response: MyString
+  json_updated_at: 2016-11-25
+  sent_at: 2016-11-25
+
+two:
+  form: two
+  user: MyString
+  status: MyString
+  json_response: MyString
+  json_updated_at: 2016-11-25
+  sent_at: 2016-11-25

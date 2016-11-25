@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Form:</strong>
+  <%= @form_response.form %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @form_response.user %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @form_response.status %>
+</p>
+
+<p>
+  <strong>Json response:</strong>
+  <%= @form_response.json_response %>
+</p>
+
+<p>
+  <strong>Json updated at:</strong>
+  <%= @form_response.json_updated_at %>
+</p>
+
+<p>
+  <strong>Sent at:</strong>
+  <%= @form_response.sent_at %>
+</p>
+
+<%= link_to 'Edit', edit_form_response_path(@form_response) %> |
+<%= link_to 'Back', form_responses_path %>
