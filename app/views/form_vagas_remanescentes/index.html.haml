@@ -1,0 +1,424 @@
+!!!
+%html{:lang => "pt-br"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+    %title UNIVESP / Formulário de Vagas Remanescentes
+    %link{:href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css", :rel => "stylesheet"}/
+    %link{:href => "https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css", :rel => "stylesheet"}/
+    %link{:href => "https://apps.univesp.br/estagio/assets/stylesheets/ficha.css", :rel => "stylesheet"}/
+    %link{:href => "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css", :rel => "stylesheet"}/
+    :css
+      .green{background-color: #27c24c}
+      .red{background-color: #f05050}
+      .blue{background-color: #23b7e5}
+      .black{background-color: black; color: white;}
+      .m-t{margin-top: 10px}
+      .mais{margin-top: 40px}
+      .m-r{margin-right: 5px}
+      .m-l{margin-left: 5px}
+      .w{color: #ffffff}
+      .none{text-decoration: none !important;}
+      .bw2{border: solid gray 2px;}
+      .br2{border-right: solid gray 2px !important}
+      .bl2{border-left: solid gray 2px !important}
+      .image-upload > input
+      {
+          display: none;
+      }
+
+      .image-upload img
+      {
+          width: 80px;
+          cursor: pointer;
+      }
+  %body{:style => "margin-top: 120px; max-width:970px;"}
+    .container{:style => "max-width:970px;"}
+      .row
+        .col-md-12
+          / Topo
+          .navbar.navbar-default.navbar-fixed-top.container{:style => "background-color:rgba(0,0,0,0.7); color:white; max-width:970px;"}
+            .col-sm-12
+              %h3
+                %i.fa.fa-fw.fa-file-o
+                Formulário de Vagas Remanescentes
+                %span.label.label-danger.pull-right Prazo: 09/01/2017
+          / Formulário
+          %form.form-horizontal
+            %p
+              %span{:style => "color:#AF1E23;"} * Campos obrigatórios.
+              Certifique-se de preenchê-los todos antes de enviar o formulário.
+              /
+                a href="pedidosFULL.html" class="btn btn-default pull-right" style="margin-top:-15px;margin-right:-20px;">
+                <span class="fa fa-fw fa-reply"></span> Voltar
+                </a
+            .container.boxes{:style => "max-width:970px;"}
+              .well.col-md-8.col-md-offset-2{:style => "margin-top:2em; margin-bottom:2em; padding:2em 2em 1.4em 2em;"}
+                %p Prezado(a) condidato(a),
+                %p
+                  %br>/
+                  A inscrição para o Processo Seletivo para preenchimento de vagas remanescentes
+                  %b ocorrerá no período de 10h do dia 12/12/2016 até 17h do dia 09/01/2017.
+                  %br/
+                  Para informações detalhadas sobre o processo seletivo, acesse:
+                  %a{:href => "http://www.univesp.br/processos-seletivos/vagas-remanescentes", :target => "_blank"} www.univesp.br/processos-seletivos/vagas-remanescentes
+                %p
+                  %br/
+                  %i Não serão aceitas inscrições por e-mail.
+              .form-group
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputTipo"} De acordo:
+                .checkbox.col-sm-5
+                  %label
+                    %input{:type => "checkbox"}/
+                    Declaro que li e aceito as condições
+                    %br>/
+                    da
+                    = succeed "." do
+                      %a{:href => "https://univesp.br/sites/527174b7b24a527adc000002/assets/568ba9f59caf4d7b3000005b/PORTARIA_UNIVESP_PR_01-2016.pdf", :target => "_blank"} Portaria UNIVESP PR nº 20/2015
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputRA"} Nome completo:
+                .col-sm-5
+                  %input#exampleInputEmail1.form-control{:type => "text"}/
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} E-mail:
+                .col-sm-5
+                  %input#exampleInputEmail1.form-control{:type => "text"}/
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} Telefone:
+                .col-sm-3
+                  %input#exampleInputEmail1.form-control{:type => "number"}/
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} Celular:
+                .col-sm-3
+                  %input#exampleInputEmail1.form-control{:type => "number"}/
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} CPF:
+                .col-sm-3
+                  %input#exampleInputEmail1.form-control{:type => "number"}/
+              .form-inline.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} Data de nascimento:
+                %div
+                  %select.form-control{:style => "margin-left:10px;"}
+                    %option Dia
+                    - (1..31).each do |dia|
+                      %option #{dia} 
+                  %select.form-control                    
+                    %option Mês
+                    - (1..12).each do |month|
+                      %option #{month}
+                  %select.form-control                    
+                    %option Ano
+                    - (1910..2016).each do |dia|
+                      %option #{dia} 
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina"} Curso desejado:
+                .col-sm-3
+                  %select.form-control{:style => "width:90%;", :name => "lala[]"}
+                    - @univesp_cursos.each do |curso|
+                      %option{ :value =>  "#{curso[:value]}"} #{curso[:text]}
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina", :style => "margin-top:-10px;"} Faça o upload do seu comprovante de pagamento de inscrição ou isenção:
+                .image-upload
+                  %label.btn.btn-default{:for => "inscricao", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
+                    %span.fa.fa-dollar.m-r
+                    Comprovante de inscrição
+                  %input#inscricao{:type => "file"}/
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputTipo"} INSTITUIÇÃO de origem:
+                .col-md-6
+                  %input.form-control{:id => "", :placeholder => "SIGLA - Nome por extenso (Pode citar mais de uma instituição)", :type => "text"}/
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputTipo"} CURSO:
+                .col-md-6
+                  %input.form-control{:id => "", :placeholder => "Nome por extenso (Você pode citar mais de um curso)", :type => "text"}/
+              .form-inline.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina"} Situação atual:
+                %div
+                  %label.radio-inline{:style => "margin-left:10px;"}
+                    %input#inlineRadio1{:name => "inlineRadioOptions", :type => "radio", :value => "option1"}/
+                    Concluído
+                  %label.radio-inline
+                    %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
+                    Cursando
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina", :style => "margin-top:-10px;"} Faça o upload dos seus documentos digitalizados:
+                .image-upload
+                  %label.btn.btn-default{:for => "diploma", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
+                    %span.fa.fa-graduation-cap.m-r
+                    Diploma
+                  %input#diploma{:type => "file"}/
+                  %label.btn.btn-default{:for => "matricula", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
+                    %span.fa.fa-certificate.m-r
+                    Atestado de Matrícula
+                  %input#matricula{:type => "file"}/
+                  %label.btn.btn-default{:for => "escolar", :title => "Envie o HISTÓRICO ESCOLAR contendo as disciplinas cursadas, carga horária, aproveitamento etc."}
+                    %span.fa.fa-file-text-o.m-r
+                    Histórico Escolar
+                  %input#escolar{:type => "file"}/
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina"} Em qual POLO Univesp deseja estudar ?
+                .col-sm-6
+                  %select.form-control{:style => "width:90%;", :name => "lala[]"}
+                    - @univesp_polos1.each do |polo|
+                      %option{ :value =>  "#{polo[:value]}"} #{polo[:text]}
+                  %p.help-block
+                    %small
+                      %b IMPORTANTE:
+                      Escolha APENAS UM POLO E UMA TURMA e, se possível, abaixo, uma segunda e até uma terceira opção sempre no mesmo polo;
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina", :style => "margin-top:-10px;"}
+                  %u> 2ª opção
+                  \: Em qual outro período do MESMO POLO Univesp você desejaria estudar ?
+                .col-sm-6
+                  %select.form-control{:style => "width:90%;", :name => "lala[]"}
+                    - @univesp_polos2.each do |polo|
+                      %option{ :value =>  "#{polo[:value]}"} #{polo[:text]}
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina", :style => "margin-top:-12px;"}
+                  Qual seria sua
+                  %u 3ª opção
+                  de período do MESMO POLO Univesp em que você desejaria estudar ?
+                .col-sm-6
+                  %select.form-control{:style => "width:90%;", :name => "lala[]"}
+                    - @univesp_polos3.each do |polo|
+                      %option{ :value =>  "#{polo[:value]}"} #{polo[:text]}
+              .form-group.mais
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputTipo"} Assinale:
+                .checkbox.col-sm-6
+                  %label
+                    %input{:type => "checkbox"}/
+                    Declaro que CONFERI a escolha de Polo e turma(s) acima e ASSUMO a responsabilidade no caso de não atendimento de minha opção, por preenchimento incorreto.
+              %hr.col-md-12.mais.m-b-lg/
+              .well.col-md-8.col-md-offset-2{:style => "margin-top:2em; margin-bottom:50px; padding:2em 2em 1.4em 2em;"}
+                %p Antes de prosseguir, leia com atenção:
+                %p
+                  %br>/
+                  1. Para continuar, tenha em mãos os dados do seu curso superior atual ou concluído.
+                %p
+                  2.
+                  %a Baixe as ementas dos cursos UNIVESP
+                  e compare com as disciplinas que você cursou na outra Instituição de Ensino.
+                %p 3. Preencha os campos abaixo caso julgue que a disciplina que você fez tenha conteúdo compatível à descrição da disciplina da UNIVESP.
+                %p
+                  4. Lembre-se que há um
+                  = succeed "." do
+                    %b critério de disciplinas mínimas que você deve atingir para concorrer à vaga preterida
+                  %br/
+                  %br/
+              %table.table.table-condensed{:style => "border-bottom: 2px black solid;"}
+                %tbody
+                  %tr.black
+                    %th{:style => "width:25%"} Disciplinas Univesp
+                    %th{:style => "width:40%"} Disciplina cursada em outra instituição
+                    %th{:style => "width:10%"} Carga Horária
+                    %th{:style => "width:10%"} Anexar Ementa
+                    %th{:style => "width:10%"} Anexar Programa
+                    %th
+                  %tr
+                    %td
+                      .checkbox.m-t-xs.m-b-xs
+                        %label
+                          %input#limpa1{:type => "checkbox", :value => "option1"}>/
+                          Bancos de Dados
+                    %td
+                      %input.form-control#limpa2{:type => "text"}/
+                    %td
+                      %input.form-control#limpa3{:type => "number"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default#limpa4{:for => "ementa"}
+                          %span.fa.fa-paperclip
+                          ementa
+                        %input#ementa{:type => "file"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default#limpa5{:for => "programa"}
+                          %span.fa.fa-paperclip
+                          programa
+                        %input#programa{:type => "file"}/
+                    %td
+                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
+                  %tr
+                    %td
+                      .checkbox.m-t-xs.m-b-xs
+                        %label
+                          %input{:type => "checkbox", :value => "option1"}>/
+                          Circuitos Elétricos
+                    %td
+                      %input.form-control#limpa1{:type => "text"}/
+                    %td
+                      %input.form-control#limpa2{:type => "number"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default{:for => "ementa"}
+                          %span.fa.fa-paperclip
+                          ementa
+                        %input#ementa{:type => "file"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default{:for => "programa"}
+                          %span.fa.fa-paperclip
+                          programa
+                        %input#programa{:type => "file"}/
+                    %td
+                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
+                  %tr.active
+                    %td
+                      .checkbox.m-t-xs.m-b-xs
+                        %label
+                          %input{:checked => "checked", :type => "checkbox", :value => "option1"}>/
+                          Circuitos Lógicos
+                    %td
+                      %input.form-control{:type => "text"}/
+                    %td
+                      %input.form-control{:type => "number"}/
+                    %td
+                      %a.btn.btn-default.green.fa.fa-check{:href => ""} ok
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default{:for => "programa"}
+                          %span.fa.fa-paperclip
+                          programa
+                        %input#programa{:type => "file"}/
+                    %td
+                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
+                  %tr.success
+                    %td
+                      .checkbox.m-t-xs.m-b-xs
+                        %label
+                          %input{:checked => "checked", :type => "checkbox", :value => "option1"}>/
+                          Computação Gráfica
+                    %td
+                      %input.form-control{:placeholder => "Preenchido", :type => "text"}/
+                    %td
+                      %input.form-control{:placeholder => "20", :type => "number"}/
+                    %td
+                      %a.btn.btn-default.green.fa.fa-check{:href => ""} ok
+                    %td
+                      %a.btn.btn-default.green.fa.fa-check{:href => ""} ok
+                    %td
+                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
+                  %tr
+                    %td
+                      .checkbox.m-t-xs.m-b-xs
+                        %label
+                          %input{:type => "checkbox", :value => "option1"}>/
+                          Direito
+                    %td
+                      %input.form-control{:type => "text"}/
+                    %td
+                      %input.form-control{:type => "number"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default{:for => "ementa"}
+                          %span.fa.fa-paperclip
+                          ementa
+                        %input#ementa{:type => "file"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default{:for => "programa"}
+                          %span.fa.fa-paperclip
+                          programa
+                        %input#programa{:type => "file"}/
+                    %td
+                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
+                  %tr
+                    %td
+                      .checkbox.m-t-xs.m-b-xs
+                        %label
+                          %input{:type => "checkbox", :value => "option1"}>/
+                          Eletrônica Aplicada
+                    %td
+                      %input.form-control{:type => "text"}/
+                    %td
+                      %input.form-control{:type => "number"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default{:for => "ementa"}
+                          %span.fa.fa-paperclip
+                          ementa
+                        %input#ementa{:type => "file"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default{:for => "programa"}
+                          %span.fa.fa-paperclip
+                          programa
+                        %input#programa{:type => "file"}/
+                    %td
+                      %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
+                  %tr
+                    %td
+                      .checkbox.m-t-xs.m-b-xs
+                        %label
+                          %input{:type => "checkbox", :value => "option1"}>/
+                          Estratégia e Planejamento de Empresas
+                    %td
+                      %input.form-control{:type => "text"}/
+                    %td
+                      %input.form-control{:type => "number"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default{:for => "ementa"}
+                          %span.fa.fa-paperclip
+                          ementa
+                        %input#ementa{:type => "file"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default{:for => "programa"}
+                          %span.fa.fa-paperclip
+                          programa
+                        %input#programa{:type => "file"}/
+                    %td
+                      %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
+                  %tr
+                    %td
+                      .checkbox.m-t-xs.m-b-xs
+                        %label
+                          %input{:type => "checkbox", :value => "option1"}>/
+                          Negócios on line
+                    %td
+                      %input.form-control{:type => "text"}/
+                    %td
+                      %input.form-control{:type => "number"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default{:for => "ementa"}
+                          %span.fa.fa-paperclip
+                          ementa
+                        %input#ementa{:type => "file"}/
+                    %td
+                      .image-upload  
+                        %label.btn.btn-default{:for => "programa"}
+                          %span.fa.fa-paperclip
+                          programa
+                        %input#programa{:type => "file"}/
+                    %td
+                      %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
+              .col-sm-6.mais
+                %a.btn.btn-lg.blue.m-t.w.pull-left{:href => "VAGAS-remanescentes-0.html", :target => ""}
+                  %span.glyphicon.glyphicon-arrow-left.m-r
+                  Retornar ao questionário socioeconômico
+              .col-sm-6.mais
+                %a.btn.btn-lg.green.m-t.w.pull-right{:href => "VAGAS-remanescentes-2.html", :target => ""}
+                  %span.glyphicon.glyphicon-share-alt.m-r
+                  Finalizar e enviar formulários
+            .container{:style => "border-bottom:4px solid gray;max-width:970px;"}
+
+
+
+      / row
+    / container
+    %script{:src => "https://code.jquery.com/jquery-1.10.2.js"}
+    %script{:src => "https://code.jquery.com/ui/1.11.3/jquery-ui.js"}
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"}
+    %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/jquery.maskedinput.min.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/bootbox.min.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.upload.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.main.js"}
+    %script{:src => "app/assets/javascripts/form_vagas_remanescentes.js"}
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"}
+
+
