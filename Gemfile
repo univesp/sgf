@@ -36,8 +36,13 @@ gem 'autoprefixer-rails'
 gem "font-awesome-rails"
 
 gem 'devise'
+gem 'devise_token_auth'
+
 gem 'omniauth'
+gem 'omniauth-digitalocean'
 gem 'omniauth-facebook'
+gem "omniauth-google-oauth2"
+gem 'omniauth-identity'
 
 
 # Use Capistrano for deployment

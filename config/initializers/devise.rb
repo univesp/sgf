@@ -274,4 +274,5 @@ Devise.setup do |config|
 
   #Add your ID and secret here. ID first, secret second
   config.omniauth :facebook, "1165461110214026", "2abc706ae61b37982830406bd92c259d"
+  config.omniauth :google_oauth2, "444160308167-q8f9c0bm6lvcjuhh63j2lttn5h62lv73.apps.googleusercontent.com", "2Gt90Dwl6XB8aof38dHhpVkp"
 end
