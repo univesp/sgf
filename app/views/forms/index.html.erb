@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Forms</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Reference model</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Open at</th>
+      <th>Close at</th>
+      <th>Max attemps</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @forms.each do |form| %>
+      <tr>
+        <td><%= form.reference_model %></td>
+        <td><%= form.description %></td>
+        <td><%= form.status %></td>
+        <td><%= form.open_at %></td>
+        <td><%= form.close_at %></td>
+        <td><%= form.max_attemps %></td>
+        <td><%= link_to 'Show', form %></td>
+        <td><%= link_to 'Edit', edit_form_path(form) %></td>
+        <td><%= link_to 'Destroy', form, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Form', new_form_path %>

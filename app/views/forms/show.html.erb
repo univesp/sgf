@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Reference model:</strong>
+  <%= @form.reference_model %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @form.description %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @form.status %>
+</p>
+
+<p>
+  <strong>Open at:</strong>
+  <%= @form.open_at %>
+</p>
+
+<p>
+  <strong>Close at:</strong>
+  <%= @form.close_at %>
+</p>
+
+<p>
+  <strong>Max attemps:</strong>
+  <%= @form.max_attemps %>
+</p>
+
+<%= link_to 'Edit', edit_form_path(@form) %> |
+<%= link_to 'Back', forms_path %>
