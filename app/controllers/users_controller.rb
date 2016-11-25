@@ -8,8 +8,10 @@ class UsersController < ApplicationController
   end
 
   def update
+    @errors = {}
+    res = @user.update(user_params)
     respond_to do |format|
-      if @user.update(user_params)
+      if res && @user.errors.blank?
         sign_in(@user == current_user ? @user : current_user, :bypass => true)
         format.html { redirect_to @user, notice: 'Your profile was successfully updated.' }
         format.json { head :no_content }
@@ -21,8 +23,10 @@ class UsersController < ApplicationController
   end
 
   def finish_signup
+    @errors = {}
+    res = @user.update(user_params)
     if request.patch? && params[:user] #&& params[:user][:email]
-      if @user.update(user_params)
+      if res && @user.errors.blank?
         @user.skip_reconfirmation!
         sign_in(@user, :bypass => true)
         redirect_to @user, notice: 'Your profile was successfully updated.'
