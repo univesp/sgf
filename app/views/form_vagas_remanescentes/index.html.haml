@@ -68,7 +68,7 @@
                   %br/
                   %i Não serão aceitas inscrições por e-mail.
               .form-group
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputTipo"} De acordo:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "according"} De acordo:
                 .checkbox.col-sm-5
                   %label
                     %input{:type => "checkbox"}/
@@ -78,27 +78,27 @@
                     = succeed "." do
                       %a{:href => "https://univesp.br/sites/527174b7b24a527adc000002/assets/568ba9f59caf4d7b3000005b/PORTARIA_UNIVESP_PR_01-2016.pdf", :target => "_blank"} Portaria UNIVESP PR nº 20/2015
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputRA"} Nome completo:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "name", :style => "text-transform: capitalize"} Nome completo:
                 .col-sm-5
-                  %input#exampleInputEmail1.form-control{:type => "text"}/
+                  %input.form-control{:type => "text", :style => "text-transform: capitalize;"}/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} E-mail:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "email"} E-mail:
                 .col-sm-5
-                  %input#exampleInputEmail1.form-control{:type => "text"}/
+                  %input#email.form-control{:maxlength => "60", :name => "email", :size => "65", :type => "text", :required => ""}/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} Telefone:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "phone"} Telefone:
                 .col-sm-3
-                  %input#exampleInputEmail1.form-control{:type => "number"}/
+                  %input#phone.form-control{:maxlength => "15", :name => "phone", :type => "text", :required => ""}/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} Celular:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "cel"} Celular:
                 .col-sm-3
-                  %input#exampleInputEmail1.form-control{:type => "number"}/
+                  %input.form-control{:maxlength => "15", :name => "cel", :onkeyup => "mascara( this, mphone );", :type => "text", :required => ""}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} CPF:
                 .col-sm-3
-                  %input#exampleInputEmail1.form-control{:type => "number"}/
+                  %input#cpf.form-control{:maxlength => "14", :name => "cpf", :required => "", :onblur => "javascript: validarCPF(this.value);", :onkeypress => "javascript: mascara(this, cpf_mask);", :type => "text"}/
               .form-inline.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} Data de nascimento:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "date"} Data de nascimento:
                 %div
                   %select.form-control{:style => "margin-left:10px;"}
                     %option Dia
@@ -110,31 +110,31 @@
                       %option #{month}
                   %select.form-control                    
                     %option Ano
-                    - (1910..2016).each do |dia|
+                    - (1916..2016).sort {|a,b| b <=> a}.each do |dia|
                       %option #{dia} 
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina"} Curso desejado:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "course"} Curso desejado:
                 .col-sm-3
-                  %select.form-control{:style => "width:90%;", :name => "lala[]"}
-                    - @univesp_cursos.each do |curso|
-                      %option{ :value =>  "#{curso[:value]}"} #{curso[:text]}
+                  %select.form-control{:style => "width:90%;", :name => "course[]"}
+                    - @univesp_courses.each do |course|
+                      %option{ :value =>  "#{course[:value]}"} #{course[:text]}
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina", :style => "margin-top:-10px;"} Faça o upload do seu comprovante de pagamento de inscrição ou isenção:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "payment", :style => "margin-top:-10px;"} Faça o upload do seu comprovante de pagamento de inscrição ou isenção:
                 .image-upload
-                  %label.btn.btn-default{:for => "inscricao", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
+                  %label.btn.btn-default{:for => "payment", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
                     %span.fa.fa-dollar.m-r
                     Comprovante de inscrição
-                  %input#inscricao{:type => "file"}/
+                  %input#payment{:type => "file"}/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputTipo"} INSTITUIÇÃO de origem:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "homeInstitution"} INSTITUIÇÃO de origem:
                 .col-md-6
-                  %input.form-control{:id => "", :placeholder => "SIGLA - Nome por extenso (Pode citar mais de uma instituição)", :type => "text"}/
+                  %input.form-control{:placeholder => "SIGLA - Nome por extenso (Pode citar mais de uma instituição)", :type => "text"}/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputTipo"} CURSO:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "course2"} CURSO:
                 .col-md-6
-                  %input.form-control{:id => "", :placeholder => "Nome por extenso (Você pode citar mais de um curso)", :type => "text"}/
+                  %input.form-control{:placeholder => "Nome por extenso (Você pode citar mais de um curso)", :type => "text"}/
               .form-inline.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina"} Situação atual:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "situation"} Situação atual:
                 %div
                   %label.radio-inline{:style => "margin-left:10px;"}
                     %input#inlineRadio1{:name => "inlineRadioOptions", :type => "radio", :value => "option1"}/
@@ -143,49 +143,49 @@
                     %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
                     Cursando
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina", :style => "margin-top:-10px;"} Faça o upload dos seus documentos digitalizados:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "documents", :style => "margin-top:-10px;"} Faça o upload dos seus documentos digitalizados:
                 .image-upload
-                  %label.btn.btn-default{:for => "diploma", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
+                  %label.btn.btn-default{:for => "universityDegree", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
                     %span.fa.fa-graduation-cap.m-r
                     Diploma
-                  %input#diploma{:type => "file"}/
-                  %label.btn.btn-default{:for => "matricula", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
+                  %input#universityDegree{:type => "file"}/
+                  %label.btn.btn-default{:for => "registration", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
                     %span.fa.fa-certificate.m-r
                     Atestado de Matrícula
-                  %input#matricula{:type => "file"}/
-                  %label.btn.btn-default{:for => "escolar", :title => "Envie o HISTÓRICO ESCOLAR contendo as disciplinas cursadas, carga horária, aproveitamento etc."}
+                  %input#registration{:type => "file"}/
+                  %label.btn.btn-default{:for => "school", :title => "Envie o HISTÓRICO ESCOLAR contendo as disciplinas cursadas, carga horária, aproveitamento etc."}
                     %span.fa.fa-file-text-o.m-r
                     Histórico Escolar
-                  %input#escolar{:type => "file"}/
+                  %input#school{:type => "file"}/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina"} Em qual POLO Univesp deseja estudar ?
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "pole1"} Em qual POLO Univesp deseja estudar ?
                 .col-sm-6
-                  %select.form-control{:style => "width:90%;", :name => "lala[]"}
-                    - @univesp_polos1.each do |polo|
-                      %option{ :value =>  "#{polo[:value]}"} #{polo[:text]}
+                  %select.form-control{:style => "width:90%;", :name => "pole[]"}
+                    - @univesp_poles1.each do |pole|
+                      %option{ :value =>  "#{pole[:value]}"} #{pole[:text]}
                   %p.help-block
                     %small
                       %b IMPORTANTE:
                       Escolha APENAS UM POLO E UMA TURMA e, se possível, abaixo, uma segunda e até uma terceira opção sempre no mesmo polo;
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina", :style => "margin-top:-10px;"}
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "pole2", :style => "margin-top:-10px;"}
                   %u> 2ª opção
                   \: Em qual outro período do MESMO POLO Univesp você desejaria estudar ?
                 .col-sm-6
-                  %select.form-control{:style => "width:90%;", :name => "lala[]"}
-                    - @univesp_polos2.each do |polo|
-                      %option{ :value =>  "#{polo[:value]}"} #{polo[:text]}
+                  %select.form-control{:style => "width:90%;", :name => "pole2[]"}
+                    - @univesp_poles2.each do |pole|
+                      %option{ :value =>  "#{pole[:value]}"} #{pole[:text]}
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputDisciplina", :style => "margin-top:-12px;"}
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "pole3", :style => "margin-top:-12px;"}
                   Qual seria sua
                   %u 3ª opção
                   de período do MESMO POLO Univesp em que você desejaria estudar ?
                 .col-sm-6
-                  %select.form-control{:style => "width:90%;", :name => "lala[]"}
-                    - @univesp_polos3.each do |polo|
-                      %option{ :value =>  "#{polo[:value]}"} #{polo[:text]}
+                  %select.form-control{:style => "width:90%;", :name => "pole3[]"}
+                    - @univesp_poles3.each do |pole|
+                      %option{ :value =>  "#{pole[:value]}"} #{pole[:text]}
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "inputTipo"} Assinale:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "poleConfirmation"} Assinale:
                 .checkbox.col-sm-6
                   %label
                     %input{:type => "checkbox"}/
@@ -228,18 +228,18 @@
                       %input.form-control#limpa3{:type => "number"}/
                     %td
                       .image-upload  
-                        %label.btn.btn-default#limpa4{:for => "ementa"}
+                        %label.btn.btn-default{:for => "ementa"}
                           %span.fa.fa-paperclip
                           ementa
-                        %input#ementa{:type => "file"}/
+                        %input#ementa#fileInput{:type => "file"}/
                     %td
-                      .image-upload  
-                        %label.btn.btn-default#limpa5{:for => "programa"}
+                      .image-upload
+                        %label.btn.btn-default{:for => "program"}
                           %span.fa.fa-paperclip
                           programa
-                        %input#programa{:type => "file"}/
+                        %input#program#fileInput1{:type => "file"}/
                     %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
+                      %input#clear{:onclick => "resetForm();", :type => "button", :value => "X"}/
                   %tr
                     %td
                       .checkbox.m-t-xs.m-b-xs
@@ -258,10 +258,10 @@
                         %input#ementa{:type => "file"}/
                     %td
                       .image-upload  
-                        %label.btn.btn-default{:for => "programa"}
+                        %label.btn.btn-default{:for => "program"}
                           %span.fa.fa-paperclip
                           programa
-                        %input#programa{:type => "file"}/
+                        %input#program{:type => "file"}/
                     %td
                       %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
                   %tr.active
@@ -278,10 +278,10 @@
                       %a.btn.btn-default.green.fa.fa-check{:href => ""} ok
                     %td
                       .image-upload  
-                        %label.btn.btn-default{:for => "programa"}
+                        %label.btn.btn-default{:for => "program"}
                           %span.fa.fa-paperclip
                           programa
-                        %input#programa{:type => "file"}/
+                        %input#program{:type => "file"}/
                     %td
                       %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
                   %tr.success
@@ -318,10 +318,10 @@
                         %input#ementa{:type => "file"}/
                     %td
                       .image-upload  
-                        %label.btn.btn-default{:for => "programa"}
+                        %label.btn.btn-default{:for => "program"}
                           %span.fa.fa-paperclip
                           programa
-                        %input#programa{:type => "file"}/
+                        %input#program{:type => "file"}/
                     %td
                       %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
                   %tr
@@ -342,10 +342,10 @@
                         %input#ementa{:type => "file"}/
                     %td
                       .image-upload  
-                        %label.btn.btn-default{:for => "programa"}
+                        %label.btn.btn-default{:for => "program"}
                           %span.fa.fa-paperclip
                           programa
-                        %input#programa{:type => "file"}/
+                        %input#program{:type => "file"}/
                     %td
                       %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
                   %tr
@@ -366,10 +366,10 @@
                         %input#ementa{:type => "file"}/
                     %td
                       .image-upload  
-                        %label.btn.btn-default{:for => "programa"}
+                        %label.btn.btn-default{:for => "program"}
                           %span.fa.fa-paperclip
                           programa
-                        %input#programa{:type => "file"}/
+                        %input#program{:type => "file"}/
                     %td
                       %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
                   %tr
@@ -390,10 +390,10 @@
                         %input#ementa{:type => "file"}/
                     %td
                       .image-upload  
-                        %label.btn.btn-default{:for => "programa"}
+                        %label.btn.btn-default{:for => "program"}
                           %span.fa.fa-paperclip
                           programa
-                        %input#programa{:type => "file"}/
+                        %input#program{:type => "file"}/
                     %td
                       %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
               .col-sm-6.mais
@@ -420,5 +420,13 @@
     %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.main.js"}
     %script{:src => "app/assets/javascripts/form_vagas_remanescentes.js"}
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"}
+
+    :javascript
+      $fileInput = $('#fileInput');
+      $fileInput1 = $('#fileInput1');
+      $("#clear").on("click", function () {
+          $fileInput.replaceWith( $fileInput = $fileInput.clone( true ) );
+          $fileInput1.replaceWith( $fileInput1 = $fileInput1.clone( true ) );
+      });
 
 

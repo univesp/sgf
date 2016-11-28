@@ -5,26 +5,6 @@ $(function() {
 });
 
 
-
-$(function () {
-    function removeCampo() {
-    $(".removerCampo").unbind("click");
-    $(".removerCampo").bind("click", function () {
-        if($("tr.linhas").length > 1){
-       	$(this).parent().parent().remove();
-        }
-    });
-    }
-           
-    $(".adicionarCampo").click(function () {
-    novoCampo = $("tr.linhas:first").clone();
-    novoCampo.find("input").val("");
-    novoCampo.insertAfter("tr.linhas:last");
-    removeCampo();
-    });
-});
-
-
 $(function () {
           function removeCampo() {
           $(".removerCampo").unbind("click");
@@ -59,15 +39,6 @@ $(function () {
               v_obj.value=v_fun(v_obj.value)
           }
 
-          function mdata(v){
-              v=v.replace(/\D/g,"");                    //Remove tudo o que não é dígito
-              v=v.replace(/(\d{2})(\d)/,"$1/$2");      
-              v=v.replace(/(\d{2})(\d)/,"$1/$2");      
-
-              v=v.replace(/(\d{2})(\d{2})$/,"$1$2");
-              return v;
-          }
-
           function id( el ){
                   return document.getElementById( el );
           }
@@ -85,7 +56,7 @@ $(function () {
           }
 
 
-          function mtel(v){
+          function mphone(v){
               v=v.replace(/\D/g,"");             //Remove tudo o que não é dígito
               v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
               v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
@@ -95,8 +66,8 @@ $(function () {
               return document.getElementById( el );
           }
           window.onload = function(){
-              id('tel').onkeyup = function(){
-                  mascara( this, mtel );
+              id('phone').onkeyup = function(){
+                  mascara( this, mphone );
               }
           }
 
@@ -172,7 +143,5 @@ $(function () {
     getElementById("limpa1").checked = false;
     getElementById("limpa2").value = "";
     getElementById("limpa3").value = "";
-    getElementById("limpa4").value = "";
-    getElementById("limpa5").val (null);
   }
 }
