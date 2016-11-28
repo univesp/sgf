@@ -1,0 +1,2 @@
+class VagasRemanescentesCourse < ApplicationRecord
+end
