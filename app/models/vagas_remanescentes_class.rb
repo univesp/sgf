@@ -1,3 +1,3 @@
 class VagasRemanescentesClass < ApplicationRecord
-  belongs_to :vagas_remanescentes_courses
+  belongs_to :vagas_remanescentes_course
 end
