@@ -1,19 +1,15 @@
 class FormVagasRemanescentes
 
-	def get_univesp_courses
-		courses = []
+  def get_univesp_courses
+    courses = []
 
-		courses << {:text => ''}
-		courses << {:value => 3, :text => 'CICLO BÁSICO DE ENGENHARIA'}
-		courses << {:value => 4, :text => 'ENGENHARIA DE COMPUTAÇÃO'}
-		courses << {:value => 5, :text => 'ENGENHARIA DE PRODUÇÃO'}
-		courses << {:value => 6, :text => 'LICENCIATURA EM BIOLOGIA'}
-		courses << {:value => 7, :text => 'LICENCIATURA EM FÍSICA'}
-		courses << {:value => 8, :text => 'LICENCIATURA EM MATEMÁTICA'}
-		courses << {:value => 9, :text => 'LICENCIATURA EM QUÍMICA'}
+    courses << {:text => ''}
+    VagasRemanescentesCourse.all.each do |course|
+      courses << {:value => course.id, :text => course.name}
+    end
 
-		courses
-	end
+    courses
+  end
 
 	def get_univesp_poles1
 		poles1 = []
