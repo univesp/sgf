@@ -1,10 +1,15 @@
 class UsersController < ApplicationController
+  before_action :create_user_identity, only: [:finish_signup]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def show
   end
 
   def edit
+  end
+
+  def create_user_identity
+    @user = User.new
   end
 
   def update
