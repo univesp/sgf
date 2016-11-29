@@ -3,7 +3,7 @@ default: &default
   encoding: unicode
   pool: 5  
 
-development:
+production:
   <<: *default
-  database: sgf_development
+  database: sgf_production
   password: ENV['DB_PWD']
