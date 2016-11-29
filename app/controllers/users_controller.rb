@@ -27,20 +27,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def finish_signup
-    @errors = {}
-    res = @user.update(user_params)
-    if request.patch? && params[:user] #&& params[:user][:email]
-      if res && @user.errors.blank?
-        @user.skip_reconfirmation!
-        sign_in(@user, :bypass => true)
-        redirect_to @user, notice: 'Your profile was successfully updated.'
-      else
-        @show_errors = true
-      end
-    end
-  end
-
   def destroy
     @user = User.find(current_user)
     @user.destroy!
