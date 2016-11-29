@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
   get '/auth/:provider/callback', to: 'users#create'
-  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :put, :patch], :as => :finish_signup
   get '/logout', to: 'users#destroy', as: 'signout'
 
 
