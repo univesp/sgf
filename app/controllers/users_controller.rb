@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :create_user_identity, only: [:finish_signup]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update]
 
   def show
   end
@@ -42,7 +42,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
+    @user = User.find(current_user)
+    @user.destroy!
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { head :no_content }
