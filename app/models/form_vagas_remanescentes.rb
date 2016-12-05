@@ -49,4 +49,14 @@ class FormVagasRemanescentes
 
 		poles3
 	end
+
+
+  def get_univesp_activities course_id
+    activities = []   
+    VagasRemanescentesActivity.where(vagas_remanescentes_course_id: course_id).each do |activity|
+      activities << {:value => activity.id, :text => activity.name }
+    end 
+    activities
+  end
+
 end

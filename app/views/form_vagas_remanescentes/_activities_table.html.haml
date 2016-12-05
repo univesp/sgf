@@ -1,0 +1,40 @@
+%table.table.table-condensed{:style => "border-bottom: 2px black solid;"}
+  %tbody
+    %tr.black
+      %th{:style => "width:25%"} Disciplinas Univesp
+      %th{:style => "width:40%"} Disciplina cursada em outra instituição
+      %th{:style => "width:10%"} Carga Horária
+      %th{:style => "width:10%"} Anexar Ementa
+      %th{:style => "width:10%"} Anexar Programa
+      %th
+    - activities.each do |activity|
+      %tr
+        %td
+          .checkbox.m-t-xs.m-b-xs
+            %label
+              %input#limpa1{:type => "checkbox", :value => "option1"}>/
+              = activity[:text]
+        %td
+          %input.form-control#limpa2{:type => "text"}/
+        %td
+          %input.form-control#limpa3{:type => "number"}/
+        %td
+          .image-upload  
+            %label.btn.btn-default{:for => "ementa"}
+              %span.fa.fa-paperclip
+              ementa
+            %input#ementa#fileInput{:type => "file"}/
+        %td
+          .image-upload
+            %label.btn.btn-default{:for => "program"}
+              %span.fa.fa-paperclip
+              programa
+            %input#program#fileInput1{:type => "file"}/
+        %td
+          %input.clear-row{:type => "button", :value => "X"}/
+
+:javascript
+  $(".clear-row").on("click", function() {    
+    alert("clear-row");
+  });
+    

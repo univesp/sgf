@@ -35,6 +35,9 @@
           cursor: pointer;
       }
   %body{:style => "margin-top: 120px; max-width:970px;"}
+    %script{:src => "https://code.jquery.com/jquery-1.10.2.js"}
+    %script{:src => "https://code.jquery.com/ui/1.11.3/jquery-ui.js"}
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"}
     .container{:style => "max-width:970px;"}
       .row
         .col-md-12
@@ -115,7 +118,7 @@
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "course"} Curso desejado:
                 .col-sm-3
-                  %select.form-control{:style => "width:90%;", :name => "course[]"}
+                  %select#course.form-control{:style => "width:90%;", :name => "course[]"}
                     - @univesp_courses.each do |course|
                       %option{ :value =>  "#{course[:value]}"} #{course[:text]}
               .form-group.mais
@@ -207,195 +210,10 @@
                     %b critério de disciplinas mínimas que você deve atingir para concorrer à vaga preterida
                   %br/
                   %br/
-              %table.table.table-condensed{:style => "border-bottom: 2px black solid;"}
-                %tbody
-                  %tr.black
-                    %th{:style => "width:25%"} Disciplinas Univesp
-                    %th{:style => "width:40%"} Disciplina cursada em outra instituição
-                    %th{:style => "width:10%"} Carga Horária
-                    %th{:style => "width:10%"} Anexar Ementa
-                    %th{:style => "width:10%"} Anexar Programa
-                    %th
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input#limpa1{:type => "checkbox", :value => "option1"}>/
-                          Bancos de Dados
-                    %td
-                      %input.form-control#limpa2{:type => "text"}/
-                    %td
-                      %input.form-control#limpa3{:type => "number"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "ementa"}
-                          %span.fa.fa-paperclip
-                          ementa
-                        %input#ementa#fileInput{:type => "file"}/
-                    %td
-                      .image-upload
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program#fileInput1{:type => "file"}/
-                    %td
-                      %input#clear{:onclick => "resetForm();", :type => "button", :value => "X"}/
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:type => "checkbox", :value => "option1"}>/
-                          Circuitos Elétricos
-                    %td
-                      %input.form-control#limpa1{:type => "text"}/
-                    %td
-                      %input.form-control#limpa2{:type => "number"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "ementa"}
-                          %span.fa.fa-paperclip
-                          ementa
-                        %input#ementa{:type => "file"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
-                  %tr.active
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:checked => "checked", :type => "checkbox", :value => "option1"}>/
-                          Circuitos Lógicos
-                    %td
-                      %input.form-control{:type => "text"}/
-                    %td
-                      %input.form-control{:type => "number"}/
-                    %td
-                      %a.btn.btn-default.green.fa.fa-check{:href => ""} ok
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
-                  %tr.success
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:checked => "checked", :type => "checkbox", :value => "option1"}>/
-                          Computação Gráfica
-                    %td
-                      %input.form-control{:placeholder => "Preenchido", :type => "text"}/
-                    %td
-                      %input.form-control{:placeholder => "20", :type => "number"}/
-                    %td
-                      %a.btn.btn-default.green.fa.fa-check{:href => ""} ok
-                    %td
-                      %a.btn.btn-default.green.fa.fa-check{:href => ""} ok
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:type => "checkbox", :value => "option1"}>/
-                          Direito
-                    %td
-                      %input.form-control{:type => "text"}/
-                    %td
-                      %input.form-control{:type => "number"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "ementa"}
-                          %span.fa.fa-paperclip
-                          ementa
-                        %input#ementa{:type => "file"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:type => "checkbox", :value => "option1"}>/
-                          Eletrônica Aplicada
-                    %td
-                      %input.form-control{:type => "text"}/
-                    %td
-                      %input.form-control{:type => "number"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "ementa"}
-                          %span.fa.fa-paperclip
-                          ementa
-                        %input#ementa{:type => "file"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:type => "checkbox", :value => "option1"}>/
-                          Estratégia e Planejamento de Empresas
-                    %td
-                      %input.form-control{:type => "text"}/
-                    %td
-                      %input.form-control{:type => "number"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "ementa"}
-                          %span.fa.fa-paperclip
-                          ementa
-                        %input#ementa{:type => "file"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:type => "checkbox", :value => "option1"}>/
-                          Negócios on line
-                    %td
-                      %input.form-control{:type => "text"}/
-                    %td
-                      %input.form-control{:type => "number"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "ementa"}
-                          %span.fa.fa-paperclip
-                          ementa
-                        %input#ementa{:type => "file"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
+
+              #activities-table
+                = render 'activities_table', :activities => @univesp_activities
+              
               .col-sm-6.mais
                 %a.btn.btn-lg.blue.m-t.w.pull-left{:href => "VAGAS-remanescentes-0.html", :target => ""}
                   %span.glyphicon.glyphicon-arrow-left.m-r
@@ -409,10 +227,7 @@
 
 
       / row
-    / container
-    %script{:src => "https://code.jquery.com/jquery-1.10.2.js"}
-    %script{:src => "https://code.jquery.com/ui/1.11.3/jquery-ui.js"}
-    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"}
+    / container    
     %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"}
     %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/jquery.maskedinput.min.js"}
     %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/bootbox.min.js"}
@@ -428,5 +243,24 @@
           $fileInput.replaceWith( $fileInput = $fileInput.clone( true ) );
           $fileInput1.replaceWith( $fileInput1 = $fileInput1.clone( true ) );
       });
+      $("#course").on("change", function() {
+        var courseId = $(this).val();
+        console.log("courseId: " + courseId);
 
+        $.ajax({
+          url: "vagas-remanescentes/univesp-activities-by-course",
+          data: { course_id: courseId }         
+        })
+        .done(function (data) {
+          console.log("course change > done data:");
+          console.log(data);
+        })
+        .fail(function (jqXHR, textStatus) {
+          console.log("course change > fail jqXHR:");
+          console.log(jqXHR);
+          console.log("course change > fail textStatus:");
+          console.log(textStatus);
+        });
+      
+      });
 
