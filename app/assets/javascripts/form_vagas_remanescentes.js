@@ -1,8 +1,112 @@
-$(function() {
-    var form = new FormMain();
-    form.init();
-    form.handlePageEvents();			
+/* Evento que dispara quando o jQuery carrega */
+$(document).ready(function() {
+
+  $("#course").on("change", function() {
+    courseId = $(this).val();
+
+
+    /*$.ajax({
+      url: 'vagas-remanescentes/univesp-activities',
+      data: { paramCourseId: courseId }      
+    })
+    .done(function(data) {
+      alert(data);
+    })
+    .fail(function() {
+      alert( "error" );
+    });*/
+
+    $.ajax({
+      type: "GET",
+      url: "vagas-remanescentes/univesp-activities",
+      data: { courseId: courseId },
+      dataType: "json",
+      error: function(xhr, status, error) {
+        alert(error);
+        // you may need to handle me if the json is invalid
+        // this is the ajax object
+      },
+      success: function(json){
+        var html = "";
+
+
+      for(var i=1; i<json.length;i++) {
+                     
+        html += `<tr class='success'>
+          <td>
+          <div class='checkbox m-t-xs m-b-xs'>
+          <label for='lala'>
+          <input class='limpa1' type='checkbox' value='<%= activity[:value] %>'> `;
+        html += json[i].text;
+        html += ` </input>
+          </label>
+          </div>
+          </td>
+          <td>
+          <input class='form-control limpa2' type='text'></input>
+          </td>
+          <td>
+          <input class='form-control limpa3' type='number'></input>
+          </td>
+          <td>
+          <div class='image-upload'>
+          <label class='btn btn-default' for='ementa'>
+          <span class='fa fa-paperclip'></span>
+          ementa
+          </label>
+          <input class='ementa fileInput' type='file'></input>
+          </div>
+          </td>
+          <td>
+          <div class='image-upload'>
+          <label class='btn btn-default' for='program'>
+          <span class='fa fa-paperclip'></span>
+          programa
+          </label>
+          <input class='program file' type='file'></input>
+          </div>
+          </td>
+          <td>
+          <input id='clear' onclick='resetForm();' type='button' value='X'></input>
+          </td>
+          </tr>`;  
+       
+      }
+
+      
+    $.ajax({
+      type: "GET",
+      url: "vagas-remanescentes/univesp-classes",
+      data: { courseId: courseId },
+      dataType: "json",
+      error: function(xhr, status, error) {
+        alert(error);
+        // you may need to handle me if the json is invalid
+        // this is the ajax object
+      },
+      success: function(json){
+        var html = "";
+
+
+      for(var i=1; i<json.length;i++) {
+
+        html += `<select class='form-control' name='classe[]' style='width:90%;'>
+          <option value='<%= classe[:value] %>'>`;
+        html += json[i].text;
+        html += ` </option>
+          </select>`;
+      }
+
+
+
+
+
+
+
 });
+
+
+
 
 
 $(function () {
@@ -140,8 +244,8 @@ $(function () {
 
  function resetForm(){
   with (document) {
-    getElementById("limpa1").checked = false;
-    getElementById("limpa2").value = "";
-    getElementById("limpa3").value = "";
+    getElementByClass("limpa1").checked = false;
+    getElementByClass("limpa2").value = "";
+    getElementByClass("limpa3").value = "";
   }
 }

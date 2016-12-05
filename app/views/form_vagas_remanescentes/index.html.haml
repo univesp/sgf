@@ -34,6 +34,16 @@
           width: 80px;
           cursor: pointer;
       }
+
+      .contact_form input:focus:invalid, .contact_form textarea:focus:invalid { /* when a field is considered invalid by the browser */
+        box-shadow: 0 0 5px #d45252;
+        border-color: #b03535
+      }
+
+      .contact_form input:required:valid, .contact_form textarea:required:valid { /* when a field is considered valid by the browser */
+        box-shadow: 0 0 5px #5cd053;
+        border-color: #28921f;
+      }
   %body{:style => "margin-top: 120px; max-width:970px;"}
     .container{:style => "max-width:970px;"}
       .row
@@ -46,7 +56,7 @@
                 Formulário de Vagas Remanescentes
                 %span.label.label-danger.pull-right Prazo: 09/01/2017
           / Formulário
-          %form.form-horizontal
+          %form.form-horizontal.contact_form
             %p
               %span{:style => "color:#AF1E23;"} * Campos obrigatórios.
               Certifique-se de preenchê-los todos antes de enviar o formulário.
@@ -71,20 +81,20 @@
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "according"} De acordo:
                 .checkbox.col-sm-5
                   %label
-                    %input{:type => "checkbox"}/
+                    %input{:type => "checkbox", :required => ""}/
                     Declaro que li e aceito as condições
                     %br>/
                     da
                     = succeed "." do
                       %a{:href => "https://univesp.br/sites/527174b7b24a527adc000002/assets/568ba9f59caf4d7b3000005b/PORTARIA_UNIVESP_PR_01-2016.pdf", :target => "_blank"} Portaria UNIVESP PR nº 20/2015
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "name", :style => "text-transform: capitalize"} Nome completo:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "name"} Nome completo:
                 .col-sm-5
-                  %input.form-control{:type => "text", :style => "text-transform: capitalize;"}/
+                  %input.form-control{:type => "text", :style => "text-transform: capitalize;", :required => ""}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "email"} E-mail:
                 .col-sm-5
-                  %input#email.form-control{:maxlength => "60", :name => "email", :size => "65", :type => "text", :required => ""}/
+                  %input#email.form-control{:maxlength => "60", :name => "email", :size => "65", :type => "email", :required => ""}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "phone"} Telefone:
                 .col-sm-3
@@ -115,7 +125,7 @@
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "course"} Curso desejado:
                 .col-sm-3
-                  %select.form-control{:style => "width:90%;", :name => "course[]"}
+                  %select#course.form-control{:style => "width:90%;", :name => "course[]"}
                     - @univesp_courses.each do |course|
                       %option{ :value =>  "#{course[:value]}"} #{course[:text]}
               .form-group.mais
@@ -148,7 +158,7 @@
                   %label.btn.btn-default{:for => "universityDegree", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
                     %span.fa.fa-graduation-cap.m-r
                     Diploma
-                  %input#universityDegree{:type => "file"}/
+                  %input#universityDegree{:type => "file", :required => ""}/
                   %label.btn.btn-default{:for => "registration", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
                     %span.fa.fa-certificate.m-r
                     Atestado de Matrícula
@@ -158,11 +168,11 @@
                     Histórico Escolar
                   %input#school{:type => "file"}/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "pole1"} Em qual POLO Univesp deseja estudar ?
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "teste"} Em qual POLO Univesp deseja estudar ?
                 .col-sm-6
-                  %select.form-control{:style => "width:90%;", :name => "pole[]"}
-                    - @univesp_poles1.each do |pole|
-                      %option{ :value =>  "#{pole[:value]}"} #{pole[:text]}
+                  %select.form-control{:style => "width:90%;", :name => "classe[]"}
+                    - @univesp_classes.each do |classe|
+                      %option{ :value =>  "#{classe[:value]}"} #{classe[:text]}
                   %p.help-block
                     %small
                       %b IMPORTANTE:
@@ -172,9 +182,9 @@
                   %u> 2ª opção
                   \: Em qual outro período do MESMO POLO Univesp você desejaria estudar ?
                 .col-sm-6
-                  %select.form-control{:style => "width:90%;", :name => "pole2[]"}
-                    - @univesp_poles2.each do |pole|
-                      %option{ :value =>  "#{pole[:value]}"} #{pole[:text]}
+                  %select.form-control{:style => "width:90%;", :name => "classe[]"}
+                    - @univesp_classes.each do |classe|
+                      %option{ :value =>  "#{classe[:value]}"} #{classe[:text]}
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "pole3", :style => "margin-top:-12px;"}
                   Qual seria sua
@@ -207,7 +217,7 @@
                     %b critério de disciplinas mínimas que você deve atingir para concorrer à vaga preterida
                   %br/
                   %br/
-              %table.table.table-condensed{:style => "border-bottom: 2px black solid;"}
+              %table#activities.table.table-condensed{:style => "border-bottom: 2px black solid;"}
                 %tbody
                   %tr.black
                     %th{:style => "width:25%"} Disciplinas Univesp
@@ -216,188 +226,32 @@
                     %th{:style => "width:10%"} Anexar Ementa
                     %th{:style => "width:10%"} Anexar Programa
                     %th
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input#limpa1{:type => "checkbox", :value => "option1"}>/
-                          Bancos de Dados
-                    %td
-                      %input.form-control#limpa2{:type => "text"}/
-                    %td
-                      %input.form-control#limpa3{:type => "number"}/
-                    %td
-                      .image-upload  
+                  - @univesp_activities.each do |activity|
+                    %tr.success
+                      %td
+                        .checkbox.m-t-xs.m-b-xs
+                          %label{:for => "lala"}
+                            %input#limpa1{:type => "checkbox", :value => "#{activity[:value]}", :required => ""} #{activity[:text]}
+                      %td
+                        %input.form-control#limpa2{:type => "text", :required => ""}
+                      %td
+                        %input.form-control#limpa3{:type => "number", :required => ""}
+                      %td 
+
                         %label.btn.btn-default{:for => "ementa"}
                           %span.fa.fa-paperclip
                           ementa
-                        %input#ementa#fileInput{:type => "file"}/
-                    %td
-                      .image-upload
+                        %input#ementa.fileInput{:type => "file", :required => ""}
+                      %td
+
                         %label.btn.btn-default{:for => "program"}
                           %span.fa.fa-paperclip
                           programa
-                        %input#program#fileInput1{:type => "file"}/
-                    %td
-                      %input#clear{:onclick => "resetForm();", :type => "button", :value => "X"}/
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:type => "checkbox", :value => "option1"}>/
-                          Circuitos Elétricos
-                    %td
-                      %input.form-control#limpa1{:type => "text"}/
-                    %td
-                      %input.form-control#limpa2{:type => "number"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "ementa"}
-                          %span.fa.fa-paperclip
-                          ementa
-                        %input#ementa{:type => "file"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
-                  %tr.active
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:checked => "checked", :type => "checkbox", :value => "option1"}>/
-                          Circuitos Lógicos
-                    %td
-                      %input.form-control{:type => "text"}/
-                    %td
-                      %input.form-control{:type => "number"}/
-                    %td
-                      %a.btn.btn-default.green.fa.fa-check{:href => ""} ok
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
-                  %tr.success
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:checked => "checked", :type => "checkbox", :value => "option1"}>/
-                          Computação Gráfica
-                    %td
-                      %input.form-control{:placeholder => "Preenchido", :type => "text"}/
-                    %td
-                      %input.form-control{:placeholder => "20", :type => "number"}/
-                    %td
-                      %a.btn.btn-default.green.fa.fa-check{:href => ""} ok
-                    %td
-                      %a.btn.btn-default.green.fa.fa-check{:href => ""} ok
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:type => "checkbox", :value => "option1"}>/
-                          Direito
-                    %td
-                      %input.form-control{:type => "text"}/
-                    %td
-                      %input.form-control{:type => "number"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "ementa"}
-                          %span.fa.fa-paperclip
-                          ementa
-                        %input#ementa{:type => "file"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "X"}/
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:type => "checkbox", :value => "option1"}>/
-                          Eletrônica Aplicada
-                    %td
-                      %input.form-control{:type => "text"}/
-                    %td
-                      %input.form-control{:type => "number"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "ementa"}
-                          %span.fa.fa-paperclip
-                          ementa
-                        %input#ementa{:type => "file"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:type => "checkbox", :value => "option1"}>/
-                          Estratégia e Planejamento de Empresas
-                    %td
-                      %input.form-control{:type => "text"}/
-                    %td
-                      %input.form-control{:type => "number"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "ementa"}
-                          %span.fa.fa-paperclip
-                          ementa
-                        %input#ementa{:type => "file"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
-                  %tr
-                    %td
-                      .checkbox.m-t-xs.m-b-xs
-                        %label
-                          %input{:type => "checkbox", :value => "option1"}>/
-                          Negócios on line
-                    %td
-                      %input.form-control{:type => "text"}/
-                    %td
-                      %input.form-control{:type => "number"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "ementa"}
-                          %span.fa.fa-paperclip
-                          ementa
-                        %input#ementa{:type => "file"}/
-                    %td
-                      .image-upload  
-                        %label.btn.btn-default{:for => "program"}
-                          %span.fa.fa-paperclip
-                          programa
-                        %input#program{:type => "file"}/
-                    %td
-                      %input{:onclick => "resetForm();", :type => "button", :value => "x"}/
+                        %input#program.file{:type => "file", :required => ""}
+                      %td
+                        %input#clear{:onclick => "resetForm();", :type => "button", :value => "X"}
               .col-sm-6.mais
-                %a.btn.btn-lg.blue.m-t.w.pull-left{:href => "VAGAS-remanescentes-0.html", :target => ""}
+                %input.btn.btn-lg.blue.m-t.w.pull-left{:type => "submit"}
                   %span.glyphicon.glyphicon-arrow-left.m-r
                   Retornar ao questionário socioeconômico
               .col-sm-6.mais
@@ -422,11 +276,9 @@
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"}
 
     :javascript
-      $fileInput = $('#fileInput');
-      $fileInput1 = $('#fileInput1');
+      $fileInput = $('fileInput');
+      $file = $('file');
       $("#clear").on("click", function () {
           $fileInput.replaceWith( $fileInput = $fileInput.clone( true ) );
-          $fileInput1.replaceWith( $fileInput1 = $fileInput1.clone( true ) );
+          $file.replaceWith( $file = $file.clone( true ) );
       });
-
-
