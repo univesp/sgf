@@ -1,43 +1,38 @@
 class FormVagasRemanescentes
 
-  def get_univesp_courses
-    courses = []
+	def get_univesp_courses
+		courses = []
 
-    courses << {:text => ''}
-    VagasRemanescentesCourse.all.each do |course|
-      courses << {:value => course.id, :text => course.name}
-    end
+		courses << {:text => 'Selecione o Curso'}
+		VagasRemanescentesCourse.all.each do |course|
+			courses << {:value => course.id, :text => course.name}
+		end
 
-    courses
-  end
-
-	def get_univesp_poles1
-		poles1 = []
-
-		poles1 << {:text => ''}
-		poles1 << {:value => 10, :text => 'ENGENHARIA-ARARAS-2N - Segunda-feira - NOITE'}
-		poles1 << {:value => 11, :text => 'ENGENHARIA-ARARAS-5N - Quinta-feira - NOITE'}
-		poles1 << {:value => 12, :text => 'ENGENHARIA-ARARAS-3T - Quinta-feira - NOITE'}
-		poles1 << {:value => 13, :text => 'ENGENHARIA-BARRETOS-SM - Sábado - MANHÃ'}
-		poles1 << {:value => 14, :text => 'ENGENHARIA-DIADEMA-ST - Sábado - TARDE'}
-
-		poles1
+		courses
 	end
 
-	def get_univesp_poles2
-		poles2 = []
+	def get_univesp_classes course_id
+		classes = []
 
-		poles2 << {:text => ''}
-		poles2 << {:value => 15, :text => 'ENGENHARIA-ARARAS-2N - Segunda-feira - NOITE'}
-		poles2 << {:value => 16, :text => 'ENGENHARIA-ARARAS-5N - Quinta-feira - NOITE'}
-		poles2 << {:value => 17, :text => 'ENGENHARIA-BARRETOS-4N - Quarta-feira - NOITE'}
-		poles2 << {:value => 18, :text => 'ENGENHARIA-BARRETOS-SM - Sábado - MANHÃ'}
-		poles2 << {:value => 19, :text => 'ENGENHARIA-DIADEMA-ST - Sábado - TARDE'}
+		classes << {:text => 'Selecione o Polo'}
+		VagasRemanescentesClass.where(vagas_remanescentes_course_id: course_id).each do |classe|
+			classes << {:value => classe.id, :text => classe.name}
+		end
 
-		poles2
+		classes
 	end
 
-	def get_univesp_poles3
+	def get_univesp_activities course_id
+		activities = []
+
+		VagasRemanescentesActivity.where(vagas_remanescentes_course_id: course_id).each do |activity|
+			activities << {:value => activity.id, :text => activity.name}
+		end
+
+		activities
+	end
+
+	def get_univesp_poles
 		poles3 = []
 
 		poles3 << {:text => ''}
@@ -49,14 +44,5 @@ class FormVagasRemanescentes
 
 		poles3
 	end
-
-
-  def get_univesp_activities course_id
-    activities = []   
-    VagasRemanescentesActivity.where(vagas_remanescentes_course_id: course_id).each do |activity|
-      activities << {:value => activity.id, :text => activity.name }
-    end 
-    activities
-  end
 
 end
