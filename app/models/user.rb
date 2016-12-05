@@ -1,12 +1,17 @@
 class User < ApplicationRecord
-  TEMP_EMAIL_PREFIX = 'change@me'
-  TEMP_EMAIL_REGEX = /\Achange@me/
+  
+  has_one :identity, :dependent => :destroy
 
-  devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+  TEMP_EMAIL_REGEX = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
 
+  devise :database_authenticatable, :registerable, :confirmable, :recoverable, 
+         :rememberable, :trackable, :validatable, :omniauthable
+
+  validates :name, presence: true
+  validates :email, presence: true
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
 
+  
   def self.find_for_oauth(auth, signed_in_resource = nil)
 
     identity = Identity.find_for_oauth(auth)
@@ -18,8 +23,7 @@ class User < ApplicationRecord
       if user.nil?
         user = User.new(
           name: auth.extra.raw_info.name,
-          #username: auth.info.nickname || auth.uid,
-          email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
+          email: auth.extra.raw_info.email,
           password: Devise.friendly_token[0,20]
         )
         user.skip_confirmation!

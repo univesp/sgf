@@ -1,10 +1,15 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :create_user_identity, only: [:finish_signup]
+  before_action :set_user, only: [:show, :edit, :update]
 
   def show
   end
 
   def edit
+  end
+
+  def create_user_identity
+    @user = User.new
   end
 
   def update
@@ -22,22 +27,9 @@ class UsersController < ApplicationController
     end
   end
 
-  def finish_signup
-    @errors = {}
-    res = @user.update(user_params)
-    if request.patch? && params[:user] #&& params[:user][:email]
-      if res && @user.errors.blank?
-        @user.skip_reconfirmation!
-        sign_in(@user, :bypass => true)
-        redirect_to @user, notice: 'Your profile was successfully updated.'
-      else
-        @show_errors = true
-      end
-    end
-  end
-
   def destroy
-    @user.destroy
+    @user = User.find(current_user)
+    @user.destroy!
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { head :no_content }
@@ -50,8 +42,9 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      accessible = [ :name, :email ] # extend with your own params
-      accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
-      params.require(:user).permit(accessible)
+      accessible = [:name, :email, :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at, 
+                    :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip,
+                    :confirmation_token, :confirmed_at, :confirmed_at, :confirmation_sent_at, :uncorfirmed_email]
+      params.permit(accessible)
     end
 end

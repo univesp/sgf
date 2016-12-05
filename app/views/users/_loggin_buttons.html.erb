@@ -2,10 +2,10 @@
   Signed in as <strong><%= current_user.name %></strong>!
   <%= link_to "Sign out", signout_path, id: "sign_out" %>
 <%else%>
-  <a href="/users/auth/google_oauth2" class="btn btn-sm btn-social btn-google" id="sign in">
+  <a href="users/auth/google_oauth2" class="btn btn-sm btn-social btn-google" id="sign in">
     <span class="fa fa-google"></span> Sign in with Google
   </a>
-  <a href="/users/auth/facebook" class="btn btn-sm btn-social btn-facebook" scope="public_profile,email" onlogin="checkLoginState();" id="sign in" >
+  <a href="users/auth/facebook" class="btn btn-sm btn-social btn-facebook" scope="public_profile,email" onlogin="checkLoginState();" id="sign in" >
     <span class="fa fa-facebook" ></span> Sign in with Facebook
   </a>
 <%end%>
