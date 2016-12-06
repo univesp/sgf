@@ -137,7 +137,7 @@
                   %label.btn.btn-default{:for => "payment", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
                     %span.fa.fa-dollar.m-r
                     Comprovante de inscrição
-                  %input#payment{:type => "file"}/
+                  %input#payment{:type => "file", :onchange => "uploadFile(this);" }/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "homeInstitution"} INSTITUIÇÃO de origem:
                 .col-md-6
@@ -161,15 +161,15 @@
                   %label.btn.btn-default{:for => "universityDegree", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
                     %span.fa.fa-graduation-cap.m-r
                     Diploma
-                  %input#universityDegree{:type => "file", :required => ""}/
+                  %input#universityDegree{:type => "file", :required => "", :onchange => "uploadFile(this);" }/
                   %label.btn.btn-default{:for => "registration", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
                     %span.fa.fa-certificate.m-r
                     Atestado de Matrícula
-                  %input#registration{:type => "file"}/
+                  %input#registration{:type => "file", :onchange => "uploadFile(this);" }/
                   %label.btn.btn-default{:for => "school", :title => "Envie o HISTÓRICO ESCOLAR contendo as disciplinas cursadas, carga horária, aproveitamento etc."}
                     %span.fa.fa-file-text-o.m-r
                     Histórico Escolar
-                  %input#school{:type => "file"}/
+                  %input#school{:type => "file", :onchange => "uploadFile(this);" }/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "teste"} Em qual POLO Univesp deseja estudar ?
                 .col-sm-6
@@ -247,13 +247,15 @@
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"}
 
     :javascript
-      $fileInput = $('fileInput');
-      $file = $('file');
-      $("#clear").on("click", function () {
-          $fileInput.replaceWith( $fileInput = $fileInput.clone( true ) );
-          $file.replaceWith( $file = $file.clone( true ) );
-          $fileInput1.replaceWith( $fileInput1 = $fileInput1.clone( true ) );
-      });
+      function uploadFile(e) {
+        console.log("uploadFile(e)");
+        if ($(e)[0].files.length >= 1) {
+          console.log("if ($(e)[0].files.length >= 1)");
+          console.log($(e).prev("label"));
+          $(e).prev("label").addClass("green");
+        }
+      }
+     
       $("#course").on("change", function() {
         var courseId = $(this).val();
         console.log("courseId: " + courseId);

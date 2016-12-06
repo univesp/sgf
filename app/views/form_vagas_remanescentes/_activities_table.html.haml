@@ -22,13 +22,13 @@
             %label.btn.btn-default{:for => "syllabus-activity-#{activity[:value]}"}
               %span.fa.fa-paperclip
               %span.label-upload ementa
-            %input.syllabus-activities{:id => "syllabus-activity-#{activity[:value]}", :type => "file", :onchange => "uploadFile(this);" }/
+            %input.syllabus-activities{:id => "syllabus-activity-#{activity[:value]}", :type => "file", :onchange => "uploadFileActivity(this);" }/
         %td
           .image-upload
             %label.btn.btn-default{:for => "program-activity-#{activity[:value]}"}
               %span.fa.fa-paperclip
               %span.label-upload programa
-            %input.program-activities{:id => "program-activity-#{activity[:value]}", :type => "file", :onchange => "uploadFile(this);" }/
+            %input.program-activities{:id => "program-activity-#{activity[:value]}", :type => "file", :onchange => "uploadFileActivity(this);" }/
         %td
           %input.clear-row{:type => "button", :value => "X"}/
 
@@ -58,9 +58,9 @@
       || $(tr).find(".external-workloads").val().trim().length >= 1
       || $(tr).find(".syllabus-activities")[0].files.length >= 1
       || $(tr).find(".program-activities")[0].files.length >= 1
-  }
+  } 
 
-  function uploadFile(e) {
+  function uploadFileActivity(e) {
     if ($(e)[0].files.length >= 1) {
       var td = $(e).closest("td");
       $(td).find(".fa").removeClass("fa-paperclip");
@@ -89,14 +89,14 @@
     var ctrlSyllabusId = $(ctrlSyllabus).attr('id');
     var ctrlSyllabusParent = $("#" + ctrlSyllabusId).parent();
     $("#" + ctrlSyllabusId).remove();
-    $(ctrlSyllabusParent).append("<input type='file' id='" + ctrlSyllabusId + "' class='syllabus-activities' onchange='uploadFile(this);' />");
+    $(ctrlSyllabusParent).append("<input type='file' id='" + ctrlSyllabusId + "' class='syllabus-activities' onchange='uploadFileActivity(this);' />");
 
     // Program
     var ctrlProgram = $(tr).find(".program-activities")[0];
     var ctrlProgramId = $(ctrlProgram).attr('id');
     var ctrlProgramParent = $("#" + ctrlProgramId).parent();
     $("#" + ctrlProgramId).remove();
-    $(ctrlProgramParent).append("<input type='file' id='" + ctrlProgramId + "' class='program-activities' onchange='uploadFile(this);' />");
+    $(ctrlProgramParent).append("<input type='file' id='" + ctrlProgramId + "' class='program-activities' onchange='uploadFileActivity(this);' />");
 
 
     $(tr).find(".fa").removeClass("fa-check");
