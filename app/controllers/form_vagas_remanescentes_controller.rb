@@ -10,7 +10,26 @@ class FormVagasRemanescentesController < ApplicationController
   end
 
   def univesp_activities_by_course
-    @univesp_activities = FormVagasRemanescentes.new.get_univesp_activities params[:course_id]
+    course = VagasRemanescentesCourse.find(params[:course_id])
+    if course.parent
+      @basic_activities = {
+        :activities => FormVagasRemanescentes.new.get_univesp_activities(course.parent.id),
+        :workload   => 800,
+        :type       => 'basic'
+      }
+      @professional_activities = {
+        :activities => FormVagasRemanescentes.new.get_univesp_activities(course.id),
+        :workload   => 400,
+        :type       => 'professional'
+      }
+    else
+      @basic_activities = {
+        :activities => FormVagasRemanescentes.new.get_univesp_activities(course.id),
+        :workload   => 400,
+        :type       => 'basic'
+      }
+    end
+
     respond_to do |format|
       format.js
     end

@@ -1,5 +1,17 @@
-%table#activities-table.table.table-condensed{:style => "border-bottom: 2px black solid;"}
+%table.table.table-condensed{:style => "border-bottom: 2px black solid;"}
   %tbody
+    %tr.danger
+      %td{:colspan => "4"}
+        %h5
+          Você deve comprovar abaixo, no mínimo,
+          %em
+            %b #{table_info[:workload]} horas
+          de atividades em disciplinas básicas de Engenharia.
+      %td.text-danger{:colspan => "2"}
+        %h5
+          Total:
+          %span.m-l
+            %b 20h
     %tr.black
       %th{:style => "width:25%"} Disciplinas Univesp
       %th{:style => "width:40%"} Disciplina cursada em outra instituição
@@ -7,70 +19,31 @@
       %th{:style => "width:10%"} Anexar Ementa
       %th{:style => "width:10%"} Anexar Programa
       %th
-    - activities.each do |activity|
+    - table_info[:activities].each do |activity|
       %tr.activities-row
         %td
           %input.form-control.ids-activities{:type => "hidden", :value => "#{activity[:value]}"}/      
-          %label             
-            = activity[:text]
+          = activity[:text]
         %td
           %input.form-control.external-activities{:type => "text"}/
         %td
           %input.form-control.external-workloads{:type => "number"}/
         %td
           .image-upload  
-            %label.btn.btn-default{:for => "syllabus-activity-#{activity[:value]}"}
+            %label.btn.btn-default{:for => "#{table_info[:type]}-syllabus-#{activity[:value]}"}
               %span.fa.fa-paperclip
               %span.label-upload ementa
-            %input.syllabus-activities{:id => "syllabus-activity-#{activity[:value]}", :type => "file", :onchange => "uploadFileActivity(this);" }/
+            %input.attachs-activities{:id => "#{table_info[:type]}-syllabus-#{activity[:value]}", :type => "file", :onchange => "uploadFileActivity(this);" }/
         %td
           .image-upload
-            %label.btn.btn-default{:for => "program-activity-#{activity[:value]}"}
+            %label.btn.btn-default{:for => "#{table_info[:type]}-program-#{activity[:value]}"}
               %span.fa.fa-paperclip
               %span.label-upload programa
-            %input.program-activities{:id => "program-activity-#{activity[:value]}", :type => "file", :onchange => "uploadFileActivity(this);" }/
+            %input.attachs-activities{:id => "#{table_info[:type]}-program-#{activity[:value]}", :type => "file", :onchange => "uploadFileActivity(this);" }/
         %td
           %input.clear-row{:type => "button", :value => "X"}/
 
 :javascript
-  function blurTr(tr) {
-    $(tr).removeClass("active");
-    $(tr).removeClass("success");
-    if (isTrFullyCompleted(tr)) {
-      $(tr).addClass("success");
-      console.log("blurTr > isTrFullyCompleted");
-    } else if (isTrPartlyCompleted(tr)) {
-      console.log("blurTr > isTrPartlyCompleted");
-      $(tr).addClass("active");
-    } 
-  }
-
-  function isTrFullyCompleted(tr) {
-    console.log($(tr));
-    return $(tr).find(".external-activities").val().trim().length >= 1
-      && $(tr).find(".external-workloads").val().trim().length >= 1
-      && $(tr).find(".syllabus-activities")[0].files.length >= 1
-      && $(tr).find(".program-activities")[0].files.length >= 1
-  }
-
-  function isTrPartlyCompleted(tr) {
-    return $(tr).find(".external-activities").val().trim().length >= 1
-      || $(tr).find(".external-workloads").val().trim().length >= 1
-      || $(tr).find(".syllabus-activities")[0].files.length >= 1
-      || $(tr).find(".program-activities")[0].files.length >= 1
-  } 
-
-  function uploadFileActivity(e) {
-    if ($(e)[0].files.length >= 1) {
-      var td = $(e).closest("td");
-      $(td).find(".fa").removeClass("fa-paperclip");
-      $(td).find(".fa").addClass("fa-check");
-      $(td).find(".label-upload").html("OK");
-      $(td).find("label").addClass("green");
-      blurTr($(e).closest("tr"));
-    }
-  }
-  
   $(".activities-row input").on("blur", function() {   
     blurTr($(this).closest("tr"));
   }); 
@@ -84,22 +57,14 @@
     $(tr).find(".external-activities").val(""); 
     $(tr).find(".external-workloads").val("");
 
-    // Syllabus
-    var ctrlSyllabus = $(tr).find(".syllabus-activities")[0];
-    var ctrlSyllabusId = $(ctrlSyllabus).attr('id');
-    var ctrlSyllabusParent = $("#" + ctrlSyllabusId).parent();
-    $("#" + ctrlSyllabusId).remove();
-    $(ctrlSyllabusParent).append("<input type='file' id='" + ctrlSyllabusId + "' class='syllabus-activities' onchange='uploadFileActivity(this);' />");
+    $(tr).find(".attachs-activities").each(function(index, ctrl) {
+      var ctrlAttachId = $(ctrl).attr('id');
+      console.log(ctrlAttachId);
+      var ctrlAttachParent = $("#" + ctrlAttachId).parent();
+      $("#" + ctrlAttachId).remove();
+      $(ctrlAttachParent).append("<input type='file' id='" + ctrlAttachId + "' class='attachs-activities' onchange='uploadFileActivity(this);' />");
+    });
 
-    // Program
-    var ctrlProgram = $(tr).find(".program-activities")[0];
-    var ctrlProgramId = $(ctrlProgram).attr('id');
-    var ctrlProgramParent = $("#" + ctrlProgramId).parent();
-    $("#" + ctrlProgramId).remove();
-    $(ctrlProgramParent).append("<input type='file' id='" + ctrlProgramId + "' class='program-activities' onchange='uploadFileActivity(this);' />");
-
-
-    $(tr).find(".fa").removeClass("fa-check");
     $(tr).find(".fa").addClass("fa-paperclip");
     $($(tr).find(".label-upload")[0]).html(" ementa");
     $($(tr).find(".label-upload")[1]).html(" programa");

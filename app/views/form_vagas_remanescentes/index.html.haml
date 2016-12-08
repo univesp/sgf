@@ -48,6 +48,7 @@
     %script{:src => "https://code.jquery.com/jquery-1.10.2.js"}
     %script{:src => "https://code.jquery.com/ui/1.11.3/jquery-ui.js"}
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"}
+    %script{:src => "https://assets.univesp.br/sgf/javascripts/form_vagas_remanescentes_novo.js"}
     .container{:style => "max-width:970px;"}
       .row
         .col-md-12
@@ -93,7 +94,7 @@
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "name"} Nome completo:
                 .col-sm-5
-                  %input.form-control{:type => "text", :style => "text-transform: capitalize;", :required => ""}/
+                  %input#name.form-control{:type => "text", :style => "text-transform: capitalize;", :required => ""}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "email"} E-mail:
                 .col-sm-5
@@ -103,9 +104,9 @@
                 .col-sm-3
                   %input#phone.form-control{:maxlength => "15", :name => "phone", :type => "text", :required => ""}/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "cel"} Celular:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "mobile"} Celular:
                 .col-sm-3
-                  %input.form-control{:maxlength => "15", :name => "cel", :onkeyup => "mascara( this, mphone );", :type => "text", :required => ""}/
+                  %input#mobile.form-control{:maxlength => "15", :name => "mobile", :onkeyup => "mascara( this, mphone );", :type => "text", :required => ""}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} CPF:
                 .col-sm-3
@@ -113,15 +114,15 @@
               .form-inline.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "date"} Data de nascimento:
                 %div
-                  %select.form-control{:style => "margin-left:10px;"}
+                  %select#birth-day.form-control{:style => "margin-left:10px;"}
                     %option Dia
                     - (1..31).each do |dia|
                       %option #{dia} 
-                  %select.form-control                    
+                  %select#birth-month.form-control
                     %option Mês
                     - (1..12).each do |month|
                       %option #{month}
-                  %select.form-control                    
+                  %select#birth-year.form-control
                     %option Ano
                     - (1916..2016).sort {|a,b| b <=> a}.each do |dia|
                       %option #{dia} 
@@ -139,41 +140,41 @@
                     Comprovante de inscrição
                   %input#payment{:type => "file", :onchange => "uploadFile(this);" }/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "homeInstitution"} INSTITUIÇÃO de origem:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "external-institution"} INSTITUIÇÃO de origem:
                 .col-md-6
-                  %input.form-control{:placeholder => "SIGLA - Nome por extenso (Pode citar mais de uma instituição)", :type => "text"}/
+                  %input#external-institution.form-control{:placeholder => "SIGLA - Nome por extenso (Pode citar mais de uma instituição)", :type => "text"}/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "course2"} CURSO:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "external-course"} CURSO:
                 .col-md-6
-                  %input.form-control{:placeholder => "Nome por extenso (Você pode citar mais de um curso)", :type => "text"}/
+                  %input#external-course.form-control{:placeholder => "Nome por extenso (Você pode citar mais de um curso)", :type => "text"}/
               .form-inline.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "situation"} Situação atual:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio Situação atual:
                 %div
                   %label.radio-inline{:style => "margin-left:10px;"}
-                    %input#inlineRadio1{:name => "inlineRadioOptions", :type => "radio", :value => "option1"}/
+                    %input#current-status-1{:name => "current-status", :type => "radio", :value => "0", :checked => "checked"}/
                     Concluído
                   %label.radio-inline
-                    %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
+                    %input#current-status-2{:name => "current-status", :type => "radio", :value => "1"}/
                     Cursando
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "documents", :style => "margin-top:-10px;"} Faça o upload dos seus documentos digitalizados:
                 .image-upload
-                  %label.btn.btn-default{:for => "universityDegree", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
+                  %label.btn.btn-default{:for => "diploma", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
                     %span.fa.fa-graduation-cap.m-r
                     Diploma
-                  %input#universityDegree{:type => "file", :required => "", :onchange => "uploadFile(this);" }/
-                  %label.btn.btn-default{:for => "registration", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
+                  %input#diploma{:type => "file", :required => "", :onchange => "uploadFile(this);" }/
+                  %label.btn.btn-default{:for => "enrollment", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
                     %span.fa.fa-certificate.m-r
                     Atestado de Matrícula
-                  %input#registration{:type => "file", :onchange => "uploadFile(this);" }/
-                  %label.btn.btn-default{:for => "school", :title => "Envie o HISTÓRICO ESCOLAR contendo as disciplinas cursadas, carga horária, aproveitamento etc."}
+                  %input#enrollment{:type => "file", :onchange => "uploadFile(this);" }/
+                  %label.btn.btn-default{:for => "academic-record", :title => "Envie o HISTÓRICO ESCOLAR contendo as disciplinas cursadas, carga horária, aproveitamento etc."}
                     %span.fa.fa-file-text-o.m-r
                     Histórico Escolar
-                  %input#school{:type => "file", :onchange => "uploadFile(this);" }/
+                  %input#academic-record{:type => "file", :onchange => "uploadFile(this);" }/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "teste"} Em qual POLO Univesp deseja estudar ?
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "first-location"} Em qual POLO Univesp deseja estudar ?
                 .col-sm-6
-                  %select.form-control{:style => "width:90%;", :name => "classe[]"}
+                  %select#first-location.form-control{:style => "width:90%;"}
                     - @univesp_classes.each do |classe|
                       %option{ :value =>  "#{classe[:value]}"} #{classe[:text]}
                   %p.help-block
@@ -181,27 +182,27 @@
                       %b IMPORTANTE:
                       Escolha APENAS UM POLO E UMA TURMA e, se possível, abaixo, uma segunda e até uma terceira opção sempre no mesmo polo;
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "pole2", :style => "margin-top:-10px;"}
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "second-location", :style => "margin-top:-10px;"}
                   %u> 2ª opção
                   \: Em qual outro período do MESMO POLO Univesp você desejaria estudar ?
                 .col-sm-6
-                  %select.form-control{:style => "width:90%;", :name => "classe[]"}
+                  %select#second-location.form-control{:style => "width:90%;"}
                     - @univesp_classes.each do |classe|
                       %option{ :value =>  "#{classe[:value]}"} #{classe[:text]}
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "pole3", :style => "margin-top:-12px;"}
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "third-location", :style => "margin-top:-12px;"}
                   Qual seria sua
                   %u 3ª opção
                   de período do MESMO POLO Univesp em que você desejaria estudar ?
                 .col-sm-6
-                  %select.form-control{:style => "width:90%;", :name => "pole3[]"}
+                  %select#third-location.form-control{:style => "width:90%;"}
                     - @univesp_poles3.each do |pole|
                       %option{ :value =>  "#{pole[:value]}"} #{pole[:text]}
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "poleConfirmation"} Assinale:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "location-confirm"} Assinale:
                 .checkbox.col-sm-6
                   %label
-                    %input{:type => "checkbox"}/
+                    %input#location-confirm{:type => "checkbox"}/
                     Declaro que CONFERI a escolha de Polo e turma(s) acima e ASSUMO a responsabilidade no caso de não atendimento de minha opção, por preenchimento incorreto.
               %hr.col-md-12.mais.m-b-lg/
               .well.col-md-8.col-md-offset-2{:style => "margin-top:2em; margin-bottom:50px; padding:2em 2em 1.4em 2em;"}
@@ -221,15 +222,16 @@
                   %br/
                   %br/
 
-              #activities-table-area
-                = render 'activities_table', :activities => @univesp_activities
+              #basic-activities-table
+
+              #professional-activities-table
               
               .col-sm-6.mais
-                %input.btn.btn-lg.blue.m-t.w.pull-left{:type => "submit"}
+                %button.btn.btn-lg.blue.m-t.w.pull-left
                   %span.glyphicon.glyphicon-arrow-left.m-r
                   Retornar ao questionário socioeconômico
               .col-sm-6.mais
-                %a.btn.btn-lg.green.m-t.w.pull-right{:href => "VAGAS-remanescentes-2.html", :target => ""}
+                %button#submit.btn.btn-lg.green.m-t.w.pull-right
                   %span.glyphicon.glyphicon-share-alt.m-r
                   Finalizar e enviar formulários
             .container{:style => "border-bottom:4px solid gray;max-width:970px;"}
@@ -243,7 +245,6 @@
     %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/bootbox.min.js"}
     %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.upload.js"}
     %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.main.js"}
-    %script{:src => "app/assets/javascripts/form_vagas_remanescentes.js"}
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"}
 
     :javascript
@@ -255,14 +256,14 @@
           $(e).prev("label").addClass("green");
         }
       }
-     
+
       $("#course").on("change", function() {
         var courseId = $(this).val();
         console.log("courseId: " + courseId);
 
         $.ajax({
           url: "vagas-remanescentes/univesp-activities-by-course",
-          data: { course_id: courseId }         
+          data: { course_id: courseId }
         })
         .done(function (data) {
           console.log("course change > done data:");
@@ -274,5 +275,4 @@
           console.log("course change > fail textStatus:");
           console.log(textStatus);
         });
-      
       });
