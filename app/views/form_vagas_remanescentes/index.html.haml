@@ -251,23 +251,18 @@
       function uploadFile(e) {
         console.log("uploadFile(e)");
         if ($(e)[0].files.length >= 1) {
-          console.log("if ($(e)[0].files.length >= 1)");
-          console.log($(e).prev("label"));
           $(e).prev("label").addClass("green");
         }
       }
 
       $("#course").on("change", function() {
         var courseId = $(this).val();
-        console.log("courseId: " + courseId);
 
         $.ajax({
           url: "vagas-remanescentes/univesp-activities-by-course",
           data: { course_id: courseId }
         })
         .done(function (data) {
-          console.log("course change > done data:");
-          console.log(data);
         })
         .fail(function (jqXHR, textStatus) {
           console.log("course change > fail jqXHR:");
@@ -275,4 +270,43 @@
           console.log("course change > fail textStatus:");
           console.log(textStatus);
         });
+      });
+
+      $("#submit").on("click", function(e) {
+        e.preventDefault();
+        var formData = {
+          name: $("#name").val().trim(),
+          email: $("#email").val().trim(),
+          phone: $("#phone").val().trim(),
+          mobile: $("#mobile").val().trim(),
+          cpf: $("#cpf").val().trim(),
+          birthDay: $("#birth-day option:selected").val(),
+          birthMonth: $("#birth-month option:selected").val(),
+          birthYear: $("#birth-year option:selected").val(),
+          course: $("#course option:selected").val(),
+          payment: $("#payment")[0].files,
+          externalInstitution: $("#external-institution").val().trim(),
+          externalCourse: $("#external-course").val().trim(),
+          currentStatus: $('input[name=current-status]:checked').val(),
+          diploma: $("#diploma")[0].files,
+          enrollment: $("#enrollment")[0].files,
+          academicRecord: $("#academic-record")[0].files,
+          firstLocation: $("#first-location option:selected").val(),
+          secondLocation: $("#second-location option:selected").val(),
+          thirdLocation: $("#third-location option:selected").val(),
+          locationConfirm: $("#location-confirm").is(":checked")
+        };
+        // Tables
+
+        if ($("#basic-activities-table table").length) {
+          formData.basicActivities = [];
+          collectValuesFromActivitiesRow("basic-activities-table", formData.basicActivities);
+        }
+
+        if ($("#professional-activities-table table").length) {
+          formData.professionalActivities = [];
+          collectValuesFromActivitiesRow("professional-activities-table", formData.professionalActivities);
+        }
+
+        console.log(formData);
       });

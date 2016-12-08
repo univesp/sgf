@@ -20,14 +20,14 @@
       %th{:style => "width:10%"} Anexar Programa
       %th
     - table_info[:activities].each do |activity|
-      %tr.activities-row
+      %tr.activities-rows
         %td
-          %input.form-control.ids-activities{:type => "hidden", :value => "#{activity[:value]}"}/      
+          %input.form-control.activities-ids{:type => "hidden", :value => "#{activity[:value]}"}/
           = activity[:text]
         %td
           %input.form-control.external-activities{:type => "text"}/
         %td
-          %input.form-control.external-workloads{:type => "number"}/
+          %input.form-control.external-workload{:type => "number"}/
         %td
           .image-upload  
             %label.btn.btn-default{:for => "#{table_info[:type]}-syllabus-#{activity[:value]}"}
@@ -44,7 +44,7 @@
           %input.clear-row{:type => "button", :value => "X"}/
 
 :javascript
-  $(".activities-row input").on("blur", function() {   
+  $(".activities-rows input").on("blur", function() {
     blurTr($(this).closest("tr"));
   }); 
  
@@ -55,7 +55,7 @@
 
     $(tr).find(".check-activities").prop("checked", false);   
     $(tr).find(".external-activities").val(""); 
-    $(tr).find(".external-workloads").val("");
+    $(tr).find(".external-workload").val("");
 
     $(tr).find(".attachs-activities").each(function(index, ctrl) {
       var ctrlAttachId = $(ctrl).attr('id');
