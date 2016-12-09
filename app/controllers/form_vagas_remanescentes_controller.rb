@@ -1,4 +1,5 @@
 class FormVagasRemanescentesController < ApplicationController
+  protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
 
   def index
     @univesp_courses = FormVagasRemanescentes.new().get_univesp_courses
@@ -7,6 +8,30 @@ class FormVagasRemanescentesController < ApplicationController
     @univesp_poles2 = FormVagasRemanescentes.new().get_univesp_poles # TODO: implement get_univesp_poles2
     @univesp_poles3 = FormVagasRemanescentes.new().get_univesp_poles # TODO: implement get_univesp_poles2
     @univesp_activities = FormVagasRemanescentes.new.get_univesp_activities 1
+  end
+
+  def save_response
+    json_response = params[:formData].to_json
+
+    reference_form = Form.where(reference_model: 'FormVagasRemanescentes').first
+    user = ''
+    user = current_user.email if current_user
+
+    res = FormResponse.create({
+      form_id: reference_form.id,
+      user: user,
+      status: 'sent',
+      json_response: json_response,
+      json_updated_at: Time.zone.now,
+      sent_at: Time.zone.now
+    })
+
+    respond_to do |format|
+      format.js {}
+      format.json {
+        render json: { :res => res.inspect }
+      }
+    end
   end
 
   def univesp_activities_by_course

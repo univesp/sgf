@@ -19,13 +19,13 @@ function collectValuesFromForm() {
     birthMonth: $("#birth-month option:selected").val(),
     birthYear: $("#birth-year option:selected").val(),
     course: $("#course option:selected").val(),
-    payment: $("#payment")[0].files,
+    //payment: $("#payment")[0].files[0],
     externalInstitution: $("#external-institution").val().trim(),
     externalCourse: $("#external-course").val().trim(),
     currentStatus: $('input[name=current-status]:checked').val(),
-    diploma: $("#diploma")[0].files,
-    enrollment: $("#enrollment")[0].files,
-    academicRecord: $("#academic-record")[0].files,
+    //diploma: $("#diploma")[0].files[0],
+    //enrollment: $("#enrollment")[0].files[0],
+    //academicRecord: $("#academic-record")[0].files[0],
     firstLocation: $("#first-location option:selected").val(),
     secondLocation: $("#second-location option:selected").val(),
     thirdLocation: $("#third-location option:selected").val(),
@@ -54,8 +54,8 @@ function collectValuesFromActivitiesRow(tableId, arrayToFill) {
         activityId: $(ctrl).find(".activities-ids").val(),
         externalActivities: $(ctrl).find(".external-activities").val().trim(),
         externalWorkload: $(ctrl).find(".external-workload").val().trim(),
-        syllabus: $(ctrl).find(".attachs-activities")[0].files,
-        program: $(ctrl).find(".attachs-activities")[1].files
+        //syllabus: $(ctrl).find(".attachs-activities")[0].files[0],
+        //program: $(ctrl).find(".attachs-activities")[1].files[0]
       }       
       arrayToFill.push(row);         
     }
