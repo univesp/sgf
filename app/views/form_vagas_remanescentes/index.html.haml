@@ -127,7 +127,7 @@
                 .col-sm-3
                   %select#course.form-control{:style => "width:90%;", :name => "course[]"}
                     - @univesp_courses.each do |course|
-                      %option{ :value =>  "#{course[:value]}"} #{course[:text]}
+                      %option #{course[:text]}
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "payment", :style => "margin-top:-10px;"} Faça o upload do seu comprovante de pagamento de inscrição ou isenção:
                 .image-upload
@@ -170,30 +170,32 @@
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "teste"} Em qual POLO Univesp deseja estudar ?
                 .col-sm-6
-                  %select.form-control{:style => "width:90%;", :name => "classe[]"}
+                  %select#options.form-control{:style => "width:90%;", :name => "cname", :onchange => "optionCheck()"}
                     - @univesp_classes.each do |classe|
-                      %option{ :value =>  "#{classe[:value]}"} #{classe[:text]}
+                      %option
                   %p.help-block
                     %small
                       %b IMPORTANTE:
-                      Escolha APENAS UM POLO E UMA TURMA e, se possível, abaixo, uma segunda e até uma terceira opção sempre no mesmo polo;
+                      Escolha APENAS UM POLO E UMA TURMA e, se possível, abaixo, uma segunda e até uma terceira opção sempre no mesmo polo;    
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "pole2", :style => "margin-top:-10px;"}
-                  %u> 2ª opção
-                  \: Em qual outro período do MESMO POLO Univesp você desejaria estudar ?
-                .col-sm-6
-                  %select.form-control{:style => "width:90%;", :name => "classe[]"}
-                    - @univesp_classes.each do |classe|
-                      %option{ :value =>  "#{classe[:value]}"} #{classe[:text]}
+                #hiddenDiv{:style => "visibility:hidden;"}
+                  %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "pole2", :style => "margin-top:-10px;"}
+                    %u> 2ª opção
+                    \: Em qual outro período do MESMO POLO Univesp você desejaria estudar ?
+                  .col-sm-6
+                    %select#options1.form-control{:style => "width:90%;", :name => "classe[]", :onchange => "optionCheck1()"}
+                      - @univesp_classes.each do |classe|
+                        %option{ :value =>  "#{classe[:value]}"} #{classe[:text]} 
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "pole3", :style => "margin-top:-12px;"}
-                  Qual seria sua
-                  %u 3ª opção
-                  de período do MESMO POLO Univesp em que você desejaria estudar ?
-                .col-sm-6
-                  %select.form-control{:style => "width:90%;", :name => "pole3[]"}
-                    - @univesp_poles3.each do |pole|
-                      %option{ :value =>  "#{pole[:value]}"} #{pole[:text]}
+                #hiddenDiv1{:style => "visibility:hidden;"}
+                  %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "pole3", :style => "margin-top:-12px;"}
+                    Qual seria sua
+                    %u 3ª opção
+                    de período do MESMO POLO Univesp em que você desejaria estudar ?
+                  .col-sm-6
+                    %select#teste.form-control{:style => "width:90%;", :name => "pole3[]"}
+                      - @univesp_poles3.each do |pole|
+                        %option{ :value =>  "#{pole[:value]}"} #{pole[:text]}
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "poleConfirmation"} Assinale:
                 .checkbox.col-sm-6
@@ -281,4 +283,30 @@
       $("#clear").on("click", function () {
           $fileInput.replaceWith( $fileInput = $fileInput.clone( true ) );
           $file.replaceWith( $file = $file.clone( true ) );
+      });
+
+
+
+      $(document).ready(function() {
+      $course = $("select[name='course[]']");
+      $cname = $("select[name='cname']");
+       
+      $course.change(function() {
+      if ($(this).val() == "CICLO BÁSICO DE ENGENHARIA") {
+      $("select[name='cname'] option").remove();
+      $("<option>Selecione um Polo</option>, <option>POLO ARAÇATUBA – 4T</option>, <option>POLO ARARAS – 3N</option>,<option>POLO ARARAS – 5N</option>,<option>POLO ARARAS – SM</option>,<option>POLO BARUERI – 3N</option>,<option>POLO BARUERI – 5N</option>,<option>POLO BARUERI – SM</option>,<option>POLO CAPÃO BONITO – 5T</option>,<option>POLO CRUZEIRO – 6T</option>,<option>POLO DIADEMA – 2N</option>,<option>POLO DIADEMA – SM</option>,<option>POLO ITAPETININGA – 2N</option>,<option>POLO ITAPETININGA – 4N</option>,<option>POLO ITAPETININGA – SM</option>,<option>POLO ITU – 6T</option>,<option>POLO JALES – 6T</option>,<option>POLO JALES – ST</option>,<option>POLO JAÚ – 2N</option>,<option>POLO JAÚ – SM</option>,<option>POLO JUNDIAÍ – 4T</option>,<option>POLO PINDAMONHANGABA – ST</option>,<option>POLO SANTO ANDRÉ – 4T</option>,<option>POLO SANTOS – 3N</option>,<option>POLO SANTOS – 5N</option>,<option>POLO SANTOS – ST</option>,<option>POLO SÃO JOSÉ DOS CAMPOS – PARQUE – 2N</option>,<option>POLO SÃO JOSÉ DOS CAMPOS – PARQUE – 4N</option>,<option>POLO SÃO JOSÉ DOS CAMPOS – PARQUE – SM</option>,<option>POLO SÃO PAULO – ÁGUA AZUL – SM</option>,<option>POLO SÃO PAULO – ÁGUA AZUL – ST</option>,<option>POLO SÃO PAULO JAÇANÃ – 4N</option>,<option>POLO SÃO PAULO JAÇANÃ – SM</option>").appendTo($cname);
+      }
+       
+      if ($(this).val() == "ENGENHARIA DE COMPUTAÇÃO") {
+      $("select[name='cname'] option").remove();
+      $("<option></option>").appendTo($cname);
+
+      }
+       
+      if ($(this).val() == "ENGENHARIA DE PRODUÇÃO") {
+      $("select[name='cname'] option").remove();
+      $("<option>Contact name</option>").appendTo($cname);
+      }
+       
+      });
       });
