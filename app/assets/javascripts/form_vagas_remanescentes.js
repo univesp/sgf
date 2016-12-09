@@ -26,9 +26,9 @@ function collectValuesFromForm() {
     //diploma: $("#diploma")[0].files[0],
     //enrollment: $("#enrollment")[0].files[0],
     //academicRecord: $("#academic-record")[0].files[0],
-    firstLocation: $("#first-location option:selected").val(),
-    secondLocation: $("#second-location option:selected").val(),
-    thirdLocation: $("#third-location option:selected").val(),
+    firstLocation: $("#first-class-area select option:selected").val(),
+    secondLocation: $("#second-class-area select option:selected").val(),
+    thirdLocation: $("#third-class-area select option:selected").val(),
     locationConfirm: $("#location-confirm").is(":checked")
   };
 
@@ -62,6 +62,44 @@ function collectValuesFromActivitiesRow(tableId, arrayToFill) {
   });
 }
 
+function handleOtherSelects(e) {
+  var optionValue = $(e).val();
+  var containerId = $($(e).parents(".classes-selects")[0]).attr("id");
+
+  if (containerId == "first-class-select") {
+    $("#second-class-area select").val("");
+    $("#second-class-area select option").css("display","block");
+
+    $("#third-class-area select").val("");
+    $("#third-class-area select option").css("display","block");
+    $("#third-class-area").css("display","none");
+
+    if (optionValue == "") {
+      $("#second-class-area").css("display","none");
+    } else {
+      $("#second-class-area").css("display","block");
+      var optionToHide = $("#second-class-area select option[value=" + optionValue + "]")
+      $(optionToHide).css("display","none");
+    }
+
+  } else if (containerId == "second-class-select") {
+    $("#third-class-area select").val("");
+    $("#third-class-area select option").css("display","block");
+
+    if (optionValue == "") {
+      $("#third-class-area").css("display","none");
+    } else {
+      $("#third-class-area").css("display","block");
+      var optionToHide = $("#third-class-area select option[value=" + optionValue + "]")
+      $(optionToHide).css("display","none");
+      // selected option of the first class must also be considered
+      var firstClassOptionValue = $("#first-class-area select").val();
+      optionToHide = $("#third-class-area select option[value=" + firstClassOptionValue + "]")
+      $(optionToHide).css("display","none");
+    }
+  }
+}
+
 function isTrFullyCompleted(tr) {
   return $(tr).find(".external-activities").val().trim().length >= 1
     && $(tr).find(".external-workload").val().trim().length >= 1
@@ -74,7 +112,14 @@ function isTrPartlyCompleted(tr) {
     || $(tr).find(".external-workload").val().trim().length >= 1
     || $(tr).find(".attachs-activities")[0].files.length >= 1
     || $(tr).find(".attachs-activities")[1].files.length >= 1
-} 
+}
+
+function uploadFile(e) {
+  console.log("uploadFile(e)");
+  if ($(e)[0].files.length >= 1) {
+    $(e).prev("label").addClass("green");
+  }
+}
 
 function uploadFileActivity(e) {
   if ($(e)[0].files.length >= 1) {

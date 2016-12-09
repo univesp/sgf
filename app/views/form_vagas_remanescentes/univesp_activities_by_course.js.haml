@@ -1,2 +1,0 @@
-$("#basic-activities-table").html("#{escape_javascript( render partial: 'activities_table', locals: { table_info: @basic_activities})}");
-$("#professional-activities-table").html("#{escape_javascript( render partial: 'activities_table', locals: { table_info: @professional_activities}) if @professional_activities}");

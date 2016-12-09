@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   
   get '/vagas-remanescentes' => 'form_vagas_remanescentes#index'
   get '/vagas-remanescentes/univesp-classes' => 'form_vagas_remanescentes#univesp_classes'
-  get '/vagas-remanescentes/univesp-activities-by-course' => 'form_vagas_remanescentes#univesp_activities_by_course'
+  get '/vagas-remanescentes/classes-and-activities-by-course' => 'form_vagas_remanescentes#classes_and_activities_by_course'
+
   post '/vagas-remanescentes/save-response' => 'form_vagas_remanescentes#save_response'
  
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }

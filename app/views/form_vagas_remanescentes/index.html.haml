@@ -129,9 +129,9 @@
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "course"} Curso desejado:
                 .col-sm-3
-                  %select#course.form-control{:style => "width:90%;", :name => "course[]"}
+                  %select#course.form-control{:style => "width:90%;"}
                     - @univesp_courses.each do |course|
-                      %option{ :value =>  "#{course[:value]}"} #{course[:text]}
+                      %option{:value => "#{course[:value]}"} #{course[:text]}
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "payment", :style => "margin-top:-10px;"} Faça o upload do seu comprovante de pagamento de inscrição ou isenção:
                 .image-upload
@@ -172,32 +172,29 @@
                     Histórico Escolar
                   %input#academic-record{:type => "file", :onchange => "uploadFile(this);" }/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "first-location"} Em qual POLO Univesp deseja estudar ?
-                .col-sm-6
-                  %select#first-location.form-control{:style => "width:90%;"}
-                    - @univesp_classes.each do |classe|
-                      %option{ :value =>  "#{classe[:value]}"} #{classe[:text]}
-                  %p.help-block
-                    %small
-                      %b IMPORTANTE:
-                      Escolha APENAS UM POLO E UMA TURMA e, se possível, abaixo, uma segunda e até uma terceira opção sempre no mesmo polo;
+                #first-class-area{:style => "display:none;"}
+                  %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "first-class-select"} Em qual POLO Univesp deseja estudar ?
+                  .col-sm-6
+                    #first-class-select.classes-selects
+                    %p.help-block
+                      %small
+                        %b IMPORTANTE:
+                        Escolha APENAS UM POLO E UMA TURMA e, se possível, abaixo, uma segunda e até uma terceira opção sempre no mesmo polo;    
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "second-location", :style => "margin-top:-10px;"}
-                  %u> 2ª opção
-                  \: Em qual outro período do MESMO POLO Univesp você desejaria estudar ?
-                .col-sm-6
-                  %select#second-location.form-control{:style => "width:90%;"}
-                    - @univesp_classes.each do |classe|
-                      %option{ :value =>  "#{classe[:value]}"} #{classe[:text]}
+                #second-class-area{:style => "display:none;"}
+                  %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "second-class-select", :style => "margin-top:-10px;"}
+                    %u> 2ª opção
+                    \: Em qual outro período do MESMO POLO Univesp você desejaria estudar ?
+                  .col-sm-6
+                    #second-class-select.classes-selects
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "third-location", :style => "margin-top:-12px;"}
-                  Qual seria sua
-                  %u 3ª opção
-                  de período do MESMO POLO Univesp em que você desejaria estudar ?
-                .col-sm-6
-                  %select#third-location.form-control{:style => "width:90%;"}
-                    - @univesp_poles3.each do |pole|
-                      %option{ :value =>  "#{pole[:value]}"} #{pole[:text]}
+                #third-class-area{:style => "display:none;"}
+                  %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "third-class-select", :style => "margin-top:-12px;"}
+                    Qual seria sua
+                    %u 3ª opção
+                    de período do MESMO POLO Univesp em que você desejaria estudar ?
+                  .col-sm-6
+                    #third-class-select.classes-selects
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "location-confirm"} Assinale:
                 .checkbox.col-sm-6
@@ -247,22 +244,17 @@
     %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.main.js"}
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"}
 
-    :javascript
-      function uploadFile(e) {
-        console.log("uploadFile(e)");
-        if ($(e)[0].files.length >= 1) {
-          $(e).prev("label").addClass("green");
-        }
-      }
-
+    :javascript     
       $("#course").on("change", function() {
         var courseId = $(this).val();
 
         $.ajax({
-          url: "vagas-remanescentes/univesp-activities-by-course",
+          url: "vagas-remanescentes/classes-and-activities-by-course",
           data: { course_id: courseId }
         })
         .done(function (data) {
+          console.log("done > data");
+          console.log(data);
         })
         .fail(function (jqXHR, textStatus) {
           console.log("course change > fail jqXHR:");
@@ -297,3 +289,4 @@
         });
 
       });
+

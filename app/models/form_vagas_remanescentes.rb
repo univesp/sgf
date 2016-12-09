@@ -14,7 +14,6 @@ class FormVagasRemanescentes
 	def get_univesp_classes course_id
 		classes = []
 
-		classes << {:text => 'Selecione o Polo'}
 		VagasRemanescentesClass.where(vagas_remanescentes_course_id: course_id).each do |classe|
 			classes << {:value => classe.id, :text => classe.name}
 		end
