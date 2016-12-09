@@ -285,7 +285,25 @@
           $file.replaceWith( $file = $file.clone( true ) );
       });
 
+      function optionCheck(){
+        var option = document.getElementById("options").value;
+        if(option != "Selecione o Polo"){
+          document.getElementById("hiddenDiv").style.visibility ="visible";
+        }
+        if(option == ""){
+          document.getElementById("hiddenDiv").style.visibility = "hidden";
+          document.getElementById("hiddenDiv1").style.visibility = "hidden";
+          document.getElementById("options1").value = "";
+          document.getElementById("teste").value = "";
+        }
+      }
 
+      function optionCheck1(){
+        var option = document.getElementById("options1").value;
+        if(option != "Selecione o Polo"){
+          document.getElementById("hiddenDiv1").style.visibility ="visible";
+        }
+      }
 
       $(document).ready(function() {
       $course = $("select[name='course[]']");
