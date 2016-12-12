@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get '/vagas-remanescentes/univesp-classes' => 'form_vagas_remanescentes#univesp_classes'
   get '/vagas-remanescentes/classes-and-activities-by-course' => 'form_vagas_remanescentes#classes_and_activities_by_course'
+  get '/vagas-remanescentes/login' => 'form_vagas_remanescentes#login'
+
 
   post '/vagas-remanescentes/save-response' => 'form_vagas_remanescentes#save_response'
   post '/vagas-remanescentes/upload' => 'form_vagas_remanescentes#upload'

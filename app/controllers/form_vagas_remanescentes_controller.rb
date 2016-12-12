@@ -1,8 +1,15 @@
 class FormVagasRemanescentesController < ApplicationController
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
+  #before_action :check_login, except: [:login]
 
   def index
     @univesp_courses = FormVagasRemanescentes.new().get_univesp_courses
+  end
+
+  def login
+    respond_to do |format|
+      format.json { render json: current_user.inspect.to_json }
+    end
   end
 
   def socio_economico
@@ -106,5 +113,16 @@ class FormVagasRemanescentesController < ApplicationController
     end
   end
 
+  #private
+
+  #def check_login
+  #  if not current_user
+  #    #redirect_to action: 'login'
+  #    respond_to do |format|
+  #      format.html
+  #      format.js
+  #    end
+  #  end
+  #end
 
 end

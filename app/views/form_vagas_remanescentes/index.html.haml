@@ -50,6 +50,8 @@
     %script{:src => "https://code.jquery.com/ui/1.11.3/jquery-ui.js"}
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"}
     .container{:style => "max-width:970px;"}
+      #login-modal{:style => "display:none;"}
+        = render 'login_modal'
       .row
         .col-md-12
           / Topo
@@ -252,7 +254,7 @@
           var courseId = $(this).val();
 
           $.ajax({
-            url: "vagas-remanescentes/classes-and-activities-by-course",
+            url: "classes-and-activities-by-course",
             data: { course_id: courseId }
           })
           .done(function (data) {
@@ -273,7 +275,7 @@
           console.log(formData);
 
           $.ajax({
-            url: "vagas-remanescentes/save-response",
+            url: "save-response",
             type: "POST",
             data: { formData: formData },
             dataType: "json"
@@ -289,4 +291,14 @@
             console.log(textStatus);
           });
         });
+
+        $.ajax({
+          url: "login"
+        })
+        .done(function (data) {
+          if (data == "nil") {
+            $("#login-modal").css("display","block");
+          }
+        });
+
       });

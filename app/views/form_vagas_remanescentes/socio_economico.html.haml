@@ -43,6 +43,8 @@
       }
   %body{:style => "margin-top: 120px; max-width:970px;"}
     .container{:style => "max-width:970px;"}
+      #login-modal{:style => "display:none;"}
+        = render 'login_modal'
       .row
         .col-md-12
           / Topo
@@ -715,7 +717,12 @@
     %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.main.js"}
     :javascript
       $(function() {
-      	var form = new FormMain();
-      	form.init();
-      	form.handlePageEvents();			
+        $.ajax({
+          url: "login"
+        })
+        .done(function (data) {
+          if (data == "nil") {
+            $("#login-modal").css("display","block");
+          }
+        });
       });
