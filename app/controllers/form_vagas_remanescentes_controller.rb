@@ -70,4 +70,32 @@ class FormVagasRemanescentesController < ApplicationController
     render json: options.to_json
   end
 
+  def upload
+     begin
+      client_file_name = params[:filename]
+      hash = params[:hash]
+      control = params[:control]
+
+      extension = File.extname client_file_name
+      server_file_name = "#{hash}#{extension}"
+      server_file_path = "/mnt/nas/sgf/attachs/#{server_file_name}"
+
+      File.open(server_file_path, 'w') do |f|
+        f.binmode
+        while buffer = request.body.read(51200) # read in 50KB chunks
+          f << buffer
+        end
+      end
+      res = { :status => 'OK',  :file => server_file_name }
+     rescue StandardError => e
+      msg = 'Ocorreu um erro durante o envio do anexo. Por favor, tente novamente dentro de alguns instantes'
+      res = { :status => 'EXCEPTION', :message => msg }
+     end
+
+    respond_to do |format|
+      format.json { render json: res }
+    end
+  end
+
+
 end

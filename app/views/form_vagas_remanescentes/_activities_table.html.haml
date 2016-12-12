@@ -28,46 +28,38 @@
           %input.form-control.external-activities{:type => "text"}/
         %td
           %input.form-control.external-workload{:type => "number"}/
-        %td
-          .image-upload  
-            %label.btn.btn-default{:for => "#{table_info[:type]}-syllabus-#{activity[:value]}"}
+        %td.cells-syllabus
+          .image-upload
+            %label.btn.btn-default{:for => "#{table_info[:type]}-syllabus-#{activity[:value]}_file_1"}
               %span.fa.fa-paperclip
               %span.label-upload ementa
-            %input.attachs-activities{:id => "#{table_info[:type]}-syllabus-#{activity[:value]}", :type => "file", :onchange => "uploadFileActivity(this);" }/
-        %td
+        %td.cells-program
           .image-upload
-            %label.btn.btn-default{:for => "#{table_info[:type]}-program-#{activity[:value]}"}
+            %label.btn.btn-default{:for => "#{table_info[:type]}-program-#{activity[:value]}_file_1"}
               %span.fa.fa-paperclip
               %span.label-upload programa
-            %input.attachs-activities{:id => "#{table_info[:type]}-program-#{activity[:value]}", :type => "file", :onchange => "uploadFileActivity(this);" }/
         %td
-          %input.clear-row{:type => "button", :value => "X"}/
+          %input.clear-row{:type => "button", :value => "X", :onclick => "clearRow(this);"}/
 
 :javascript
+
+  $(".activities-rows").each(function(index, ctrl) {
+    var labelSyllabusFor = $(this).find(".cells-syllabus label").prop("for");
+
+    // ensures that the control for syllabus will not be created twice
+    if (!($("input#" + labelSyllabusFor).length)) {
+      var labelSyllabusName = labelSyllabusFor.replace("_file_1","");
+      V.uploader.draw($("label[for=\"" + labelSyllabusFor + "\"]"), labelSyllabusName, 1, 1, 1);
+    }
+
+    // ensures that the control for program will not be created twice
+    var labelProgramFor = $(this).find(".cells-program label").prop("for");
+    if (!($("input#" + labelProgramFor).length)) {
+      var labelProgramName = labelProgramFor.replace("_file_1","");
+      V.uploader.draw($("label[for=\"" + labelProgramFor + "\"]"), labelProgramName, 1, 1, 1);
+    }
+  });
+
   $(".activities-rows input").on("blur", function() {
     blurTr($(this).closest("tr"));
-  }); 
- 
-  $(".clear-row").on("click", function() {
-    var tr = $(this).closest("tr");
-    $(tr).removeClass("active");
-    $(tr).removeClass("success");
-
-    $(tr).find(".check-activities").prop("checked", false);   
-    $(tr).find(".external-activities").val(""); 
-    $(tr).find(".external-workload").val("");
-
-    $(tr).find(".attachs-activities").each(function(index, ctrl) {
-      var ctrlAttachId = $(ctrl).attr('id');
-      console.log(ctrlAttachId);
-      var ctrlAttachParent = $("#" + ctrlAttachId).parent();
-      $("#" + ctrlAttachId).remove();
-      $(ctrlAttachParent).append("<input type='file' id='" + ctrlAttachId + "' class='attachs-activities' onchange='uploadFileActivity(this);' />");
-    });
-
-    $(tr).find(".fa").addClass("fa-paperclip");
-    $($(tr).find(".label-upload")[0]).html(" ementa");
-    $($(tr).find(".label-upload")[1]).html(" programa");
-    $(tr).find("label").removeClass("green");
-  });  
- 
+  });

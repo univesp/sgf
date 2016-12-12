@@ -8,6 +8,20 @@ function blurTr(tr) {
   } 
 }
 
+function clearRow(e) {
+   var tr = $(e).closest("tr");
+    $(tr).removeClass("active");
+    $(tr).removeClass("success");
+
+    $(tr).find(".check-activities").prop("checked", false);
+    $(tr).find(".external-activities").val("");
+    $(tr).find(".external-workload").val("");
+    $(tr).find("input[type='hidden'][name*='syllabus']").val("");
+    $(tr).find("input[type='hidden'][name*='program']").val("");
+    $(tr).find("label").removeClass("green");
+    $(tr).find("label").removeClass("red");
+}
+
 function collectValuesFromForm() {
   var formData = {
     name: $("#name").val().trim(),
@@ -19,13 +33,13 @@ function collectValuesFromForm() {
     birthMonth: $("#birth-month option:selected").val(),
     birthYear: $("#birth-year option:selected").val(),
     course: $("#course option:selected").val(),
-    //payment: $("#payment")[0].files[0],
+    payment: $("#payment_file_1").val(),
     externalInstitution: $("#external-institution").val().trim(),
     externalCourse: $("#external-course").val().trim(),
     currentStatus: $('input[name=current-status]:checked').val(),
-    //diploma: $("#diploma")[0].files[0],
-    //enrollment: $("#enrollment")[0].files[0],
-    //academicRecord: $("#academic-record")[0].files[0],
+    diploma: $("#diploma_file_1").val(),
+    enrollment: $("#enrollment_file_1").val(),
+    academicRecord: $("#academic-record_file_1").val(),
     firstLocation: $("#first-class-area select option:selected").val(),
     secondLocation: $("#second-class-area select option:selected").val(),
     thirdLocation: $("#third-class-area select option:selected").val(),
@@ -54,8 +68,8 @@ function collectValuesFromActivitiesRow(tableId, arrayToFill) {
         activityId: $(ctrl).find(".activities-ids").val(),
         externalActivities: $(ctrl).find(".external-activities").val().trim(),
         externalWorkload: $(ctrl).find(".external-workload").val().trim(),
-        //syllabus: $(ctrl).find(".attachs-activities")[0].files[0],
-        //program: $(ctrl).find(".attachs-activities")[1].files[0]
+        syllabus: $(ctrl).find("input[type='hidden'][name*='syllabus']").val(),
+        program: $(ctrl).find("input[type='hidden'][name*='program']").val()
       }       
       arrayToFill.push(row);         
     }
@@ -103,31 +117,13 @@ function handleOtherSelects(e) {
 function isTrFullyCompleted(tr) {
   return $(tr).find(".external-activities").val().trim().length >= 1
     && $(tr).find(".external-workload").val().trim().length >= 1
-    && $(tr).find(".attachs-activities")[0].files.length >= 1
-    && $(tr).find(".attachs-activities")[1].files.length >= 1
+    && $(tr).find("input[type='hidden'][name*='syllabus']").val().trim().length >= 1
+    && $(tr).find("input[type='hidden'][name*='program']").val().trim().length >= 1
 }
 
 function isTrPartlyCompleted(tr) {
   return $(tr).find(".external-activities").val().trim().length >= 1
     || $(tr).find(".external-workload").val().trim().length >= 1
-    || $(tr).find(".attachs-activities")[0].files.length >= 1
-    || $(tr).find(".attachs-activities")[1].files.length >= 1
-}
-
-function uploadFile(e) {
-  console.log("uploadFile(e)");
-  if ($(e)[0].files.length >= 1) {
-    $(e).prev("label").addClass("green");
-  }
-}
-
-function uploadFileActivity(e) {
-  if ($(e)[0].files.length >= 1) {
-    var td = $(e).closest("td");
-    $(td).find(".fa").removeClass("fa-paperclip");
-    $(td).find(".fa").addClass("fa-check");
-    $(td).find(".label-upload").html("OK");
-    $(td).find("label").addClass("green");
-    blurTr($(e).closest("tr"));
-  }
+    || $(tr).find("input[type='hidden'][name*='syllabus']").val().trim().length >= 1
+    || $(tr).find("input[type='hidden'][name*='program']").val().trim().length >= 1
 }

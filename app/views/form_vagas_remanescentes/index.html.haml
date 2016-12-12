@@ -133,12 +133,11 @@
                     - @univesp_courses.each do |course|
                       %option{:value => "#{course[:value]}"} #{course[:text]}
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "payment", :style => "margin-top:-10px;"} Faça o upload do seu comprovante de pagamento de inscrição ou isenção:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:style => "margin-top:-10px;"} Faça o upload do seu comprovante de pagamento de inscrição ou isenção:
                 .image-upload
-                  %label.btn.btn-default{:for => "payment", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
+                  %label.btn.btn-default{:for => "payment_file_1", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
                     %span.fa.fa-dollar.m-r
                     Comprovante de inscrição
-                  %input#payment{:type => "file", :onchange => "uploadFile(this);" }/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "external-institution"} INSTITUIÇÃO de origem:
                 .col-md-6
@@ -159,18 +158,15 @@
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "documents", :style => "margin-top:-10px;"} Faça o upload dos seus documentos digitalizados:
                 .image-upload
-                  %label.btn.btn-default{:for => "diploma", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
+                  %label.btn.btn-default{:for => "diploma_file_1", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
                     %span.fa.fa-graduation-cap.m-r
                     Diploma
-                  %input#diploma{:type => "file", :required => "", :onchange => "uploadFile(this);" }/
-                  %label.btn.btn-default{:for => "enrollment", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
+                  %label.btn.btn-default{:for => "enrollment_file_1", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
                     %span.fa.fa-certificate.m-r
                     Atestado de Matrícula
-                  %input#enrollment{:type => "file", :onchange => "uploadFile(this);" }/
-                  %label.btn.btn-default{:for => "academic-record", :title => "Envie o HISTÓRICO ESCOLAR contendo as disciplinas cursadas, carga horária, aproveitamento etc."}
+                  %label.btn.btn-default{:for => "academic-record_file_1", :title => "Envie o HISTÓRICO ESCOLAR contendo as disciplinas cursadas, carga horária, aproveitamento etc."}
                     %span.fa.fa-file-text-o.m-r
                     Histórico Escolar
-                  %input#academic-record{:type => "file", :onchange => "uploadFile(this);" }/
               .form-group.mais
                 #first-class-area{:style => "display:none;"}
                   %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "first-class-select"} Em qual POLO Univesp deseja estudar ?
@@ -244,49 +240,53 @@
     %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.main.js"}
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"}
 
-    :javascript     
-      $("#course").on("change", function() {
-        var courseId = $(this).val();
+    :javascript
+      $(function() {
 
-        $.ajax({
-          url: "vagas-remanescentes/classes-and-activities-by-course",
-          data: { course_id: courseId }
-        })
-        .done(function (data) {
-          console.log("done > data");
-          console.log(data);
-        })
-        .fail(function (jqXHR, textStatus) {
-          console.log("course change > fail jqXHR:");
-          console.log(jqXHR);
-          console.log("course change > fail textStatus:");
-          console.log(textStatus);
-        });
-      });
+        V.uploader.draw($("label[for=\"payment_file_1\"]"), "payment", 1, 1, 1);
+        V.uploader.draw($("label[for=\"diploma_file_1\"]"), "diploma", 1, 1, 1);
+        V.uploader.draw($("label[for=\"enrollment_file_1\"]"), "enrollment", 1, 1, 1);
+        V.uploader.draw($("label[for=\"academic-record_file_1\"]"), "academic-record", 1, 1, 1);
 
-      $("#submit").on("click", function(e) {
-        e.preventDefault();
-        var formData = collectValuesFromForm();
-        console.log(formData);
+        $("#course").on("change", function() {
+          var courseId = $(this).val();
 
-        $.ajax({
-          url: "vagas-remanescentes/save-response",
-          type: "POST",
-          data: { formData: formData },
-          dataType: "json"
-          //contentType: false
-          //processData: false
-        })
-        .done(function (data) {
-          console.log("done > data");
-          console.log(JSON.stringify(data));
-        })
-        .fail(function (jqXHR, textStatus) {
-          console.log("fail > jqXHR:");
-          console.log(jqXHR);
-          console.log("fail > textStatus:");
-          console.log(textStatus);
+          $.ajax({
+            url: "vagas-remanescentes/classes-and-activities-by-course",
+            data: { course_id: courseId }
+          })
+          .done(function (data) {
+            console.log("done > data");
+            console.log(data);
+          })
+          .fail(function (jqXHR, textStatus) {
+            console.log("course change > fail jqXHR:");
+            console.log(jqXHR);
+            console.log("course change > fail textStatus:");
+            console.log(textStatus);
+          });
         });
 
-      });
+        $("#submit").on("click", function(e) {
+          e.preventDefault();
+          var formData = collectValuesFromForm();
+          console.log(formData);
 
+          $.ajax({
+            url: "vagas-remanescentes/save-response",
+            type: "POST",
+            data: { formData: formData },
+            dataType: "json"
+          })
+          .done(function (data) {
+            console.log("done > data");
+            console.log(JSON.stringify(data));
+          })
+          .fail(function (jqXHR, textStatus) {
+            console.log("fail > jqXHR:");
+            console.log(jqXHR);
+            console.log("fail > textStatus:");
+            console.log(textStatus);
+          });
+        });
+      });
