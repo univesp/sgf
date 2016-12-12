@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   post '/vagas-remanescentes/save-response' => 'form_vagas_remanescentes#save_response'
   post '/vagas-remanescentes/upload' => 'form_vagas_remanescentes#upload'
+
+  get '/new_user' => 'users#create_user_identity'
  
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
   get '/auth/:provider/callback', to: 'users#create'
