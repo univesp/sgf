@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     # Redirect to the 'finish_signup' page if the user
     # email hasn't been verified yet
     if current_user && !current_user.email_verified?
-      redirect_to root_path
+      redirect_to vagas_remanescentes_path
     end
   end
 end
