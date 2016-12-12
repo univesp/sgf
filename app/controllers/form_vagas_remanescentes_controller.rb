@@ -5,6 +5,15 @@ class FormVagasRemanescentesController < ApplicationController
     @univesp_courses = FormVagasRemanescentes.new().get_univesp_courses
   end
 
+  def socio_economico
+
+  end
+
+  def socio_economico_submit
+    redirect_to action: 'index'
+  end
+
+
   def save_response
     json_response = params[:formData].to_json
 
