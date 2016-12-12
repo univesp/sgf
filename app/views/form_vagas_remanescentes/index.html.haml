@@ -252,14 +252,18 @@
                         %input#program.file{:type => "file", :required => ""}
                       %td
                         %input#clear{:onclick => "resetForm();", :type => "button", :value => "X"}
+              .col-sm-6.mais               
+                .image-upload
+                  %label.btn.btn-lg.blue.m-t.w.pull-left{:for => "return"}
+                    %span.glyphicon.glyphicon-arrow-left.m-r
+                    Retornar ao questionário socioeconômico
+                  %input#return{:type => "submit"}    
               .col-sm-6.mais
-                %input.btn.btn-lg.blue.m-t.w.pull-left{:type => "submit"}
-                  %span.glyphicon.glyphicon-arrow-left.m-r
-                  Retornar ao questionário socioeconômico
-              .col-sm-6.mais
-                %a.btn.btn-lg.green.m-t.w.pull-right{:href => "VAGAS-remanescentes-2.html", :target => ""}
-                  %span.glyphicon.glyphicon-share-alt.m-r
-                  Finalizar e enviar formulários
+                .image-upload
+                  %label.btn.btn-lg.green.m-t.w.pull-right{:for => "finish"}
+                    %span.glyphicon.glyphicon-share-alt.m-r
+                    Finalizar e enviar formulários
+                  %input#finish{:type => "submit"}    
             .container{:style => "border-bottom:4px solid gray;max-width:970px;"}
 
 

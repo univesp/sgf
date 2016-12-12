@@ -1,0 +1,721 @@
+!!!
+%html{:lang => "pt-br"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+    %title UNIVESP / Formulário de Vagas Remanescentes
+    %link{:href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css", :rel => "stylesheet"}/
+    %link{:href => "https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css", :rel => "stylesheet"}/
+    %link{:href => "https://apps.univesp.br/estagio/assets/stylesheets/ficha.css", :rel => "stylesheet"}/
+    %link{:href => "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css", :rel => "stylesheet"}/
+    :css
+      .green{background-color: #27c24c}
+      .red{background-color: #f05050}
+      .blue{background-color: #23b7e5}
+      .m-t{margin-top: 10px}
+      .m-r{margin-right: 5px}
+      .m-l{margin-left: 5px}
+      .w{color: #ffffff}
+      .none{text-decoration: none !important;}
+      .bw2{border: solid gray 2px;}
+      .br2{border-right: solid gray 2px !important}
+      .bl2{border-left: solid gray 2px !important}
+      .image-upload > input
+      {
+          display: none;
+      }
+
+      .image-upload img
+      {
+          width: 80px;
+          cursor: pointer;
+      }
+      .contact_form input:focus:invalid, .contact_form textarea:focus:invalid { /* when a field is considered invalid by the browser */
+        box-shadow: 0 0 5px #d45252;
+        border-color: #b03535
+      }
+
+      .contact_form input:required:valid, .contact_form textarea:required:valid { /* when a field is considered valid by the browser */
+        box-shadow: 0 0 5px #5cd053;
+        border-color: #28921f;
+      }
+  %body{:style => "margin-top: 120px; max-width:970px;"}
+    .container{:style => "max-width:970px;"}
+      .row
+        .col-md-12
+          / Topo
+          .navbar.navbar-default.navbar-fixed-top.container{:style => "background-color:rgba(0,0,0,0.7); color:white; max-width:970px;"}
+            .col-sm-12
+              %h3
+                %i.fa.fa-fw.fa-file-o
+                Formulário de Vagas Remanescentes
+                %span.label.label-danger.pull-right Prazo: 09/01/2017
+          / Formulário
+          %form.form-horizontal.image-upload
+            %p
+              %span{:style => "color:#AF1E23;"} * Campos obrigatórios.
+              Certifique-se de preenchê-los todos antes de enviar o formulário.
+              /
+                a href="VAGAS-remanescentes-2.html" class="btn btn-default pull-right" style="margin-top:-15px;margin-right:-20px;">
+                <span class="fa fa-fw fa-reply"></span> Voltar
+                </a
+            .container.boxes{:style => "max-width:970px;"}
+              .row{:style => "margin-top:20px;"}
+                %h2 QUESTIONÁRIO SOCIOECONÔMICO – UNIVESP
+              .row{:style => "margin-top:20px;"}
+                .panel.panel-default.col-md-3
+                  .panel-body
+                    %b.obrigatorio 1. Qual a sua idade?
+                    .radio
+                      %label
+                        %input#idade1{:name => "idade", :type => "radio", :required => ""}>/
+                        Até 19 anos
+                    .radio
+                      %label
+                        %input#idade2{:name => "idade", :type => "radio", :required => ""}>/
+                        De 20 a 24 anos
+                    .radio
+                      %label
+                        %input#idade3{:name => "idade", :type => "radio", :required => ""}>/
+                        De 25 a 30 anos
+                    .radio
+                      %label
+                        %input#idade4{:name => "idade", :type => "radio", :required => ""}>/
+                        De 31 a 35 anos
+                    .radio
+                      %label
+                        %input#idade5{:name => "idade", :type => "radio", :required => ""}>/
+                        De 36 a 45 anos
+                    .radio
+                      %label
+                        %input#idade6{:name => "idade", :type => "radio", :required => ""}>/
+                        De 46 a 55 anos
+                    .radio
+                      %label
+                        %input#idade7{:name => "idade", :type => "radio", :required => ""}>/
+                        Mais de 55 anos
+                .panel.panel-default.col-md-3.m-l{:style => "height:241px;"}
+                  .panel-body
+                    %b.obrigatorio 2. Como você se autodeclara?
+                    .radio
+                      %label
+                        %input#autodeclara1{:name => "autodeclara", :type => "radio", :required => ""}>/
+                        Branco
+                    .radio
+                      %label
+                        %input#autodeclara2{:name => "autodeclara", :type => "radio", :required => ""}>/
+                        Preto
+                    .radio
+                      %label
+                        %input#autodeclara3{:name => "autodeclara", :type => "radio", :required => ""}>/
+                        Pardo
+                    .radio
+                      %label
+                        %input#autodeclara4{:name => "autodeclara", :type => "radio", :required => ""}>/
+                        Amarelo
+                    .radio
+                      %label
+                        %input#autodeclara5{:name => "autodeclara", :type => "radio", :required => ""}>/
+                        Outra
+                .panel.panel-default.col-md-3.m-l{:style => "height:241px;"}
+                  .panel-body
+                    %b.obrigatorio 3. Qual o seu estado civil?
+                    .radio
+                      %label
+                        %input#civil1{:name => "civil", :type => "radio", :required => ""}>/
+                        Solteiro
+                    .radio
+                      %label
+                        %input#civil2{:name => "civil", :type => "radio", :required => ""}>/
+                        Casado
+                    .radio
+                      %label
+                        %input#civil3{:name => "civil", :type => "radio", :required => ""}>/
+                        União estável
+                    .radio
+                      %label
+                        %input#civil4{:name => "civil", :type => "radio", :required => ""}>/
+                        Separado
+                    .radio
+                      %label
+                        %input#civil5{:name => "civil", :type => "radio", :required => ""}>/
+                        Outro
+                .panel.panel-default.col-md-2.m-l{:style => "height:241px;"}
+                  .panel-body
+                    %b.obrigatorio 4. Qual o seu sexo?
+                    .radio
+                      %label
+                        %input#sexo1{:name => "sexo", :type => "radio", :required => ""}>/
+                        Feminino
+                    .radio
+                      %label
+                        %input#sexo2{:name => "sexo", :type => "radio", :required => ""}>/
+                        Masculino
+              .row{:style => "margin-top:20px;"}
+                .panel.panel-default.col-md-4
+                  .panel-body
+                    %b.obrigatorio 5. Que tipo de ensino médio (2º grau ou equivalente) você concluiu?
+                    .radio
+                      %label
+                        %input#medio1{:name => "medio", :type => "radio", :required => ""}>/
+                        Ensino médio regular (seriado)
+                    .radio
+                      %label
+                        %input#medio2{:name => "medio", :type => "radio", :required => ""}>/
+                        Ensino técnico
+                    .radio
+                      %label
+                        %input#medio3{:name => "medio", :type => "radio", :required => ""}>/
+                        Educação de Jovens e Adultos (EJA) ou supletivo
+                    .radio
+                      %label
+                        %input#medio4{:name => "medio", :type => "radio", :required => ""}>/
+                        Certificação pelo ENEM
+                    .radio
+                      %label
+                        %input#medio5{:name => "medio", :type => "radio", :required => ""}>/
+                        De 36 a 45 anos
+                    .radio
+                      %label
+                        %input#medio6{:name => "medio", :type => "radio", :required => ""}>/
+                        Outro
+                .panel.panel-default.col-md-4.m-l{:style => "height:254px;"}
+                  .panel-body
+                    %b.obrigatorio 6. O seu ensino médio foi realizado:
+                    .radio
+                      %label
+                        %input#escola1{:name => "escola", :type => "radio", :required => ""}>/
+                        Integralmente em escola pública
+                    .radio
+                      %label
+                        %input#escola2{:name => "escola", :type => "radio", :required => ""}>/
+                        Integralmente em escola privada
+                    .radio
+                      %label
+                        %input#escola3{:name => "escola", :type => "radio", :required => ""}>/
+                        Maior parte em escola pública
+                    .radio
+                      %label
+                        %input#escola4{:name => "escola", :type => "radio", :required => ""}>/
+                        Maior parte em escola privada
+                    .radio
+                      %label
+                        %input#escola5{:name => "escola", :type => "radio", :required => ""}>/
+                        Outra forma
+                .panel.panel-default.col-md-3.m-l{:style => "height:254px;"}
+                  .panel-body
+                    %b.obrigatorio 7. Você realizou alguma vez o ENEM (Exame Nacional do Ensino Médio)?
+                    .radio
+                      %label
+                        %input#enem1{:name => "enem", :type => "radio", :required => ""}>/
+                        Sim
+                    .radio
+                      %label
+                        %input#enem2{:name => "enem", :type => "radio", :required => ""}>/
+                        Não
+              .row{:style => "margin-top:20px;"}
+                .panel.panel-default.col-md-3
+                  .panel-body
+                    %b.obrigatorio 8. Em que ano você concluiu o ensino médio ou equivalente?
+                    .radio
+                      %label
+                        %input#conclusao1{:name => "conclusao", :type => "radio", :required => ""}>/
+                        Acabo de concluir
+                    .radio
+                      %label
+                        %input#conclusao2{:name => "conclusao", :type => "radio", :required => ""}>/
+                        Em 2013
+                    .radio
+                      %label
+                        %input#conclusao3{:name => "conclusao", :type => "radio", :required => ""}>/
+                        Em 2011 ou 2012
+                    .radio
+                      %label
+                        %input#conclusao4{:name => "conclusao", :type => "radio", :required => ""}>/
+                        Em 2009 ou 2010
+                    .radio
+                      %label
+                        %input#conclusao5{:name => "conclusao", :type => "radio", :required => ""}>/
+                        Entre 2004 e 2008
+                    .radio
+                      %label
+                        %input#conclusao6{:name => "conclusao", :type => "radio", :required => ""}>/
+                        Antes de 2004
+                .panel.panel-default.col-md-5.m-l{:style => "height:254px;"}
+                  .panel-body
+                    %b.obrigatorio 9. Você cursou o ensino médio:
+                    .radio
+                      %label
+                        %input#periodo1{:name => "periodo", :type => "radio", :required => ""}>/
+                        No período diurno (matutino e/ou vespertino)
+                    .radio
+                      %label
+                        %input#periodo2{:name => "periodo", :type => "radio", :required => ""}>/
+                        No período noturno
+                    .radio
+                      %label
+                        %input#periodo3{:name => "periodo", :type => "radio", :required => ""}>/
+                        Maior parte no diurno
+                    .radio
+                      %label
+                        %input#periodo4{:name => "periodo", :type => "radio", :required => ""}>/
+                        Maior parte no noturno
+                    .radio
+                      %label
+                        %input#periodo5{:name => "periodo", :type => "radio", :required => ""}>/
+                        Conclui o ensino médio de outra forma (supletivo, ENEM etc)
+                .panel.panel-default.col-md-3.m-l{:style => "height:254px;"}
+                  .panel-body
+                    %b.obrigatorio 10. Você já iniciou algum curso superior?
+                    .radio
+                      %label
+                        %input#superior1{:name => "superior", :type => "radio", :required => ""}>/
+                        Não
+                    .radio
+                      %label
+                        %input#superior2{:name => "superior", :type => "radio", :required => ""}>/
+                        Sim, mas abandonei
+                    .radio
+                      %label
+                        %input#superior3{:name => "superior", :type => "radio", :required => ""}>/
+                        Sim, estou cursando
+                    .radio
+                      %label
+                        %input#superior4{:name => "superior", :type => "radio", :required => ""}>/
+                        Sim, e já concluí
+              .row{:style => "margin-top:20px;"}
+                .panel.panel-default.col-md-5{:style => "height:261px;"}
+                  .panel-body
+                    %b.obrigatorio 11. A sua escolha pela UNIVESP se deu principalmente porque:
+                    .radio
+                      %label
+                        %input#pq1{:name => "pq", :type => "radio", :required => ""}>/
+                        O curso oferecido é exatamente o que você procura
+                    .radio
+                      %label
+                        %input#pq2{:name => "pq", :type => "radio", :required => ""}>/
+                        O curso oferecido é gratuito
+                    .radio
+                      %label
+                        %input#pq3{:name => "pq", :type => "radio", :required => ""}>/
+                        Não havia opção melhor para este momento
+                    .radio
+                      %label
+                        %input#pq4{:name => "pq", :type => "radio", :required => ""}>/
+                        Você quer fazer um curso superior de qualidade
+                    .radio
+                      %label
+                        %input#pq5{:name => "pq", :type => "radio", :required => ""}>/
+                        Você precisa de um diploma de graduação
+                    .radio
+                      %label
+                        %input#pq6{:name => "pq", :type => "radio", :required => ""}>/
+                        Outra razão
+                .panel.panel-default.col-md-6.m-l
+                  .panel-body
+                    %b.obrigatorio 12. Com relação à forma de desenvolvimento do curso, você:
+                    .radio
+                      %label
+                        %input#curso1{:name => "curso", :type => "radio", :required => ""}>/
+                        não teria tempo de fazer um curso presencial
+                    .radio
+                      %label
+                        %input#curso2{:name => "curso", :type => "radio", :required => ""}>/
+                        acha que um curso a distância é mais tranquilo
+                    .radio
+                      %label
+                        %input#curso3{:name => "curso", :type => "radio", :required => ""}>/
+                        espera estudar apenas nos finais de semana
+                    .radio
+                      %label
+                        %input#curso4{:name => "curso", :type => "radio", :required => ""}>/
+                        não tem paciência para assistir aulas presenciais
+                    .radio
+                      %label
+                        %input#curso5{:name => "curso", :type => "radio", :required => ""}>/
+                        pretende fazer algumas disciplinas a distância e depois mudar para um curso presencial
+                    .radio
+                      %label
+                        %input#curso6{:name => "curso", :type => "radio", :required => ""}>/
+                        não pensou no assunto, mas acha que pode dar certo
+                    .radio
+                      %label
+                        %input#curso7{:name => "curso", :type => "radio", :required => ""}>/
+                        outra
+              .row{:style => "margin-top:20px;"}
+                .panel.panel-default.col-md-4{:style => "height:254px;"}
+                  .panel-body
+                    %b.obrigatorio 13. Onde você mora?
+                    .radio
+                      %label
+                        %input#mora1{:name => "mora", :type => "radio", :required => ""}>/
+                        No município de São Paulo
+                    .radio
+                      %label
+                        %input#mora2{:name => "mora", :type => "radio", :required => ""}>/
+                        Na Região Metropolitana de São Paulo
+                    .radio
+                      %label
+                        %input#mora3{:name => "mora", :type => "radio", :required => ""}>/
+                        Na Baixada Santista
+                    .radio
+                      %label
+                        %input#mora4{:name => "mora", :type => "radio", :required => ""}>/
+                        No interior do Estado
+                    .radio
+                      %label
+                        %input#mora5{:name => "mora", :type => "radio", :required => ""}>/
+                        Em outro Estado
+                .panel.panel-default.col-md-3.m-l
+                  .panel-body
+                    %b.obrigatorio 14. Você mora:
+                    .radio
+                      %label
+                        %input#casa1{:name => "casa", :type => "radio", :required => ""}>/
+                        Em casa alugada
+                    .radio
+                      %label
+                        %input#casa2{:name => "casa", :type => "radio", :required => ""}>/
+                        Em casa própria
+                    .radio
+                      %label
+                        %input#casa3{:name => "casa", :type => "radio", :required => ""}>/
+                        Em apartamento alugado
+                    .radio
+                      %label
+                        %input#casa4{:name => "casa", :type => "radio", :required => ""}>/
+                        Em apartamento próprio
+                    .radio
+                      %label
+                        %input#casa5{:name => "casa", :type => "radio", :required => ""}>/
+                        Em chácara ou sítio
+                    .radio
+                      %label
+                        %input#casa6{:name => "casa", :type => "radio", :required => ""}>/
+                        Outro
+                .panel.panel-default.col-md-4.m-l{:style => "height:254px;"}
+                  .panel-body
+                    %b.obrigatorio 15. Você mora:
+                    .radio
+                      %label
+                        %input#com1{:name => "com", :type => "radio", :required => ""}>/
+                        Com seus pais ou parentes
+                    .radio
+                      %label
+                        %input#com2{:name => "com", :type => "radio", :required => ""}>/
+                        Com amigos
+                    .radio
+                      %label
+                        %input#com3{:name => "com", :type => "radio", :required => ""}>/
+                        Com cônjuge (companheiro(a))
+                    .radio
+                      %label
+                        %input#com4{:name => "com", :type => "radio", :required => ""}>/
+                        Sozinho
+                    .radio
+                      %label
+                        %input#com5{:name => "com", :type => "radio", :required => ""}>/
+                        Outro
+              .row{:style => "margin-top:20px;"}
+                .panel.panel-default.col-md-3{:style => "height:327px;"}
+                  .panel-body
+                    %b.obrigatorio 16. Você trabalha?
+                    .radio
+                      %label
+                        %input#trabalha1{:name => "trabalha", :type => "radio", :required => ""}>/
+                        Não
+                    .radio
+                      %label
+                        %input#trabalha2{:name => "trabalha", :type => "radio", :required => ""}>/
+                        Sim, em meio período (até 20 horas semanais)
+                    .radio
+                      %label
+                        %input#trabalha3{:name => "trabalha", :type => "radio", :required => ""}>/
+                        Sim, em período integral
+                    .radio
+                      %label
+                        %input#trabalha4{:name => "trabalha", :type => "radio", :required => ""}>/
+                        Apenas eventualmente
+                    .radio
+                      %label
+                        %input#trabalha5{:name => "trabalha", :type => "radio", :required => ""}>/
+                        Outra
+                .panel.panel-default.col-md-4.m-l
+                  .panel-body
+                    %b.obrigatorio 17. Qual a sua participação na vida econômica em sua residência?
+                    .radio
+                      %label
+                        %input#participa1{:name => "participa", :type => "radio", :required => ""}>/
+                        Não trabalho e meus gastos são financiados pela família ou outros
+                    .radio
+                      %label
+                        %input#participa2{:name => "participa", :type => "radio", :required => ""}>/
+                        Trabalho para custear meus estudos mas recebo ajuda financeira da família
+                    .radio
+                      %label
+                        %input#participa3{:name => "participa", :type => "radio", :required => ""}>/
+                        Trabalho para minha própria manutenção
+                    .radio
+                      %label
+                        %input#participa4{:name => "participa", :type => "radio", :required => ""}>/
+                        Trabalho para minha manutenção e contribuo para o orçamento familiar
+                    .radio
+                      %label
+                        %input#participa5{:name => "participa", :type => "radio", :required => ""}>/
+                        Trabalho e sou o responsável pelo sustento da minha família
+                .panel.panel-default.col-md-4.m-l{:style => "height:327px;"}
+                  .panel-body
+                    %b.obrigatorio 18. Qual é a sua renda bruta mensal? (considere um salário mínimo nacional 2015, de R$ 844,00)
+                    .radio
+                      %label
+                        %input#bruta1{:name => "bruta", :type => "radio", :required => ""}>/
+                        Não tenho renda
+                    .radio
+                      %label
+                        %input#bruta2{:name => "bruta", :type => "radio", :required => ""}>/
+                        Até 1 salário mínimo
+                    .radio
+                      %label
+                        %input#bruta3{:name => "bruta", :type => "radio", :required => ""}>/
+                        Até 2 salários mínimos
+                    .radio
+                      %label
+                        %input#bruta4{:name => "bruta", :type => "radio", :required => ""}>/
+                        Mais do que 2 e menos do que 5 salários mínimos
+                    .radio
+                      %label
+                        %input#bruta5{:name => "bruta", :type => "radio", :required => ""}>/
+                        Mais do que 5 e menos do que 10 salários mínimos
+                    .radio
+                      %label
+                        %input#bruta6{:name => "bruta", :type => "radio", :required => ""}>/
+                        Mais do que 10 salários mínimos
+              .row{:style => "margin-top:20px;"}
+                .panel.panel-default.col-md-4{:style => "height:355px;"}
+                  .panel-body
+                    %b.obrigatorio 19. Qual é o rendimento mensal se somadas todas as pessoas do seu domicílio? (considere um salário mínimo nacional, de R$ 844,00)
+                    .radio
+                      %label
+                        %input#mensal1{:name => "mensal", :type => "radio", :required => ""}>/
+                        Até 1 salário mínimo
+                    .radio
+                      %label
+                        %input#mensal2{:name => "mensal", :type => "radio", :required => ""}>/
+                        Até 2 salários mínimos
+                    .radio
+                      %label
+                        %input#mensal3{:name => "mensal", :type => "radio", :required => ""}>/
+                        Mais do que 2 e menos do que 5 salários mínimos
+                    .radio
+                      %label
+                        %input#mensal4{:name => "mensal", :type => "radio", :required => ""}>/
+                        Mais do que 5 e menos do que 10 salários mínimos
+                    .radio
+                      %label
+                        %input#mensal5{:name => "mensal", :type => "radio", :required => ""}>/
+                        Mais do que 10 e menos do que 20 salários mínimos
+                    .radio
+                      %label
+                        %input#mensal6{:name => "mensal", :type => "radio", :required => ""}>/
+                        Mais do que 20 salários mínimos
+                .panel.panel-default.col-md-3.m-l{:style => "height:355px;"}
+                  .panel-body
+                    %b.obrigatorio 20. Quantas pessoas contribuem para essa renda familiar, incluindo você:
+                    .radio
+                      %label
+                        %input#contribuem1{:name => "contribuem", :type => "radio", :required => ""}>/
+                        Uma
+                    .radio
+                      %label
+                        %input#contribuem2{:name => "contribuem", :type => "radio", :required => ""}>/
+                        Duas
+                    .radio
+                      %label
+                        %input#contribuem3{:name => "contribuem", :type => "radio", :required => ""}>/
+                        Três
+                    .radio
+                      %label
+                        %input#contribuem4{:name => "contribuem", :type => "radio", :required => ""}>/
+                        Quatro
+                    .radio
+                      %label
+                        %input#contribuem5{:name => "contribuem", :type => "radio", :required => ""}>/
+                        Mais do que quatro
+                .panel.panel-default.col-md-4.m-l
+                  .panel-body
+                    %b.obrigatorio 21. Qual é o nível de instrução de seu pai?
+                    .radio
+                      %label
+                        %input#pai1{:name => "pai", :type => "radio", :required => ""}>/
+                        Analfabeto
+                    .radio
+                      %label
+                        %input#pai2{:name => "pai", :type => "radio", :required => ""}>/
+                        Lê e escreve mas nunca esteve na escola
+                    .radio
+                      %label
+                        %input#pai3{:name => "pai", :type => "radio", :required => ""}>/
+                        Não concluiu o ensino fundamental
+                    .radio
+                      %label
+                        %input#pai4{:name => "pai", :type => "radio", :required => ""}>/
+                        Ensino fundamental completo
+                    .radio
+                      %label
+                        %input#pai5{:name => "pai", :type => "radio", :required => ""}>/
+                        Ensino médio (antigo 2º grau) incompleto
+                    .radio
+                      %label
+                        %input#pai6{:name => "pai", :type => "radio", :required => ""}>/
+                        Ensino médio completo
+                    .radio
+                      %label
+                        %input#pai7{:name => "pai", :type => "radio", :required => ""}>/
+                        Ensino superior incompleto
+                    .radio
+                      %label
+                        %input#pai8{:name => "pai", :type => "radio", :required => ""}>/
+                        Ensino superior completo
+                    .radio
+                      %label
+                        %input#pai9{:name => "pai", :type => "radio", :required => ""}>/
+                        Pós-graduação
+              .row{:style => "margin-top:20px;"}
+                .panel.panel-default.col-md-3
+                  .panel-body
+                    %b.obrigatorio 22. Qual é o nível de instrução de sua mãe?
+                    .radio
+                      %label
+                        %input#mae1{:name => "mae", :type => "radio", :required => ""}>/
+                        Analfabeta
+                    .radio
+                      %label
+                        %input#mae2{:name => "mae", :type => "radio", :required => ""}>/
+                        Lê e escreve mas nunca esteve na escola
+                    .radio
+                      %label
+                        %input#mae3{:name => "mae", :type => "radio", :required => ""}>/
+                        Não concluiu o ensino fundamental
+                    .radio
+                      %label
+                        %input#mae4{:name => "mae", :type => "radio", :required => ""}>/
+                        Ensino fundamental completo
+                    .radio
+                      %label
+                        %input#mae5{:name => "mae", :type => "radio", :required => ""}>/
+                        Ensino médio (antigo 2º grau) incompleto
+                    .radio
+                      %label
+                        %input#mae6{:name => "mae", :type => "radio", :required => ""}>/
+                        Ensino médio completo
+                    .radio
+                      %label
+                        %input#mae7{:name => "mae", :type => "radio", :required => ""}>/
+                        Ensino superior incompleto
+                    .radio
+                      %label
+                        %input#mae8{:name => "mae", :type => "radio", :required => ""}>/
+                        Ensino superior completo
+                    .radio
+                      %label
+                        %input#mae9{:name => "mae", :type => "radio", :required => ""}>/
+                        Pós-graduação
+                .panel.panel-default.col-md-3.m-l{:style => "height:435px;"}
+                  .panel-body
+                    %b.obrigatorio 23. Você acessa a internet com frequência?
+                    .radio
+                      %label
+                        %input#net1{:name => "net", :type => "radio", :required => ""}>/
+                        Não
+                    .radio
+                      %label
+                        %input#net2{:name => "net", :type => "radio", :required => ""}>/
+                        Sim, a partir do trabalho
+                    .radio
+                      %label
+                        %input#net3{:name => "net", :type => "radio", :required => ""}>/
+                        Sim, em casa
+                    .radio
+                      %label
+                        %input#net4{:name => "net", :type => "radio", :required => ""}>/
+                        Sim, em casa e tenho instalada “banda larga”
+                    .radio
+                      %label
+                        %input#net5{:name => "net", :type => "radio", :required => ""}>/
+                        Sim, em “lan house” e outros locais públicos
+                .panel.panel-default.col-md-3.m-l{:style => "height:435px;"}
+                  .panel-body
+                    %b.obrigatorio 24. O acesso a Internet é feito principalmente:
+                    .radio
+                      %label
+                        %input#acesso1{:name => "acesso", :type => "radio", :required => ""}>/
+                        Não acesso
+                    .radio
+                      %label
+                        %input#acesso2{:name => "acesso", :type => "radio", :required => ""}>/
+                        A partir de computador
+                    .radio
+                      %label
+                        %input#acesso3{:name => "acesso", :type => "radio", :required => ""}>/
+                        A partir do celular
+                    .radio
+                      %label
+                        %input#acesso4{:name => "acesso", :type => "radio", :required => ""}>/
+                        A partir de “tablet”
+                    .radio
+                      %label
+                        %input#acesso5{:name => "acesso", :type => "radio", :required => ""}>/
+                        A partir da TV
+                    .radio
+                      %label
+                        %input#acesso6{:name => "acesso", :type => "radio", :required => ""}>/
+                        A partir de “console de games”
+                .panel.panel-default.col-md-2.m-l{:style => "height:435px;"}
+                  .panel-body
+                    %b.obrigatorio 25. Você usa aplicativos?
+                    .radio
+                      %label
+                        %input#apps1{:name => "apps", :type => "radio", :required => ""}>/
+                        Não
+                    .radio
+                      %label
+                        %input#apps2{:name => "apps", :type => "radio", :required => ""}>/
+                        Sim, para acesso a jogos
+                    .radio
+                      %label
+                        %input#apps3{:name => "apps", :type => "radio", :required => ""}>/
+                        Sim, para acesso a redes sociais
+                    .radio
+                      %label
+                        %input#apps4{:name => "apps", :type => "radio", :required => ""}>/
+                        Sim, para o trabalho
+                    .radio
+                      %label
+                        %input#apps5{:name => "apps", :type => "radio", :required => ""}>/
+                        Sim, para outros fins.
+              %hr/
+              .col-md-12
+                .image-upload
+                  %label.btn.btn-lg.green.m-t.w.pull-right{:for => "continue"}
+                    %span.glyphicon.glyphicon-share-alt.m-r
+                    Continuar
+                  %input#continue{:type => "submit"}
+            .container{:style => "border-bottom:4px solid gray;max-width:970px;"}
+      / row
+    / container
+    %script{:src => "https://code.jquery.com/jquery-1.10.2.js"}
+    %script{:src => "https://code.jquery.com/ui/1.11.3/jquery-ui.js"}
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"}
+    %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/jquery.maskedinput.min.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/bootbox.min.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.upload.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.main.js"}
+    :javascript
+      $(function() {
+      	var form = new FormMain();
+      	form.init();
+      	form.handlePageEvents();			
+      });
