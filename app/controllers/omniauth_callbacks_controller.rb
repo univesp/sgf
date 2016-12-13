@@ -23,7 +23,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if resource.email_verified?
       super resource
     else
-      vagas_remanescentes_path(resource)
+      vagas_remanescentes_socio_path (resource)
     end
   end
 end

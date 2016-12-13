@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root :to => 'home#index'
+  root :to => 'form_vagas_remanescentes#socio_economico'
     
   resources :forms
   resources :form_responses
