@@ -5,7 +5,10 @@ Rails.application.routes.draw do
   resources :forms
   resources :form_responses
   
-  get '/vagas-remanescentes' => 'form_vagas_remanescentes#index'
+  get '/vagas-remanescentes/socio' => 'form_vagas_remanescentes#socio_economico'
+  get '/vagas-remanescentes/pedido' => 'form_vagas_remanescentes#index'
+  post '/vagas-remanescentes/socio/submit' => 'form_vagas_remanescentes#socio_economico_submit'
+
   get '/vagas-remanescentes/univesp-classes' => 'form_vagas_remanescentes#univesp_classes'
   get '/vagas-remanescentes/classes-and-activities-by-course' => 'form_vagas_remanescentes#classes_and_activities_by_course'
 
