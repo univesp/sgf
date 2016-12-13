@@ -1,0 +1,95 @@
+!!!
+%html{:lang => "pt-br"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+    %title UNIVESP / Formulário de Vagas Remanescentes
+    %link{:href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css", :rel => "stylesheet"}/
+    %link{:href => "https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css", :rel => "stylesheet"}/
+    %link{:href => "https://apps.univesp.br/estagio/assets/stylesheets/ficha.css", :rel => "stylesheet"}/
+    %link{:href => "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css", :rel => "stylesheet"}/
+    :css
+      .green{background-color: #27c24c}
+      .red{background-color: #f05050}
+      .blue{background-color: #23b7e5}
+      .m-t{margin-top: 10px}
+      .m-r{margin-right: 5px}
+      .m-l{margin-left: 5px}
+      .w{color: #ffffff}
+      .none{text-decoration: none !important;}
+      .bw2{border: solid gray 2px;}
+      .br2{border-right: solid gray 2px !important}
+      .bl2{border-left: solid gray 2px !important}
+  %body{:style => "margin-top: 120px; max-width:970px;"}
+    .container{:style => "max-width:970px;"}
+      .row
+        .col-md-12
+          / Topo
+          .navbar.navbar-default.navbar-fixed-top.container{:style => "background-color:rgba(0,0,0,0.7); color:white; max-width:970px;"}
+            .col-sm-12
+              %h3
+                %i.fa.fa-fw.fa-file-o
+                Formulário de Vagas Remanescentes
+                %span.label.label-danger.pull-right Prazo: 09/01/2017
+          / Formulário
+          %form.form-horizontal
+            %p
+            .container.boxes{:style => "max-width:970px;"}
+              .alert.alert-success.col-md-8.col-md-offset-2{:style => "margin-top:2em; margin-bottom:2em; padding:2em 2em 1.4em 2em;"}
+                %p Prezado(a) candidato(a),
+                %p
+                  %br>/
+                  Sua candidatura foi registrada na base da UNIVESP, mas ainda não acabou!
+                %p
+                  %br>/
+                  Lembre que você precisa entregar os documentos solicitados pela Portaria nº 20/2015 EM QUALQUER POLO entre os dias 15 e 30 de junho de 2016.
+                %p
+                  %br>/
+                  ATENÇÃO: consulte o horário de atendimento dos polos no site!
+                %p
+                  %br>/
+                  Os documentos necessários são:
+                  %br/
+                  \- Histórico Escolar da sua Instituição de Ensino Superior (obrigatório);
+                  %br/
+                  \- Conteúdo programático das disciplinas cursadas quando de sua realização (semestre/ano) (obrigatório);
+                  %br/
+                  \- Ementas das disciplinas cursadas (opcional).
+                %p
+                  %br>/
+                  Você receberá uma confirmação de sua inscrição por e-mail em até 24 horas, caso não a receba, contate a UNIVESP pelo e-mail informado na Portaria.
+                %p
+                  %br>/
+                  IMPORTANTE:
+                  %br/
+                  \- IMPRIMA E ENTREGUE esse e-mail com os documentos solicitados no polo.
+                  %br/
+                  \- NÃO serão validadas inscrições sem esse e-mail impresso entregue no polo.
+                %p
+                  %br>/
+                  Site:
+                  %a{:href => "http://www.univesp.br/processos-seletivos/vagas-remanescentes"}
+                    www.univesp.br/processos-seletivos/vagas-remanescentes
+                %p
+                  %br>/
+                  Atenciosamente,
+                  %br/
+                  Secretaria de Registro Acadêmico
+      / row
+    / container
+    %script{:src => "https://code.jquery.com/jquery-1.10.2.js"}
+    %script{:src => "https://code.jquery.com/ui/1.11.3/jquery-ui.js"}
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"}
+    %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/jquery.maskedinput.min.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/bootbox.min.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.upload.js"}
+    %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.main.js"}
+    :javascript
+      $(function() {
+      	var form = new FormMain();
+      	form.init();
+      	form.handlePageEvents();			
+      });
