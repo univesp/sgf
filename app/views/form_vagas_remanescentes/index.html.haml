@@ -104,9 +104,9 @@
                 .col-sm-3
                   %input#phone.form-control{:maxlength => "15", :name => "phone", :type => "text", :required => ""}/
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "cel"} Celular:
+                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "mobile"} Celular:
                 .col-sm-3
-                  %input#cel.form-control{:maxlength => "15", :name => "cel", :onkeyup => "mascara( this, mphone );", :type => "text", :required => ""}/
+                  %input#mobile.form-control{:maxlength => "15", :name => "mobile", :onkeyup => "mascara( this, mphone );", :type => "text", :required => ""}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} CPF:
                 .col-sm-3
@@ -280,14 +280,10 @@
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
           })
           .done(function (data) {
-            console.log("done > data");
-            console.log(JSON.stringify(data));
+            var wd = window || document;
+            wd.location.assign("final");
           })
           .fail(function (jqXHR, textStatus) {
-            console.log("fail > jqXHR:");
-            console.log(jqXHR);
-            console.log("fail > textStatus:");
-            console.log(textStatus);
           });
         });
 

@@ -2,6 +2,8 @@ class FormVagasRemanescentesController < ApplicationController
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
 
   def index
+    check_if_already_responded
+
     @univesp_courses = FormVagasRemanescentes.new.get_univesp_courses
 
     # if no response object was created in the previous form,
@@ -17,11 +19,13 @@ class FormVagasRemanescentesController < ApplicationController
     end
   end
 
-  # Socioeconomic survey
+  # Page: Socioeconomic survey
   # ------------------------------------------------------------ #
 
   # open the socioeconomic survey
   def socio_economico
+
+    check_if_already_responded
 
     # if there is a current response, the form has already been completed
     # and the user came back to it
@@ -99,6 +103,8 @@ class FormVagasRemanescentesController < ApplicationController
       sent_at: Time.zone.now
     })
 
+    session[:current_response_id] = nil
+
     respond_to do |format|
       format.js {}
       format.json {
@@ -106,6 +112,14 @@ class FormVagasRemanescentesController < ApplicationController
       }
     end
   end
+
+  # Page: Final
+  # ------------------------------------------------------------ #
+
+  def final
+  end
+
+
 
   def classes_and_activities_by_course
     course = VagasRemanescentesCourse.find(params[:course_id])
@@ -172,6 +186,19 @@ class FormVagasRemanescentesController < ApplicationController
 
     respond_to do |format|
       format.json { render json: res }
+    end
+  end
+
+
+  # Support methods
+  # ------------------------------------------------------------ #
+  private
+
+  def check_if_already_responded
+    if current_user
+      form = Form.where(reference_model: 'FormVagasRemanescentes').first
+      number_responses = FormResponse.where(form_id: form.id, user: current_user.email).size
+      redirect_to action: 'final' unless number_responses < form.max_attemps
     end
   end
 
