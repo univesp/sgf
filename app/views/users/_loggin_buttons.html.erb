@@ -1,11 +1,14 @@
 <% if current_user %>
-  Signed in as <strong><%= current_user.name %></strong>!
-  <%= link_to "Sign out", signout_path, id: "sign_out" %>
-<%else%>
-  <a href="users/auth/google_oauth2" class="btn btn-sm btn-social btn-google" id="sign in">
-    <span class="fa fa-google"></span> Sign in with Google
+  Conectado como <strong><%= current_user.name %></strong> !
+  <br><br>
+  <a href="/vagas-remanescentes" class="btn btn-lg btn-default">
+  	<span class="fa fa-arrow-circle-right"> Continuar</span> 
   </a>
-  <a href="users/auth/facebook" class="btn btn-sm btn-social btn-facebook" scope="public_profile,email" onlogin="checkLoginState();" id="sign in" >
-    <span class="fa fa-facebook" ></span> Sign in with Facebook
+  <a href="/logout" class="btn btn-md btn-link">
+  	Sair
+  </a>
+<%else%>
+  <a href="/new_user" class="btn btn-lg btn-link">
+  	<span class="fa fa-arrow-circle-right"> Login</span>
   </a>
 <%end%>

@@ -13,3 +13,44 @@
  *= require_tree .
  *= require_self
  */
+
+body {
+  background-color: #ffffff;
+  color: #808285;
+}
+
+.modalz{
+  width: 25%;
+  background-color: #FFF;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  box-shadow: 0px 0px 0px 10px rgba(0, 0, 0, 0.35);
+  padding: 3% 3%;
+  text-align: center;
+  font-size: 1.2em;
+  color: black;
+}
+
+#bloca{
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  z-index: 8888;
+  position: fixed;
+  top:0;
+  left:0;
+}
+
+@media (max-width:660px){
+  .modalz{
+   	width: 60%;
+   	font-size: 1.1em;
+   	padding: 2% 2%;
+  }
+}
+
+
+
