@@ -9,8 +9,8 @@
 
     var settings = {
       maxSizeInMB: 10,
-      mimeTypes: /pdf|save|msword|wordprocessingml|jpeg|png|octet-stream|zip|x-rar-compressed/i,
-      urlToPost: "vagas-remanescentes/upload" 
+      mimeTypes: /pdf|save|msword|wordprocessingml|jpeg|png/i,
+      urlToPost: "upload" 
     };
 
     bindButtonEvents = function(c, min, max) {
@@ -36,14 +36,16 @@
     bindFileChangeEvent = function(e) {
 
       var file = e.files[0];
-      var validationDiv = "validation_" + e.id;
-      $(e).prevAll("label").removeClass("red");
-      //$("#" + validationDiv).remove();      
+      var label = $("label[for=\"" + $(e).attr("id") +  "\"]");
+
+      // removing validations
+      $(label).removeClass("red");
+      $(label).removeAttr("title"); 
 
       var validation = validateFile(file); 
       if (validation.status == "ERROR") {
-        $($(e).prevAll("label"))[0].addClass("red");
-        //$("<div id=\"" + validationDiv + "\" class=\"alert alert-danger text-center\" role=\"alert\">" + validation.message + "</div>").insertAfter("#" + e.id);
+        $(label).addClass("red");
+        $(label).attr("title","Erro ao carregar o anexo. Por favor, verifique as extensões e tamanho permitidos");
         return;
       }
 
@@ -90,9 +92,6 @@
     
     sendFileToServer = function sendXHR(uploadURL, bufferView, ctrl) {
 
-      console.log("sendFileToServer");
-
-
       $("<div id=\"loader_" + ctrl + "\"><img src=\"assets/images/ajax-loader.gif\" /></div>").insertAfter($("#" + ctrl));
 
       var xhr = new XMLHttpRequest();
@@ -107,10 +106,20 @@
 
           $("#loader_" + ctrl).remove();
 
-          if (xhr.status === 200) {            
-            var res = JSON.parse(xhr.response);         
-            $("#" + ctrl).val(res.file);            
-            $("#" + ctrl).prevAll("label").addClass("green");
+          if (xhr.status === 200) {
+            var res = JSON.parse(xhr.response);
+            $("#" + ctrl).val(res.file);
+
+            // finding file control from the match hidden control
+            var ctrlFile = ctrl.replace("hidden","file");
+            var label = $("label[for=\"" + ctrlFile +  "\"]");
+            $(label).addClass("green");
+            $(label).attr("title","Anexo carregado com sucesso");
+
+            // paints the row
+            if (ctrl.indexOf("syllabus") >= 1 || ctrl.indexOf("program") >= 1) {
+              blurTr($("#" + ctrl).closest("tr"));
+            }
           }
         }
       }
@@ -123,13 +132,6 @@
     };
 
     uploadFile = function(ctrl, file) {
-
-      console.log("uploader uploadFile");
-      console.log("ctrl");
-      console.log(ctrl);
-      console.log("file");
-      console.log(file);
-
       var reader = new FileReader();
       reader.onload = function(e) {
         configUploadURL(e, file, ctrl);
@@ -166,11 +168,7 @@
       }
       //dom += "<i class=\"fa fa-info-circle m-l-xl\" style=\"cursor:pointer;margin-left:5px;\" title=\"São permitidos apenas arquivos com as extensões .PDF, .DOC, .DOCX, .JPG, .PNG ou .ZIP e com tamanho máximo de 10 MB\"></i>";
 
-      //$("#" + c).html(dom);
       $(dom).insertAfter(ctrl);
-
-      console.log("dom");
-      console.log(dom);
 
       bindButtonEvents(c, min, max);
       setButtonsEnablement(c, q, min, max);

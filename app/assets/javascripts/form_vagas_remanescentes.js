@@ -20,6 +20,7 @@ function clearRow(e) {
     $(tr).find("input[type='hidden'][name*='program']").val("");
     $(tr).find("label").removeClass("green");
     $(tr).find("label").removeClass("red");
+    $(tr).find("label").removeAttr("title");
 }
 
 function collectValuesFromForm() {
