@@ -1,17 +1,18 @@
 %table.table.table-condensed{:style => "border-bottom: 2px black solid;"}
   %tbody
-    %tr.danger
+    %tr.table-info.danger
       %td{:colspan => "4"}
+        %input.table-min-workload{:type => "hidden", :value => "#{table_info[:workload]}"}
         %h5
           Você deve comprovar abaixo, no mínimo,
           %em
             %b #{table_info[:workload]} horas
           de atividades em disciplinas básicas de Engenharia.
-      %td.text-danger{:colspan => "2"}
+      %td.table-workload.text-danger{:colspan => "2"}
         %h5
           Total:
           %span.m-l
-            %b 20h
+          %b.workload-total
     %tr.black
       %th{:style => "width:25%"} Disciplinas Univesp
       %th{:style => "width:40%"} Disciplina cursada em outra instituição
@@ -83,3 +84,45 @@
   $(".activities-rows input").on("blur", function() {
     blurTr($(this).closest("tr"));
   });
+
+  function blurWorkload(wrapper) {
+    var workloadTotal = 0;
+    $("#" + wrapper).find(".external-workload").each(function(index, ctrl) {
+      if ($(ctrl).val().trim().length) {
+        workloadTotal += parseInt($(ctrl).val());
+      }
+    });
+    $("#" + wrapper).find(".workload-total").html(workloadTotal + "h");
+    var minWorkload = parseInt( $( $("#" + wrapper).find(".table-min-workload")[0] ).val() );
+
+    // changing the color of table header
+    var ctrlTableInfo = $("#" + wrapper).find(".table-info");
+    var ctrlTableWorkload = $("#" + wrapper).find(".table-workload");
+    if (workloadTotal >= minWorkload) {
+      $(ctrlTableInfo).removeClass("danger");
+      $(ctrlTableWorkload).removeClass("text-danger");
+      $(ctrlTableInfo).addClass("success");
+      $(ctrlTableWorkload).addClass("text-success");
+    }
+    else {
+      $(ctrlTableInfo).removeClass("success");
+      $(ctrlTableWorkload).removeClass("text-success");
+      $(ctrlTableInfo).addClass("danger");
+      $(ctrlTableWorkload).addClass("text-danger");
+    }
+  }
+
+  $("#basic-activities-table").find(".workload-total").html("0h");
+  $("#basic-activities-table .external-workload").on("blur", function(){
+    blurWorkload("basic-activities-table");    
+  });
+
+  $("#professional-activities-table").find(".workload-total").html("0h");
+  $("#professional-activities-table .external-workload").on("blur", function(){
+    blurWorkload("professional-activities-table");
+  });
+
+  $('input.external-workload').keyup(function(e) {
+    this.value = this.value.replace(/[^0-9\.]/g,'');
+  }); 
+
