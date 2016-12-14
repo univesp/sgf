@@ -9,7 +9,13 @@ class FormVagasRemanescentesController < ApplicationController
     # if no response object was created in the previous form,
     # the user can not have access to this form
     if not session[:current_response_id] 
-      redirect_to action: 'socio_economico'
+      #redirect_to action: 'socio_economico'
+    else
+      current_response = FormResponse.find(session[:current_response_id])
+      json_response = JSON.parse(current_response.json_response)
+      # multiples responses are allowed but only the last is considered
+      # to re-fill the form
+      @last_response = json_response['requests'].last
     end
   end
 
@@ -84,6 +90,30 @@ class FormVagasRemanescentesController < ApplicationController
     redirect_to action: 'index'
   end
 
+  # Page: Request
+  # ------------------------------------------------------------ #
+  def save_partial_update
+    res = FormResponse.find(session[:current_response_id])
+    json_response = JSON.parse res.json_response
+
+    requests_number = json_response['requests'].size
+    json_response['requests'] = [] if requests_number == 0
+    json_response['requests'].push(
+      params[:formData].merge({
+        :attempt => (requests_number + 1),
+        :sent_at => Time.zone.now
+      })
+    )
+    res.update({
+      json_response: json_response.to_json,
+      sent_at: Time.zone.now
+    })
+
+    respond_to do |format|
+      format.js {}
+      format.json { render json: { :status => 'ok' } }
+    end
+  end
 
   def save_response
     res = FormResponse.find(session[:current_response_id])
@@ -125,29 +155,52 @@ class FormVagasRemanescentesController < ApplicationController
     course = VagasRemanescentesCourse.find(params[:course_id])
     form_model = FormVagasRemanescentes.new
 
+    if session[:current_response_id]
+      current_response = FormResponse.find(session[:current_response_id])
+      json_response = JSON.parse(current_response.json_response)
+      # multiples responses are allowed but only the last is considered
+      # to re-fill the form
+      last_response = json_response['requests'].last
+    end
+
     # classes
     classes = form_model.get_univesp_classes(course.id)
-    @classes = {
-      :options => classes
+    @classes1 = {
+      :options       => classes,
+      :last_response => last_response,
+      :field         => 'firstLocation'
+    }
+    @classes2 = {
+      :options       => classes,
+      :last_response => last_response,
+      :field         => 'secondLocation'
+    }
+    @classes3 = {
+      :options       => classes,
+      :last_response => last_response,
+      :field         => 'thirdLocation'
     }
 
     # activities
     if course.parent
       @basic_activities = {
-        :activities => form_model.get_univesp_activities(course.parent.id),
-        :workload   => 800,
-        :type       => 'basic'
+        :activities    => form_model.get_univesp_activities(course.parent.id),
+        :workload      => 800,
+        :type          => 'basicActivities',
+        :last_response => last_response
       }
       @professional_activities = {
-        :activities => form_model.get_univesp_activities(course.id),
-        :workload   => 400,
-        :type       => 'professional'
+        :activities    => form_model.get_univesp_activities(course.id),
+        :workload      => 400,
+        :type          => 'professionalActivities',
+        :last_response => last_response
       }
     else
       @basic_activities = {
-        :activities => form_model.get_univesp_activities(course.id),
-        :workload   => 400,
-        :type       => 'basic'
+        :activities    => form_model.get_univesp_activities(course.id),
+        :workload      => 400,
+        :type          => 'basicActivities',
+        :last_response => last_response
       }
     end
 

@@ -1,4 +1,6 @@
+- last_response = select_info[:last_response]
+- field = select_info[:field]
 %select.form-control{:id => select_info[:id], :style => "width:90%;", :onchange => "handleOtherSelects(this);" }
   %option{ :value => "" } Selecione o Polo
   - select_info[:options].each do |option|
-    %option{ :value =>  "#{option[:value]}"} #{option[:text]}
+    %option{:value => "#{option[:value]}", :selected => ( (last_response && last_response[field].to_s == option[:value].to_s) ? "selected" : nil )} #{option[:text]}

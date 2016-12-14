@@ -85,7 +85,7 @@
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "according"} De acordo:
                 .checkbox.col-sm-5
                   %label
-                    %input{:type => "checkbox", :required => ""}/
+                    %input#according{:type => "checkbox", :required => "", :checked => (@last_response && @last_response['according'] == 'true')}/
                     Declaro que li e aceito as condições
                     %br>/
                     da
@@ -94,46 +94,47 @@
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "name"} Nome completo:
                 .col-sm-5
-                  %input#name.form-control{:type => "text", :style => "text-transform: capitalize;", :required => "", :value => "#{current_user.name if current_user}"}/
+                  %input#name.form-control{:type => "text", :style => "text-transform: capitalize;", :required => "", :value => "#{value_of_last_response_or_current_user 'name', @last_response, current_user}"}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "email"} E-mail:
                 .col-sm-5
-                  %input#email.form-control{:maxlength => "60", :name => "email", :size => "65", :type => "email", :value => "#{current_user.email if current_user}", :required => ""}/
+                  %input#email.form-control{:maxlength => "60", :name => "email", :size => "65", :type => "email", :value => "#{value_of_last_response_or_current_user 'email', @last_response, current_user}", :required => ""}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "phone"} Telefone:
                 .col-sm-3
-                  %input#phone.form-control{:maxlength => "15", :name => "phone", :type => "text", :required => ""}/
+                  %input#phone.form-control{:maxlength => "15", :name => "phone", :type => "text", :required => "", :value => "#{@last_response && @last_response['phone']}"}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "mobile"} Celular:
                 .col-sm-3
-                  %input#mobile.form-control{:maxlength => "15", :name => "mobile", :onkeyup => "mascara( this, mphone );", :type => "text", :required => ""}/
+                  %input#mobile.form-control{:maxlength => "15", :name => "mobile", :onkeyup => "mascara( this, mphone );", :type => "text", :required => "", :value => "#{@last_response && @last_response['mobile']}"}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} CPF:
                 .col-sm-3
-                  %input#cpf.form-control{:maxlength => "14", :name => "cpf", :required => "", :onblur => "javascript: validarCPF(this.value);", :onkeypress => "javascript: mascara(this, cpf_mask);", :type => "text"}/
+                  %input#cpf.form-control{:maxlength => "14", :name => "cpf", :required => "", :onblur => "javascript: validarCPF(this.value);", :onkeypress => "javascript: mascara(this, cpf_mask);", :type => "text", :value => "#{@last_response && @last_response['cpf']}"}/
               .form-inline.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "date"} Data de nascimento:
                 %div
                   %select#birth-day.form-control{:style => "margin-left:10px;"}
                     %option Dia
-                    - (1..31).each do |dia|
-                      %option #{dia} 
+                    - (1..31).each do |day|
+                      %option{:selected => ( (@last_response && @last_response['birthDay'].to_s == day.to_s) ? "selected" : nil )} #{day}
                   %select#birth-month.form-control
                     %option Mês
                     - (1..12).each do |month|
-                      %option #{month}
+                      %option{:selected => ( (@last_response && @last_response['birthMonth'].to_s == month.to_s) ? "selected" : nil )} #{month}
                   %select#birth-year.form-control
                     %option Ano
-                    - (1916..2016).sort {|a,b| b <=> a}.each do |dia|
-                      %option #{dia} 
+                    - (1916..2016).sort {|a,b| b <=> a}.each do |year|
+                      %option{:selected => ( (@last_response && @last_response['birthYear'].to_s == year.to_s) ? "selected" : nil )} #{year} 
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "course"} Curso desejado:
                 .col-sm-3
                   %select#course.form-control{:style => "width:90%;"}
                     - @univesp_courses.each do |course|
-                      %option{:value => "#{course[:value]}"} #{course[:text]}
+                      %option{:value => "#{course[:value]}", :selected => ( (@last_response && @last_response['course'].to_s == course[:value].to_s) ? "selected" : nil )} #{course[:text]}
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:style => "margin-top:-10px;"} Faça o upload do seu comprovante de pagamento de inscrição ou isenção:
+                %input.form-control.session-attach-payment{:type => "hidden", :value => "#{@last_response && @last_response['payment']}"}/
                 .image-upload
                   %label.btn.btn-default{:for => "payment_file_1", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
                     %span.fa.fa-dollar.m-r
@@ -141,29 +142,32 @@
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "external-institution"} INSTITUIÇÃO de origem:
                 .col-md-6
-                  %input#external-institution.form-control{:placeholder => "SIGLA - Nome por extenso (Pode citar mais de uma instituição)", :type => "text"}/
+                  %input#external-institution.form-control{:placeholder => "SIGLA - Nome por extenso (Pode citar mais de uma instituição)", :type => "text", :value => "#{@last_response && @last_response['externalInstitution']}"}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "external-course"} CURSO:
                 .col-md-6
-                  %input#external-course.form-control{:placeholder => "Nome por extenso (Você pode citar mais de um curso)", :type => "text"}/
+                  %input#external-course.form-control{:placeholder => "Nome por extenso (Você pode citar mais de um curso)", :type => "text", :value => "#{@last_response && @last_response['externalCourse']}"}/
               .form-inline.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio Situação atual:
                 %div
                   %label.radio-inline{:style => "margin-left:10px;"}
-                    %input#current-status-1{:name => "current-status", :type => "radio", :value => "0", :checked => "checked"}/
-                    Concluído
-                  %label.radio-inline
-                    %input#current-status-2{:name => "current-status", :type => "radio", :value => "1"}/
+                    %input{:name => "course-status", :type => "radio", :value => "ongoing", :checked => ( (@last_response && @last_response['courseStatus'] == 'ongoing' ) ? "checked" : nil)}/
                     Cursando
+                  %label.radio-inline
+                    %input{:name => "course-status", :type => "radio", :value => "concluded", :checked => ( (@last_response && @last_response['courseStatus'] == 'concluded' ) ? "checked" : nil)}/
+                    Concluído
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "documents", :style => "margin-top:-10px;"} Faça o upload dos seus documentos digitalizados:
                 .image-upload
+                  %input.form-control.session-attach-diploma{:type => "hidden", :value => "#{@last_response && @last_response['diploma']}"}/
                   %label.btn.btn-default{:for => "diploma_file_1", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
                     %span.fa.fa-graduation-cap.m-r
                     Diploma
+                  %input.form-control.session-attach-enrollment{:type => "hidden", :value => "#{@last_response && @last_response['enrollment']}"}/
                   %label.btn.btn-default{:for => "enrollment_file_1", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
                     %span.fa.fa-certificate.m-r
                     Atestado de Matrícula
+                  %input.form-control.session-attach-academic-record{:type => "hidden", :value => "#{@last_response && @last_response['academicRecord']}"}/
                   %label.btn.btn-default{:for => "academic-record_file_1", :title => "Envie o HISTÓRICO ESCOLAR contendo as disciplinas cursadas, carga horária, aproveitamento etc."}
                     %span.fa.fa-file-text-o.m-r
                     Histórico Escolar
@@ -195,7 +199,7 @@
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "location-confirm"} Assinale:
                 .checkbox.col-sm-6
                   %label
-                    %input#location-confirm{:type => "checkbox"}/
+                    %input#location-confirm{:type => "checkbox", :checked => (@last_response && @last_response['locationConfirm'] == 'true')}/
                     Declaro que CONFERI a escolha de Polo e turma(s) acima e ASSUMO a responsabilidade no caso de não atendimento de minha opção, por preenchimento incorreto.
               %hr.col-md-12.mais.m-b-lg/
               .well.col-md-8.col-md-offset-2{:style => "margin-top:2em; margin-bottom:50px; padding:2em 2em 1.4em 2em;"}
@@ -220,11 +224,11 @@
               #professional-activities-table
               
               .col-sm-6.mais
-                %a.btn.btn-lg.blue.m-t.w.pull-left{:href => 'socio'}
+                %button#return-to-socio.btn.btn-lg.blue.m-t.w.pull-left{:type => "button", :onclick => "returnToSocio();"}
                   %span.glyphicon.glyphicon-arrow-left.m-r
                   Retornar ao questionário socioeconômico
               .col-sm-6.mais
-                %button#submit.btn.btn-lg.green.m-t.w.pull-right
+                %button#submit.btn.btn-lg.green.m-t.w.pull-right{:type => "button"}
                   %span.glyphicon.glyphicon-share-alt.m-r
                   Finalizar e enviar formulários
             .container{:style => "border-bottom:4px solid gray;max-width:970px;"}
@@ -242,58 +246,5 @@
 
     :javascript
       $(function() {
-
-        V.uploader.draw($("label[for=\"payment_file_1\"]"), "payment", 1, 1, 1);
-        V.uploader.draw($("label[for=\"diploma_file_1\"]"), "diploma", 1, 1, 1);
-        V.uploader.draw($("label[for=\"enrollment_file_1\"]"), "enrollment", 1, 1, 1);
-        V.uploader.draw($("label[for=\"academic-record_file_1\"]"), "academic-record", 1, 1, 1);
-
-        $("#course").on("change", function() {
-          var courseId = $(this).val();
-
-          $.ajax({
-            url: "classes-and-activities-by-course",
-            data: { course_id: courseId }
-          })
-          .done(function (data) {
-            console.log("done > data");
-            console.log(data);
-          })
-          .fail(function (jqXHR, textStatus) {
-            console.log("course change > fail jqXHR:");
-            console.log(jqXHR);
-            console.log("course change > fail textStatus:");
-            console.log(textStatus);
-          });
-        });
-
-        $("#submit").on("click", function(e) {
-          e.preventDefault();
-          var formData = collectValuesFromForm();
-          console.log(formData);
-
-          $.ajax({
-            url: "save-response",
-            type: "POST",
-            data: { formData: formData },
-            dataType: "json",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
-          })
-          .done(function (data) {
-            var wd = window || document;
-            wd.location.assign("final");
-          })
-          .fail(function (jqXHR, textStatus) {
-          });
-        });
-
-        $.ajax({
-          url: "login"
-        })
-        .done(function (data) {
-          if (data == "nil") {
-            $("#login-modal").css("display","block");
-          }
-        });
-
+        requestFormReady();
       });

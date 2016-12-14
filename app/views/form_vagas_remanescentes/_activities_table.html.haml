@@ -21,19 +21,22 @@
       %th
     - table_info[:activities].each do |activity|
       %tr.activities-rows
+        - activity_temp = session_activity table_info, activity[:value]
         %td
           %input.form-control.activities-ids{:type => "hidden", :value => "#{activity[:value]}"}/
           = activity[:text]
         %td
-          %input.form-control.external-activities{:type => "text"}/
+          %input.form-control.external-activities{:type => "text", :value => "#{activity_temp && activity_temp['externalActivities']}" }/
         %td
-          %input.form-control.external-workload{:type => "number"}/
+          %input.form-control.external-workload{:type => "number", :value => "#{activity_temp && activity_temp['externalWorkload']}"}/
         %td.cells-syllabus
+          %input.form-control.session-attach-syllabus{:type => "hidden", :value => "#{activity_temp && activity_temp['syllabus']}"}/
           .image-upload
             %label.btn.btn-default{:for => "#{table_info[:type]}-syllabus-#{activity[:value]}_file_1"}
               %span.fa.fa-paperclip
               %span.label-upload ementa
         %td.cells-program
+          %input.form-control.session-attach-program{:type => "hidden", :value => "#{activity_temp && activity_temp['program']}"}/
           .image-upload
             %label.btn.btn-default{:for => "#{table_info[:type]}-program-#{activity[:value]}_file_1"}
               %span.fa.fa-paperclip
@@ -46,11 +49,21 @@
   $(".activities-rows").each(function(index, ctrl) {
     var labelSyllabusFor = $(this).find(".cells-syllabus label").prop("for");
 
+    // SYLLABUS
+
     // ensures that the control for syllabus will not be created twice
     if (!($("input#" + labelSyllabusFor).length)) {
       var labelSyllabusName = labelSyllabusFor.replace("_file_1","");
       V.uploader.draw($("label[for=\"" + labelSyllabusFor + "\"]"), labelSyllabusName, 1, 1, 1);
     }
+    // transfering the value of attach from session hidden input to "official" hidden input
+    var ctrlSessionAttachSyllabus = $($(this).find(".session-attach-syllabus")[0]);
+    var hiddenSyllabusId = labelSyllabusFor.replace("_file_1","_hidden_1");
+    $("#" + hiddenSyllabusId).val($(ctrlSessionAttachSyllabus).val());
+    //$(ctrlSessionAttachSyllabus).val("");
+
+
+    // PROGRAM
 
     // ensures that the control for program will not be created twice
     var labelProgramFor = $(this).find(".cells-program label").prop("for");
@@ -58,6 +71,13 @@
       var labelProgramName = labelProgramFor.replace("_file_1","");
       V.uploader.draw($("label[for=\"" + labelProgramFor + "\"]"), labelProgramName, 1, 1, 1);
     }
+    // transfering the value of attach from session hidden input to "official" hidden input
+    var ctrlSessionAttachProgram = $($(this).find(".session-attach-program")[0])
+    var hiddenProgramId = labelProgramFor.replace("_file_1","_hidden_1");
+    $("#" + hiddenProgramId).val($(ctrlSessionAttachProgram).val());
+    //$(ctrlSessionAttachProgram).val("");
+
+    blurTr($(this));
   });
 
   $(".activities-rows input").on("blur", function() {

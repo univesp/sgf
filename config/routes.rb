@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   post '/vagas-remanescentes/save-response' => 'form_vagas_remanescentes#save_response'
   post '/vagas-remanescentes/upload' => 'form_vagas_remanescentes#upload'
+  post '/vagas-remanescentes/save-partial-update' => 'form_vagas_remanescentes#save_partial_update'
 
   get '/new_user' => 'users#create_user_identity'
  

@@ -1,5 +1,13 @@
 // classes
-$(".classes-selects").html("#{escape_javascript( render partial: 'classes_select', locals: { select_info:  @classes} )}")
+$("#first-class-select").html("#{escape_javascript( render partial: 'classes_select', locals: { select_info:  @classes1})}")
+$("#first-class-select select").change();
+
+$("#second-class-select").html("#{escape_javascript( render partial: 'classes_select', locals: { select_info:  @classes2} )}")
+$("#second-class-select select").change();
+
+$("#third-class-select").html("#{escape_javascript( render partial: 'classes_select', locals: { select_info:  @classes3} )}")
+$("#third-class-select select").change();
+
 $("#first-class-area").css("display","block")
 
 // activities
