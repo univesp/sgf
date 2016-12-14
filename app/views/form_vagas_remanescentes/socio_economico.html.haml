@@ -235,12 +235,12 @@
                         Em 2009 ou 2010
                     .radio
                       %label
-                        %input{:name => "high-school-conclusion", :type => "radio", :required => "", :value => "2004-2008", :checked => (@last_response && @last_response['high-school-conclusion'] == '2004-2008') }>/
-                        Entre 2004 e 2008
+                        %input{:name => "high-school-conclusion", :type => "radio", :required => "", :value => "2006-2008", :checked => (@last_response && @last_response['high-school-conclusion'] == '2004-2008') }>/
+                        Entre 2006 e 2008
                     .radio
                       %label
-                        %input{:name => "high-school-conclusion", :type => "radio", :required => "", :value => "<2004", :checked => (@last_response && @last_response['high-school-conclusion'] == '<2044') }>/
-                        Antes de 2004
+                        %input{:name => "high-school-conclusion", :type => "radio", :required => "", :value => "<2006", :checked => (@last_response && @last_response['high-school-conclusion'] == '<2044') }>/
+                        Antes de 2006
                 .panel.panel-default.col-md-5.m-l{:style => "height:254px;"}
                   .panel-body
                     %b.obrigatorio 9. Você cursou o ensino médio:
@@ -713,12 +713,5 @@
     %script{:src => "https://apps.univesp.br/estagio/assets/javascripts/form.main.js"}
     :javascript
       $(function() {
-        $.ajax({
-          url: "login"
-        })
-        .done(function (data) {
-          if (data == "nil") {
-            $("#login-modal").css("display","block");
-          }
-        });
+        checkLogin();
       });

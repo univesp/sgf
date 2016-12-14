@@ -15,3 +15,12 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require_tree .
+
+function checkLogin() {
+  $.ajax({ url: "login" })
+  .done(function (data) {
+    if (data == "nil") {
+      $("#login-modal").css("display","block");
+    }
+  });
+}

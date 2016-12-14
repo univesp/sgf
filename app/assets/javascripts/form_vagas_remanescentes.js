@@ -203,15 +203,7 @@ function requestFormReady() {
     $("label[for=\"academic-record_file_1\"]").addClass("green");
   }
 
-  // login
-  $.ajax({
-    url: "login"
-  })
-  .done(function (data) {
-    if (data == "nil") {
-      $("#login-modal").css("display","block");
-    }
-  });
+  checkLogin();
 }
 
 function returnToSocio() {
