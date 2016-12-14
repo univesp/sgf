@@ -11,7 +11,7 @@
         %h5
           Total:
           %span.m-l
-            %b 20h
+          %b#output-content-here
     %tr.black
       %th{:style => "width:25%"} Disciplinas Univesp
       %th{:style => "width:40%"} Disciplina cursada em outra instituição
@@ -27,7 +27,7 @@
         %td
           %input.form-control.external-activities{:type => "text"}/
         %td
-          %input.form-control.external-workload{:type => "number"}/
+          %input.form-control.external-workload{:type => "text",  :id => 'external-workload'}/
         %td.cells-syllabus
           .image-upload
             %label.btn.btn-default{:for => "#{table_info[:type]}-syllabus-#{activity[:value]}_file_1"}
@@ -63,3 +63,16 @@
   $(".activities-rows input").on("blur", function() {
     blurTr($(this).closest("tr"));
   });
+
+  $('.external-workload').on('keyup', function(){
+      var $output = $('#output-content-here');
+      var sum_workload = parseInt($('.external-workload').val() + this.value);
+      $('#total_workload').val(sum_workload);
+      $sum_workload = $output;
+      $($sum_workload).text(this.value);
+  });
+
+    
+
+    
+
