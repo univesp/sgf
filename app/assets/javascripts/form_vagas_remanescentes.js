@@ -35,6 +35,10 @@ function clearRow(e) {
     $(tr).find("label").removeAttr("title");
 }
 
+function closeValidationModal() {
+  $("#validation-modal").css("display","none");
+}
+
 function collectValuesFromForm() {
   var formData = {
     according: $("#according").is(":checked"),
@@ -173,8 +177,20 @@ function requestFormReady() {
       beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
     })
     .done(function (data) {
-      var wd = window || document;
-      wd.location.assign("final");
+      if (data['status'] == 'error') {
+        $("#validation-modal #summary").html("");
+        var errorsDOM = "";
+        for(var i=0;i<data['errors'].length;i++) {
+          errorsDOM += "- ";
+          errorsDOM += data['errors'][i];
+          errorsDOM += "<br>";
+        }
+        $("#validation-modal #summary").html(errorsDOM);
+        $("#validation-modal").css("display","block");
+      } else {
+        var wd = window || document;
+        wd.location.assign("final");
+      }
     });
   });
 

@@ -25,7 +25,7 @@ class FormVagasRemanescentesController < ApplicationController
 
   # open the socioeconomic survey
   def socio_economico
- 
+
     # if there is a current response, the form has already been completed
     # and the user came back to it
     if session[:current_response_id]
@@ -122,12 +122,14 @@ class FormVagasRemanescentesController < ApplicationController
     if course.parent
       @basic_activities = {
         :activities    => form_model.get_univesp_activities(course.parent.id),
+        :course_name   => course.parent.name,
         :workload      => 800,
         :type          => 'basicActivities',
         :last_response => last_response
       }
       @professional_activities = {
         :activities    => form_model.get_univesp_activities(course.id),
+        :course_name   => course.name,
         :workload      => 400,
         :type          => 'professionalActivities',
         :last_response => last_response
@@ -135,6 +137,7 @@ class FormVagasRemanescentesController < ApplicationController
     else
       @basic_activities = {
         :activities    => form_model.get_univesp_activities(course.id),
+        :course_name   => course.name,
         :workload      => 400,
         :type          => 'basicActivities',
         :last_response => last_response
@@ -160,7 +163,32 @@ class FormVagasRemanescentesController < ApplicationController
     end
   end
 
-  def pedido_submit
+  # HTTP POST
+  def pedido_submit_partial
+
+    submit_pedido
+
+    respond_to do |format|
+      format.json { render json: { :status => 'ok' } }
+    end
+  end
+
+  # HTTP POST
+  def pedido_submit_final
+
+    validation = validate_pedido params[:formData]
+    if validation[:status] == 'ok'
+      submit_pedido
+      # cleans session
+      session[:current_response_id] = nil
+    end
+
+    respond_to do |format|
+      format.json { render json: validation }
+    end
+  end
+
+  def submit_pedido
 
     res = FormResponse.find(session[:current_response_id])
     json_response = JSON.parse res.json_response
@@ -180,29 +208,6 @@ class FormVagasRemanescentesController < ApplicationController
   end
 
   # HTTP POST
-  def pedido_submit_partial
-    
-    pedido_submit
-
-    respond_to do |format|
-      format.json { render json: { :status => 'ok' } }
-    end
-  end
-
-  # HTTP POST
-  def pedido_submit_final
-
-    # TODO: validations
-
-    pedido_submit
-
-    session[:current_response_id] = nil
-
-    respond_to do |format|      
-      format.json { render json: { :status => 'ok' } }
-    end
-  end
-
   def upload
      begin
       client_file_name = params[:filename]
@@ -228,6 +233,62 @@ class FormVagasRemanescentesController < ApplicationController
     respond_to do |format|
       format.json { render json: res }
     end
+  end
+
+  def validate_pedido form_data
+
+    errors = []
+    errors << 'Você deve estar de acordo com as condições da Portaria' if form_data[:according] != 'true'
+    errors << 'O Nome completo deve ser preenchido' if form_data[:name].blank?
+    errors << 'O E-mail deve ser preenchido' if form_data[:email].blank?
+    errors << 'O Telefone deve ser preenchido' if form_data[:phone].blank?
+    errors << 'O Celular deve ser preenchido' if form_data[:mobile].blank?
+    errors << 'O CPF deve ser preenchido' if form_data[:cpf].blank?
+    errors << 'A Data de nascimento deve ser preenchida' if form_data[:birthDay] == 'Dia' or form_data[:birthMonth] == 'Mês' or form_data[:birthYear] == 'Ano'
+    errors << 'O Curso desejado deve ser preenchido' if form_data[:course].blank?
+    errors << 'O anexo de Comprovante de pagamento deve ser carregado' if form_data[:payment].blank?
+    errors << 'A INSTITUIÇÃO de origem deve ser preenchida' if form_data[:externalInstitution].blank?
+    errors << 'O CURSO deve ser preenchido' if form_data[:externalCourse].blank?
+    errors << 'A situação atual deve ser preenchida' if form_data[:courseStatus].blank?
+    errors << 'O anexo de Diploma deve ser carregado' if form_data[:diploma].blank? and form_data[:courseStatus] == 'concluded'
+    errors << 'O anexo de Atestado de Matrícula deve ser enviado' if form_data[:enrollment].blank? and form_data[:courseStatus] == 'ongoing'
+    errors << 'O anexo de Histórico Escolar deve ser enviado' if form_data[:academicRecord].blank?
+    errors << 'Você deve escolher a primeira opção de POLO Univesp' if form_data[:firstLocation].blank?
+    errors << 'Você deve assinalar a confirmação dos polos' if form_data[:locationConfirm] != 'true'
+
+    # basic activities
+    if ['2','3'].include?(form_data[:course].to_s) # Engenharia da Computação ou de Produção
+      basic_course = "CICLO BÁSICO DE ENGENHARIA"
+      basic_min_workload = 800
+    else
+      basic_course = VagasRemanescentesCourse.find(form_data[:course].to_i).name
+      basic_min_workload = 400
+    end
+    if form_data[:basicActivities]
+      external_workloads = 0
+      form_data[:basicActivities].flat_map {|i| i[1] }.each do |activity|
+        external_workloads += activity[:externalWorkload].to_i
+      end
+      errors << "Você deve comprovar a carga horária mínima do curso de #{basic_course}" if external_workloads < basic_min_workload
+    else
+      errors << "Você deve comprovar a carga horária mínima do curso de #{basic_course}"
+    end
+
+    # professional activities
+    professional_course = VagasRemanescentesCourse.find(form_data[:course].to_i).name
+    professional_min_workload = 400
+    if form_data[:professionalActivities]
+      external_workloads = 0
+      form_data[:professionalActivities].flat_map {|i| i[1] }.each do |activity|
+        external_workloads += activity[:externalWorkload].to_i
+      end
+      errors << "Você deve comprovar a carga horária mínima do curso de #{professional_course}" if external_workloads < professional_min_workload
+    elsif ['2','3'].include?(form_data[:course].to_s) # Engenharia da Computação ou de Produção
+      errors << "Você deve comprovar a carga horária mínima do curso de #{professional_course}"
+    end
+
+    return { :status => 'error', :errors => errors } if errors.size >= 1
+    return { :status => 'ok' }
   end
   
 
