@@ -167,7 +167,7 @@ function requestFormReady() {
     e.preventDefault();
     var formData = collectValuesFromForm();
     $.ajax({
-      url: "save-response",
+      url: "pedido-submit-final",
       type: "POST",
       data: { formData: formData },
       beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
@@ -208,7 +208,7 @@ function requestFormReady() {
 
 function returnToSocio() {
   $.ajax({
-    url: "save-partial-update",
+    url: "pedido-submit-partial",
     type: "POST",
     data: { formData: collectValuesFromForm() },
     beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}

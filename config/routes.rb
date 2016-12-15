@@ -1,26 +1,38 @@
 Rails.application.routes.draw do
-
-  root :to => 'form_vagas_remanescentes#socio_economico'
     
   resources :forms
   resources :form_responses
-  
+
+  # Common
+  # ----------------------------------------- #
+  get '/' => 'form_vagas_remanescentes#index' # TODO: while there's not a home page
+  get '/vagas-remanescentes' => 'form_vagas_remanescentes#index' # TODO: while there's not a home page
+  get '/vagas-remanescentes/login' => 'form_vagas_remanescentes#login'
+
+
+  # Form "Socioeconômico"
+  # ----------------------------------------- #
   get '/vagas-remanescentes/socio' => 'form_vagas_remanescentes#socio_economico'
-  get '/vagas-remanescentes/pedido' => 'form_vagas_remanescentes#index'
   post '/vagas-remanescentes/socio/submit' => 'form_vagas_remanescentes#socio_economico_submit'
 
-  get '/vagas-remanescentes/univesp-classes' => 'form_vagas_remanescentes#univesp_classes'
+
+  # Form "Pedido"
+  # ----------------------------------------- #
   get '/vagas-remanescentes/classes-and-activities-by-course' => 'form_vagas_remanescentes#classes_and_activities_by_course'
-  get '/vagas-remanescentes/login' => 'form_vagas_remanescentes#login'
+  get '/vagas-remanescentes/pedido' => 'form_vagas_remanescentes#pedido'
+  post '/vagas-remanescentes/pedido-submit-partial' => 'form_vagas_remanescentes#pedido_submit_partial'
+  post '/vagas-remanescentes/pedido-submit-final' => 'form_vagas_remanescentes#pedido_submit_final'
+  post '/vagas-remanescentes/upload' => 'form_vagas_remanescentes#upload'
+
+
+  # Form "Final"
+  # ----------------------------------------- #
   get '/vagas-remanescentes/final' => 'form_vagas_remanescentes#final'
 
 
-  post '/vagas-remanescentes/save-response' => 'form_vagas_remanescentes#save_response'
-  post '/vagas-remanescentes/upload' => 'form_vagas_remanescentes#upload'
-  post '/vagas-remanescentes/save-partial-update' => 'form_vagas_remanescentes#save_partial_update'
-
+  # OAuth
+  # ----------------------------------------- #
   get '/new_user' => 'users#create_user_identity'
- 
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
   get '/auth/:provider/callback', to: 'users#create'
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :put, :patch], :as => :finish_signup

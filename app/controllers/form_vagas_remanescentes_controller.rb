@@ -1,22 +1,16 @@
 class FormVagasRemanescentesController < ApplicationController
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
 
+  before_action :check_if_logged_in, except: [:socio_economico, :login]
+  before_action :check_if_responded, only: [:pedido]
+  before_action :check_if_has_more_attempts, except: [:final]
+
+
+  # Common
+  # ------------------------------------------------------------ #
+
   def index
-    check_if_already_responded
-
-    @univesp_courses = FormVagasRemanescentes.new.get_univesp_courses
-
-    # if no response object was created in the previous form,
-    # the user can not have access to this form
-    if not session[:current_response_id] 
-      #redirect_to action: 'socio_economico'
-    else
-      current_response = FormResponse.find(session[:current_response_id])
-      json_response = JSON.parse(current_response.json_response)
-      # multiples responses are allowed but only the last is considered
-      # to re-fill the form
-      @last_response = json_response['requests'].last
-    end
+    redirect_to action: 'socio_economico'
   end
 
   def login
@@ -25,14 +19,13 @@ class FormVagasRemanescentesController < ApplicationController
     end
   end
 
-  # Page: Socioeconomic survey
+
+  # Form "Socioeconômico"
   # ------------------------------------------------------------ #
 
   # open the socioeconomic survey
   def socio_economico
-
-    check_if_already_responded
-
+ 
     # if there is a current response, the form has already been completed
     # and the user came back to it
     if session[:current_response_id]
@@ -87,71 +80,15 @@ class FormVagasRemanescentesController < ApplicationController
       session[:current_response_id] = current_response.id
     end
 
-    redirect_to action: 'index'
+    redirect_to action: 'pedido'
   end
 
-  # Page: Request
+
+  # Form "Pedido"
   # ------------------------------------------------------------ #
-  def save_partial_update
-    res = FormResponse.find(session[:current_response_id])
-    json_response = JSON.parse res.json_response
-
-    requests_number = json_response['requests'].size
-    json_response['requests'] = [] if requests_number == 0
-    json_response['requests'].push(
-      params[:formData].merge({
-        :attempt => (requests_number + 1),
-        :sent_at => Time.zone.now
-      })
-    )
-    res.update({
-      json_response: json_response.to_json,
-      sent_at: Time.zone.now
-    })
-
-    respond_to do |format|
-      format.js {}
-      format.json { render json: { :status => 'ok' } }
-    end
-  end
-
-  def save_response
-    res = FormResponse.find(session[:current_response_id])
-    json_response = JSON.parse res.json_response
-
-    requests_number = json_response['requests'].size
-    json_response['requests'] = [] if requests_number == 0
-    json_response['requests'].push(
-      params[:formData].merge({
-        :attempt => (requests_number + 1),
-        :sent_at => Time.zone.now
-      })
-    )
-
-    res.update({
-      json_response: json_response.to_json,
-      sent_at: Time.zone.now
-    })
-
-    session[:current_response_id] = nil
-
-    respond_to do |format|
-      format.js {}
-      format.json {
-        render json: { :res => res.inspect }
-      }
-    end
-  end
-
-  # Page: Final
-  # ------------------------------------------------------------ #
-
-  def final
-  end
-
-
 
   def classes_and_activities_by_course
+
     course = VagasRemanescentesCourse.find(params[:course_id])
     form_model = FormVagasRemanescentes.new
 
@@ -209,10 +146,61 @@ class FormVagasRemanescentesController < ApplicationController
     end
   end
 
-  def univesp_classes
-    course_id = params[:courseId]
-    options = FormVagasRemanescentes.new.get_univesp_classes course_id
-    render json: options.to_json
+  # HTTP GET
+  def pedido
+
+    # Loading courses
+    @univesp_courses = FormVagasRemanescentes.new.get_univesp_courses
+
+    # Re-filling the form with last response
+    if session[:current_response_id] 
+      current_response = FormResponse.find(session[:current_response_id])
+      json_response = JSON.parse(current_response.json_response)     
+      @last_response = json_response['requests'].last
+    end
+  end
+
+  def pedido_submit
+
+    res = FormResponse.find(session[:current_response_id])
+    json_response = JSON.parse res.json_response
+
+    requests_number = json_response['requests'].size
+    json_response['requests'] = [] if requests_number == 0
+    json_response['requests'].push(
+      params[:formData].merge({
+        :attempt => (requests_number + 1),
+        :sent_at => Time.zone.now
+      })
+    )
+    res.update({
+      json_response: json_response.to_json,
+      sent_at: Time.zone.now
+    })
+  end
+
+  # HTTP POST
+  def pedido_submit_partial
+    
+    pedido_submit
+
+    respond_to do |format|
+      format.json { render json: { :status => 'ok' } }
+    end
+  end
+
+  # HTTP POST
+  def pedido_submit_final
+
+    # TODO: validations
+
+    pedido_submit
+
+    session[:current_response_id] = nil
+
+    respond_to do |format|      
+      format.json { render json: { :status => 'ok' } }
+    end
   end
 
   def upload
@@ -241,17 +229,38 @@ class FormVagasRemanescentesController < ApplicationController
       format.json { render json: res }
     end
   end
+  
+
+  # Form "Final"
+  # ------------------------------------------------------------ #
+
+  def final
+  end
 
 
-  # Support methods
+  # Checks
   # ------------------------------------------------------------ #
   private
 
-  def check_if_already_responded
+  def check_if_logged_in
+    redirect_to action: 'socio_economico' if not current_user
+  end
+
+  def check_if_responded
     if current_user
       form = Form.where(reference_model: 'FormVagasRemanescentes').first
       number_responses = FormResponse.where(form_id: form.id, user: current_user.email).size
-      redirect_to action: 'final' unless number_responses < form.max_attemps
+      # if no response object was created in the previous form,
+      # the user can not have access to this form 
+      redirect_to action: 'socio_economico' unless number_responses >= 1
+    end
+  end
+
+  def check_if_has_more_attempts
+    if current_user
+      form = Form.where(reference_model: 'FormVagasRemanescentes').first
+      number_responses = FormResponse.where(form_id: form.id, user: current_user.email).size
+      redirect_to action: 'final' if number_responses == form.max_attemps
     end
   end
 
