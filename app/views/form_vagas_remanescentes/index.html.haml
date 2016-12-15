@@ -108,7 +108,7 @@
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "mobile"} Celular:
                 .col-sm-3
-                  %input#mobile.form-control{:maxlength => "15", :name => "mobile", :onkeyup => "mascara( this, mphone );", :type => "text", :required => ""}/
+                  %input#cel.form-control{:maxlength => "15", :name => "mobile", :onkeyup => "mascara( this, mphone );", :type => "text", :required => ""}/
               .form-group.mais
                 %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => ""} CPF:
                 .col-sm-3
@@ -153,22 +153,25 @@
                 %div
                   %label.radio-inline{:style => "margin-left:10px;"}
                     %input#current-status-1{:name => "current-status", :type => "radio", :value => "0", :checked => "checked"}/
-                    Concluído
+                    Cursando
                   %label.radio-inline
                     %input#current-status-2{:name => "current-status", :type => "radio", :value => "1"}/
-                    Cursando
+                    Concluido
               .form-group.mais
-                %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "documents", :style => "margin-top:-10px;"} Faça o upload dos seus documentos digitalizados:
-                .image-upload
-                  %label.btn.btn-default{:for => "diploma_file_1", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
-                    %span.fa.fa-graduation-cap.m-r
-                    Diploma
-                  %label.btn.btn-default{:for => "enrollment_file_1", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
-                    %span.fa.fa-certificate.m-r
-                    Atestado de Matrícula
-                  %label.btn.btn-default{:for => "academic-record_file_1", :title => "Envie o HISTÓRICO ESCOLAR contendo as disciplinas cursadas, carga horária, aproveitamento etc."}
-                    %span.fa.fa-file-text-o.m-r
-                    Histórico Escolar
+                #palco  
+                  %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "documents", :style => "margin-top:-10px;"} Faça o upload dos seus documentos digitalizados:
+                  .image-upload.0{:style => "float:left;"}
+                    %label.btn.btn-default{:for => "diploma_file_1", :style => "margin-left:15px;", :title => "Envie o DIPLOMA caso formado."}
+                      %span.fa.fa-graduation-cap.m-r
+                      Diploma
+                  .image-upload.1{:style => "float:left;"}
+                    %label.btn.btn-default{:for => "enrollment_file_1", :title => "Envie o ATESTADO DE MATRÍCULA caso estudante."}
+                      %span.fa.fa-certificate.m-r
+                      Atestado de Matrícula
+                  .image-upload.0.1{:style => "margin-left:55%;"}
+                    %label.btn.btn-default{:for => "academic-record_file_1", :title => "Envie o HISTÓRICO ESCOLAR contendo as disciplinas cursadas, carga horária, aproveitamento etc."}
+                      %span.fa.fa-file-text-o.m-r
+                      Histórico Escolar
               .form-group.mais
                 #first-class-area{:style => "display:none;"}
                   %label.col-md-4.col-sm-4.control-label.obrigatorio{:for => "first-class-select"} Em qual POLO Univesp deseja estudar ?
@@ -303,3 +306,31 @@
         });
 
       });
+
+      $(document).ready(function(){
+        $("#palco > div").hide();
+        $("input[name='inlineRadioOptions']").click(function(){
+          $("#palco > div").hide();
+          $( '.'+$( this ).val() ).show('fast');
+        });
+      });
+
+
+      $("#submit").on("click", function(e) {
+       e.preventDefault();
+      var formData = collectValuesFromForm();
+      $.ajax({
+        url: "save-response",
+        type: "POST",
+          data: { formData: formData },
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+          })
+          //.done(function (data) {
+          //   var wd = window || document;
+          //   wd.location.assign("final");
+          //});
+
+          function AbrirJanela() { 
+            window.open("_validation_modal", "", "width=780,height=400,fullscreen=no,location=no, toolbar=no,menubar=no"); 
+          }
+         });
